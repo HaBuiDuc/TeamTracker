@@ -23,7 +23,6 @@ fun MessageTab(){
         Column {
             Box(
                 modifier = Modifier
-                    .weight(1f)
                     .height(0.dp)
                     .weight(1f)
                     .verticalScroll(rememberScrollState())

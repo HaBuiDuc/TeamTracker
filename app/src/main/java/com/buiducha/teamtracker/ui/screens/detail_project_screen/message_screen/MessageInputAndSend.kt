@@ -79,7 +79,7 @@ fun MessageInputAndSend(){
                     .background(Color.Transparent)
                     .height(50.dp)
                     .width(80.dp),
-                onClick = { /* Handle send button click */ },
+                onClick = {  },
             ) {
                 Icon(
                     imageVector = Icons.Filled.Send,
