@@ -57,6 +57,5 @@ fun TabBar(){
             0 -> MessageTab()
             1 -> TaskManagerTab()
         }
-
     }
 }
