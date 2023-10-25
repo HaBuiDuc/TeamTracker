@@ -1,7 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen
 
 import android.app.DatePickerDialog
-import android.widget.DatePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,7 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -26,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -36,18 +33,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.TaskData
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.taskData
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.taskHeader
-import com.google.android.material.datepicker.MaterialDatePicker
 import java.util.Calendar
-import java.util.TimeZone
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+val userList = listOf("User 1", "User 2", "User 3", "User 4")
+const val fontWidth = 5.45f
+val width = fontWidth.coerceAtMost(500f)
+val listStatus = listOf("Planning", "Running", "Done")
+
 @Composable
 fun SimpleTable(taskHeader: TaskData, rows: List<TaskData>, onAddItem: (TaskData) -> Unit) {
     val newItemTextFields = remember { mutableStateListOf("", "", "", "", "") }
@@ -64,7 +63,7 @@ fun SimpleTable(taskHeader: TaskData, rows: List<TaskData>, onAddItem: (TaskData
             val headerRow = listOf(taskHeader.taskName, taskHeader.owner, taskHeader.startDay, taskHeader.deadline, taskHeader.status)
             headerRow.forEachIndexed { columnIndex, cell ->
                 val weight = 1f
-                SimpleCell(text = cell, weight = weight)
+                SimpleCell(text = cell)
             }
         }
         /* ROWS  */
@@ -78,7 +77,7 @@ fun SimpleTable(taskHeader: TaskData, rows: List<TaskData>, onAddItem: (TaskData
                     val row = listOf(taskData.taskName, taskData.owner, taskData.startDay, taskData.deadline, taskData.status)
                     row.forEachIndexed { columnIndex, cell ->
                         val weight = 1f
-                        SimpleCell(text = cell, weight = weight)
+                        SimpleCell(text = cell)
                     }
                 }
             }
@@ -128,26 +127,29 @@ fun RowTextField(
     textFields: List<String>,
     onTextChanged: (Int, String) -> Unit
 ) {
-    val textStyle = MaterialTheme.typography.bodySmall
-    val fontWidth = textStyle.fontSize.value / 2.2f
-    val width = fontWidth.coerceAtMost(500f)
-    val dropdownItems = listOf("Planning", "Running", "Done")
-    val dropdownState = remember { mutableStateOf(dropdownItems[0]) }
-
+    val statusState = remember { mutableStateOf(listStatus[0]) }
+    val ownerState = remember {
+        mutableStateOf(userList[0])
+    }
     Row(modifier = Modifier.fillMaxWidth()) {
-        repeat(2) { index ->
-            val text = textFields[index]
-            TextField(
-                value = text,
-                onValueChange = { newValue ->
-                    onTextChanged(index, newValue)
-                },
-                modifier = Modifier
-                    .width(width.dp + 100.dp)
-                    .height(50.dp)
-                    .border(1.dp, Color.Blue, shape = RoundedCornerShape(5.dp))
-            )
-        }
+        val text = textFields[0]
+        TextField(
+            value = text,
+            onValueChange = { newValue ->
+                onTextChanged(0, newValue) },
+            modifier = Modifier
+                .width(width.dp + 100.dp)
+                .height(50.dp)
+                .border(1.dp, Color.Blue, shape = RoundedCornerShape(5.dp))
+        )
+
+
+        CustomDropdownMenu(items = userList,
+            selectedItem = ownerState.value,
+            onItemSelected = { newItem ->
+                ownerState.value = newItem
+                onTextChanged(1, newItem)
+            })
 
         repeat(2) { index ->
             CustomDatePicker(
@@ -158,10 +160,10 @@ fun RowTextField(
             )
         }
 
-        CustomDropdownMenu(items = dropdownItems,
-            selectedItem = dropdownState.value,
+        CustomDropdownMenu(items = listStatus,
+            selectedItem = statusState.value,
             onItemSelected = { newItem ->
-                dropdownState.value = newItem
+                statusState.value = newItem
                 onTextChanged(4, newItem)
             })
 
@@ -171,11 +173,7 @@ fun RowTextField(
 @Composable
 private fun SimpleCell(
     text: String,
-    weight: Float = 1f
 ) {
-    val textStyle = MaterialTheme.typography.bodySmall
-    val fontWidth = textStyle.fontSize.value / 2.2f // depends of font used(
-    val width = (fontWidth * weight).coerceAtMost(500f)
     val textColor = MaterialTheme.colorScheme.onBackground
     Text(
         text = text,
@@ -208,12 +206,13 @@ fun CustomDatePicker(
             .width(width.dp + 100.dp)
             .height(50.dp)
             .padding(vertical = 15.dp)
+            .padding(start = 10.dp)
             .clickable {
                 val calendar = Calendar.getInstance()
                 DatePickerDialog(
                     context,
                     { _, year, month, dayOfMonth ->
-                        val selectedDate = "$year-$dayOfMonth-${month+1}"
+                        val selectedDate = "$year-$dayOfMonth-${month + 1}"
                         dateState.value = selectedDate
                         onDateChanged(selectedDate)
                     },
@@ -245,7 +244,7 @@ fun CustomDropdownMenu(
                 .height(50.dp)
                 .border(1.dp, Color.Blue, shape = RoundedCornerShape(5.dp))
                 .padding(vertical = 15.dp)
-                .padding(start = 5.dp)
+                .padding(start = 10.dp)
                 .clickable { expanded = true }
         )
         DropdownMenu(
