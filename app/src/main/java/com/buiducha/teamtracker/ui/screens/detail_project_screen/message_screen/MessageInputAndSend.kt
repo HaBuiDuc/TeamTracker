@@ -3,10 +3,12 @@ package com.buiducha.teamtracker.ui.screens.detail_project_screen.message_screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Button
@@ -28,6 +31,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.buiducha.teamtracker.R
@@ -54,23 +59,26 @@ fun MessageInputAndSend(){
                     .clip(shape = CircleShape)
             )
             Spacer(modifier = Modifier.width(5.dp))
-            Row(modifier = Modifier
-                .weight(1f)) {
+            Row(modifier = Modifier.weight(1f)) {
                 Card(
                     modifier = Modifier
                         .weight(1f)
-                        .clip(
-                            shape = RoundedCornerShape(30.dp)
-                        )
-                        .border(1.dp, Color.Black, shape = RoundedCornerShape(30.dp))
+                        .clip(shape = RoundedCornerShape(30.dp))
+                        .border(1.dp, Color.Black, shape = RoundedCornerShape(30.dp)),
                 ) {
-                    TextField(
-                        value = messageState.value,
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 0.dp, vertical = 0.dp)
-                            .height(50.dp),
-                        onValueChange = { messageState.value = it },
-                    )
+                    BoxWithConstraints {
+                        val maxLines = if (constraints.maxHeight > 100) 2 else Int.MAX_VALUE
+                        BasicTextField(
+                            value = messageState.value,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                            textStyle = TextStyle.Default.copy(textAlign = TextAlign.Start),
+                            singleLine = false,
+                            maxLines = maxLines,
+                            onValueChange = { messageState.value = it },
+                        )
+                    }
                 }
             }
             Spacer(modifier = Modifier.width(5.dp))
