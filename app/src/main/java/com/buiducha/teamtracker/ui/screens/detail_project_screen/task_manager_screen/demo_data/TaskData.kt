@@ -1,6 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data
 
-data class TaskData(val s: String, val s1: String, val s2: String, val s3: String, val s4: String)
+data class TaskData(val taskName: String, val owner: String, val startDay: String, val deadline: String, val status: String)
 
 var taskData = mutableListOf(
     TaskData("Task 1", "Owner 1", "2022-01-01", "2022-01-10", "Running"),
