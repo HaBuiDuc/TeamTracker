@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.TaskData
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.taskData
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.taskHeader
-import com.google.android.material.datepicker.MaterialDatePicker
 import java.util.Calendar
 import java.util.TimeZone
 
