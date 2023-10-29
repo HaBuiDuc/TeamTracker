@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,8 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
-@OptIn(ExperimentalFoundationApi::class)
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
 
+@OptIn(ExperimentalFoundationApi::class)
+@Preview
 @Composable
 fun SplashScreen() {
     val pageState = rememberPagerState()
@@ -40,9 +44,9 @@ fun SplashScreen() {
         }
 
         when (currentPage) {
-            0 -> FirstPage()
-            1 -> SecondPage()
-            2 -> ThirdPage()
+            0 -> FirstSplashScreen()
+            1 -> SecondSplashScreen()
+            2 -> ThirdSpashScreen()
         }
 
         SkipButton(
@@ -60,105 +64,6 @@ fun SplashScreen() {
             currentPage = currentPage,
         )
     }
-}
-
-@Composable
-fun FirstPage() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Logo và nội dung
-        Logo()
-        Text(
-            text = "Welcome TeamTracker!",
-            style = TextStyle(
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 1.5.sp
-            ),
-            color = Color.White
-        )
-        Text(
-            text = "Bắt đầu quản lý dự án hiệu quả và tạo liên kết mạnh mẽ giữa các thành viên nhóm của bạn ngay bây giờ.",
-            style = TextStyle(
-                fontSize = 18.sp,
-                letterSpacing = 0.15.sp
-            ),
-            color = Color.White
-        )
-    }
-}
-
-@Composable
-fun SecondPage() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Logo và nội dung
-        Logo()
-        Text(
-            text = "TeamTracker  Quản lý dự án thông minh",
-            style = TextStyle(
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 1.5.sp
-            ),
-            color = Color.White
-        )
-        Text(
-            text = "Tổ chức dự án, Giao tiếp dễ dàng, Theo dõi tiến độ",
-            style = TextStyle(
-                fontSize = 18.sp,
-                letterSpacing = 0.15.sp
-            ),
-            color = Color.White
-        )
-    }
-}
-
-@Composable
-fun ThirdPage() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Logo và nội dung
-        Logo()
-        Text(
-            text = "Bắt đầu ngay",
-            style = TextStyle(
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 1.5.sp
-            ),
-            color = Color.White
-        )
-        Text(
-            text = "Chúng ta sẽ tiến vào thế giới quản lý dự án cùng TeamTracker. Hãy đăng nhập hoặc đăng ký để bắt đầu hành trình quản lý dự án của bạn.",
-            style = TextStyle(
-                fontSize = 18.sp,
-                letterSpacing = 0.15.sp
-            ),
-            color = Color.White
-        )
-    }
-}
-
-@Composable
-fun Logo() {
-    // Thay thế bằng hình ảnh logo của ứng dụng
-    Image(
-        painter = ColorPainter(Color.Blue),
-        contentDescription = null,
-        modifier = Modifier
-            .size(100.dp)
-            .padding(bottom = 16.dp)
-    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -196,7 +101,7 @@ fun SkipButton(onPageChange: (Int) -> Unit, pageState: PagerState) { // Add Page
 fun PageIndicator(numPages: Int, currentPage: Int) {
     Row(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(90.dp)
             .fillMaxSize(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.Bottom
@@ -207,6 +112,7 @@ fun PageIndicator(numPages: Int, currentPage: Int) {
                 modifier = Modifier
                     .size(12.dp)
                     .background(color)
+                    .clip(CircleShape)
             )
         }
     }
