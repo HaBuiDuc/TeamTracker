@@ -96,7 +96,6 @@ fun RegisterPage() {
                             Icon(
                                 imageVector = Icons.Filled.Person,
                                 contentDescription = ""
-
                             )
                         },
                         singleLine = true,
