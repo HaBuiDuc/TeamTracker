@@ -55,7 +55,7 @@ fun LoginScreen(){
                 .background(Color.Gray), contentAlignment = Alignment.TopCenter
         ) {
 
-            Image(painterResource(id = R.drawable.team_tracker),
+            Image(painterResource(id = R.drawable.team_tracker_authentication),
                 contentDescription = "",
                 modifier = Modifier
                     .size(300.dp)

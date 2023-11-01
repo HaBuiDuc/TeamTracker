@@ -58,7 +58,7 @@ fun RegisterPage() {
             contentAlignment = Alignment.TopCenter
         ) {
             Image(
-                painterResource(id = com.buiducha.teamtracker.R.drawable.team_tracker),
+                painterResource(id = com.buiducha.teamtracker.R.drawable.team_tracker_authentication),
                 contentDescription = "",
                 modifier = Modifier.size(300.dp)
                     .padding(top = 100.dp))
