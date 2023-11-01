@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "25207824278",
+    "firebase_url": "https://teamtracker-d114d-default-rtdb.firebaseio.com",
+    "project_id": "teamtracker-d114d",
+    "storage_bucket": "teamtracker-d114d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25207824278:android:31a723863cc4d6537dc7b7",
+        "android_client_info": {
+          "package_name": "com.nhom8.teamtracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk0ua0M063iSa6Tl1rWTebhTf5JIuWLXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
