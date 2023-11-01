@@ -44,7 +44,7 @@ fun MessageInputAndSend(){
     val messageState = remember { mutableStateOf("") }
     Column(modifier = Modifier
         .fillMaxWidth()
-        .height(50.dp)
+        .height(40.dp)
     ) {
         Row(
             modifier = Modifier
@@ -55,7 +55,7 @@ fun MessageInputAndSend(){
                 painter = painterResource(id = R.drawable.ic_launcher_background),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(50.dp)
+                    .size(40.dp)
                     .clip(shape = CircleShape)
             )
             Spacer(modifier = Modifier.width(5.dp))
@@ -67,15 +67,12 @@ fun MessageInputAndSend(){
                         .border(1.dp, Color.Black, shape = RoundedCornerShape(30.dp)),
                 ) {
                     BoxWithConstraints {
-                        val maxLines = if (constraints.maxHeight > 100) 2 else Int.MAX_VALUE
                         BasicTextField(
                             value = messageState.value,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(horizontal = 16.dp, vertical = 8.dp),
                             textStyle = TextStyle.Default.copy(textAlign = TextAlign.Start),
-                            singleLine = false,
-                            maxLines = maxLines,
                             onValueChange = { messageState.value = it },
                         )
                     }
@@ -85,7 +82,7 @@ fun MessageInputAndSend(){
             Button(
                 modifier = Modifier
                     .background(Color.Transparent)
-                    .height(50.dp)
+                    .height(40.dp)
                     .width(80.dp),
                 onClick = {  },
             ) {
