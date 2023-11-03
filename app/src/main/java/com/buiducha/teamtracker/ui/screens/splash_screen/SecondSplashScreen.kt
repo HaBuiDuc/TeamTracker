@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,9 +24,9 @@ fun SecondSplashScreen(){
     Box(modifier = Modifier
         .fillMaxSize()
         .background(color = colorResource(id = R.color.super_light_blue))){
-//        Text(text = "Skip", color = Color.White, modifier = Modifier
-//            .align(Alignment.TopEnd)
-//            .padding(20.dp))
+        Text(text = "Skip", color = Color.White, modifier = Modifier
+            .align(Alignment.TopEnd)
+            .padding(20.dp))
         Image(
             painterResource(id = R.drawable.team_tracker), contentDescription = "",
             modifier = Modifier
@@ -55,18 +54,7 @@ fun SecondSplashScreen(){
         Box(modifier = Modifier
             .align(Alignment.BottomCenter)
             .padding(bottom = 80.dp)){
-//            TabPageIndexSplashScreen(index = 2)
-        }
-        Button(onClick = {  }, modifier = Modifier
-            .align(Alignment.BottomEnd)
-            .padding(bottom = 30.dp, end = 20.dp)) {
-            Text(text = "Next")
-        }
-        Button(onClick = { }, modifier = Modifier
-            .align(Alignment.BottomStart)
-            .padding(bottom = 30.dp, start = 20.dp)) {
-            Text(text = "Prev")
+            TabPageIndexSplashScreen(index = 2)
         }
     }
 }
-
