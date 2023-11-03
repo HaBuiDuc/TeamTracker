@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:25207824278:android:31a723863cc4d6537dc7b7",
+        "mobilesdk_app_id": "1:25207824278:android:7c28a38cba44cb807dc7b7",
         "android_client_info": {
-          "package_name": "com.nhom8.teamtracker"
+          "package_name": "com.buiducha.teamtracker"
         }
       },
       "oauth_client": [],
