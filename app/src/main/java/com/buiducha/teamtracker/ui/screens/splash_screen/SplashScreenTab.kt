@@ -1,10 +1,11 @@
 package com.buiducha.teamtracker.ui.screens.splash_screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.PagerScope
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -13,11 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.draw.clip
@@ -27,7 +24,12 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview
 @Composable
 fun SplashScreen() {
-    val pageState = rememberPagerState()
+    val pageState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f
+    ) {
+        1
+    }
     val coroutineScope = rememberCoroutineScope()
     val pageCount = 3 // Số trang bạn muốn
     var currentPage by remember { mutableStateOf(0) }
@@ -36,12 +38,20 @@ fun SplashScreen() {
         modifier = Modifier.fillMaxSize()
     ) {
         HorizontalPager(
-            state = pageState,
             modifier = Modifier.fillMaxSize(),
-            pageCount = pageCount // Set pageCount here
-        ) { page ->
-            currentPage = page
-        }
+            state = pageState,
+            // Set pageCount here
+            pageSpacing = 0.dp,
+            userScrollEnabled = true,
+            reverseLayout = false,
+            contentPadding = PaddingValues(0.dp),
+            beyondBoundsPageCount = 0,
+            pageSize = PageSize.Fill,
+            key = null,
+            pageContent = fun PagerScope.(page: Int) {
+                currentPage = page
+            }
+        )
 
         when (currentPage) {
             0 -> FirstSplashScreen()
