@@ -17,7 +17,8 @@ fun HomePagePreview() {
 }
 
 @Composable
-fun HomePage() {
+fun HomePage(
+) {
     Scaffold(
         topBar = {
             HPTopBar()
