@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,14 +49,14 @@ fun TeamMemberDetail(){
         mutableStateOf("")
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
+        Spacer(modifier = Modifier.padding(5.dp))
         Text(text = "THÊM THÀNH VIÊN",
-            fontSize = 30.sp,
+            fontSize = 20.sp,
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
             ),
             modifier = Modifier)
-        Spacer(modifier = Modifier.padding(10.dp))
+        Spacer(modifier = Modifier.padding(5.dp))
         Text(text = "Nhập email vào ô dưới")
         Row {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -82,7 +84,7 @@ fun TeamMemberDetail(){
                     placeholder = { Text(text = "Tên tài khoản") },
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Filled.MailOutline,
+                            imageVector = Icons.Filled.AccountCircle,
                             contentDescription = ""
                         )
                     },
@@ -100,7 +102,7 @@ fun TeamMemberDetail(){
                     placeholder = { Text(text = "Số điện thoại") },
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Filled.MailOutline,
+                            imageVector = Icons.Filled.Phone,
                             contentDescription = ""
                         )
                     },

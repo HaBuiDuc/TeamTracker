@@ -51,7 +51,9 @@ fun SimpleTable(taskHeader: TaskData, rows: List<TaskData>, onAddItem: (TaskData
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 2.dp)
-                        .clickable(true, onClick = {})
+                        .clickable(true, onClick = {
+                            //navigation to detail task
+                        })
                 ) {
                     val row = listOf(taskData.taskName, taskData.owner, taskData.startDay, taskData.deadline, taskData.status)
                     row.forEachIndexed { columnIndex, cell ->
