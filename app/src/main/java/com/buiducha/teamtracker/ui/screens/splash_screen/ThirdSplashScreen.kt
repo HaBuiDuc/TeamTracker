@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
 @Preview
 @Composable
-fun ThirdSpashScreen(){
+fun ThirdSplashScreen(){
     Box(modifier = Modifier
         .fillMaxSize()
         .background(color = colorResource(id = R.color.super_light_blue))){
@@ -52,12 +51,7 @@ fun ThirdSpashScreen(){
         Box(modifier = Modifier
             .align(Alignment.BottomCenter)
             .padding(bottom = 80.dp)){
-//            TabPageIndexSplashScreen(index = 3)
-        }
-        Button(onClick = { /*TODO*/ }, modifier = Modifier
-            .align(Alignment.BottomEnd)
-            .padding(bottom = 30.dp, end = 20.dp)) {
-            Text(text = "Start")
+            TabPageIndexSplashScreen(index = 3)
         }
     }
 }
