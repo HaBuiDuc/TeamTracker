@@ -13,40 +13,57 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MailOutline
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.theme.Blue40
 
+
 @Preview
-@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen()
+}
+
 @Composable
 fun LoginScreen(){
-    val emailValue = remember { mutableStateOf("") }
-    val passwordValue = remember { mutableStateOf("") }
+    var email by remember {
+        mutableStateOf("")
+    }
+    var password by remember {
+        mutableStateOf("")
+    }
 
-    val passwordVisibility = remember { mutableStateOf(false) }
+    var isPasswordVisible by remember {
+        mutableStateOf(false)
+    }
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
         Box(
@@ -72,7 +89,9 @@ fun LoginScreen(){
                 .padding(10.dp)
         ) {
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Text(
                     text = "Sign In",
                     fontSize = 30.sp,
@@ -81,10 +100,14 @@ fun LoginScreen(){
                     )
                 )
                 Spacer(modifier = Modifier.padding(20.dp))
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     OutlinedTextField(
-                        value = emailValue.value,
-                        onValueChange = {},
+                        value = email,
+                        onValueChange = {
+                            email = it
+                        },
                         label = { Text(text = "Email Address") },
                         placeholder = { Text(text = "Email Address") },
                         leadingIcon = {
@@ -96,17 +119,23 @@ fun LoginScreen(){
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(0.8f),
                     )
-
+                    Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(
-                        value = passwordValue.value,
-                        onValueChange = {},
+                        value = password,
+                        onValueChange = {
+                            password = it
+                        },
                         trailingIcon = {
-                            IconButton(onClick = {
-                                passwordVisibility.value = !passwordVisibility.value
-                            }) {
+                            if (password.isNotEmpty()) {
                                 Icon(
-                                    imageVector = Icons.Filled.Face,
-                                    contentDescription = ""
+                                    imageVector = if(isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .clip(CircleShape)
+                                        .clickable {
+                                            isPasswordVisible = !isPasswordVisible
+                                        }
+
                                 )
                             }
                         },
@@ -116,30 +145,41 @@ fun LoginScreen(){
                                 contentDescription = ""
                             )
                         },
-                        label = { Text("Password") },
-                        placeholder = { Text(text = "Password") },
+                        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        label = {
+                            Text("Password")
+                        },
+                        placeholder = {
+                            Text(text = "Password")
+                        },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(0.8f),
                     )
-
                     Spacer(modifier = Modifier.padding(10.dp))
                     Button(
                         onClick = {},
-                        modifier = Modifier
-                            .fillMaxWidth(0.8f)
-                            .height(50.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor =  Blue40,
-                            contentColor = Color.White)
+                            contentColor = Color.White
+                        ),
+                        shape = RoundedCornerShape(24),
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .height(50.dp)
                     ) {
-                        Text(text = "Sign In", fontSize = 13.sp)
+                        Text(
+                            text = "Sign In",
+                            fontSize = 18.sp
+                        )
                     }
-
                     Spacer(modifier = Modifier.padding(20.dp))
                     Text(
                         text = "Create An Account",
-                        modifier = Modifier.clickable(onClick = {
-                        })
+                        fontSize = 16.sp,
+                        modifier = Modifier
+                            .clickable {
+
+                            }
                     )
                     Spacer(modifier = Modifier.padding(20.dp))
                 }
