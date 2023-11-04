@@ -1,5 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.detail_project_screen.team_member_detail
 
+import android.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -118,7 +119,8 @@ fun TeamMemberDetail(){
             .height(2.dp)
             .background(Color.Black))
 
-        Text(text = "Danh sách thành viên dự án")
+        Text(text = "Danh sách thành viên dự án",
+            style = TextStyle(fontWeight = FontWeight.Medium))
         LazyColumn(){
             items(5){
                 TeamMemberList()
