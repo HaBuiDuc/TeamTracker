@@ -2,10 +2,8 @@ package com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_s
 
 import android.app.DatePickerDialog
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -23,9 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.CustomDatePicker
-import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.CustomDropdownMenu
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.TaskData
+import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.taskData
 import com.buiducha.teamtracker.ui.states.listStatus
 import com.buiducha.teamtracker.ui.states.userList
 import java.util.Calendar
@@ -33,7 +30,7 @@ import java.util.Calendar
 @Preview(showSystemUi = true)
 @Composable
 fun ShowTaskDetail(){
-    TaskDetail(TaskData("Task 3", "Owner 3", "2022-03-01", "2022-03-10", "Planning"))
+    TaskDetail(taskData.get(0))
 }
 @Composable
 fun TaskDetail(task: TaskData){

@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun MessageTab(){
     Box(modifier = Modifier
@@ -21,6 +21,7 @@ fun MessageTab(){
         .padding(10.dp),
         contentAlignment = Alignment.TopCenter) {
         Column {
+            NoteArea()
             Box(
                 modifier = Modifier
                     .height(0.dp)
@@ -31,7 +32,6 @@ fun MessageTab(){
             }
             Box(
                 modifier = Modifier
-                    .height(100.dp)
                     .fillMaxWidth()
             ) {
                 MessageInputAndSend()

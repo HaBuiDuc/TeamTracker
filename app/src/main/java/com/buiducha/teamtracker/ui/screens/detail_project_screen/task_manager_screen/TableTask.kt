@@ -3,10 +3,8 @@ package com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_s
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,17 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.TaskData
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.taskData
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.taskHeader
-
-import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.detail_task_form.TaskDetailScreen
-
 
 
 @Composable
@@ -43,7 +39,7 @@ fun SimpleTable(taskHeader: TaskData, rows: List<TaskData>, onAddItem: (TaskData
         /* HEADER */
         Row(modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color.LightGray)
+            .background(color = colorResource(id = R.color.blue_2))
             .padding(bottom = 2.dp)) {
             val headerRow = listOf(taskHeader.taskName, taskHeader.owner, taskHeader.startDay, taskHeader.deadline, taskHeader.status)
             headerRow.forEachIndexed { columnIndex, cell ->
@@ -57,7 +53,9 @@ fun SimpleTable(taskHeader: TaskData, rows: List<TaskData>, onAddItem: (TaskData
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 2.dp)
-                        .clickable(true, onClick = {})
+                        .clickable(true, onClick = {
+                            //navigation to detail task
+                        })
                 ) {
                     val row = listOf(taskData.taskName, taskData.owner, taskData.startDay, taskData.deadline, taskData.status)
                     row.forEachIndexed { columnIndex, cell ->
