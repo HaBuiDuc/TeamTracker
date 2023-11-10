@@ -21,6 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.buiducha.teamtracker.R
 
+//truyền vào 1 list user có (ProjectMember.workspaceId == currentWorkspaceID
+// && ProjectMember.userId == user.userId)
 @Preview(showSystemUi = true)
 @Composable
 fun TeamMemberList(){
