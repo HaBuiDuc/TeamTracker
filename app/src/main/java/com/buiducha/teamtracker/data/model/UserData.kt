@@ -1,6 +1,6 @@
 package com.buiducha.teamtracker.data.model
 
-data class User(
+data class UserData(
     val id: String,
     val userName: String,
     val email: String,
