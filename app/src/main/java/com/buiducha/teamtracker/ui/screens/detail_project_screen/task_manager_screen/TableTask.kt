@@ -30,7 +30,6 @@ import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_sc
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.detail_task_form.TaskDetailScreen
 
 
-
 @Composable
 fun SimpleTable(taskHeader: TaskData, rows: List<TaskData>, onAddItem: (TaskData) -> Unit) {
     val newItemTextFields = remember { mutableStateListOf("", "", "", "", "") }
