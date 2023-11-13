@@ -30,3 +30,15 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    TeamTrackerTheme {
+        Greeting("Android")
+    }
+}

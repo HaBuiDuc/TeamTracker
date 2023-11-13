@@ -23,12 +23,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.message_screen.MessageTab
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.TaskManagerTab
+import com.buiducha.teamtracker.ui.screens.detail_project_screen.team_member_detail.TeamMemberDetail
 
 @Preview(showSystemUi = true)
 @Composable
 fun TabBar(){
-    val tabs = listOf("Nhắn tin", "Quản lý công việc")
-    var tabIndex by rememberSaveable { mutableStateOf(0) }
+    val tabs = listOf("Nhắn tin", "Công việc", "Thành viên")
+    var tabIndex by rememberSaveable { mutableStateOf(1) }
     Column(modifier = Modifier.fillMaxWidth()) {
         TabRow(
             selectedTabIndex = tabIndex,
@@ -56,6 +57,7 @@ fun TabBar(){
         when (tabIndex) {
             0 -> MessageTab()
             1 -> TaskManagerTab()
+            2 -> TeamMemberDetail()
         }
     }
 }

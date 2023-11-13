@@ -71,9 +71,6 @@ fun SplashScreen() {
             }
         }
 
-
-
-
         if(currentScreen==3){
             Button(onClick = { /*TODO*/ }, modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -81,9 +78,5 @@ fun SplashScreen() {
                 Text(text = "Start")
             }
         }
-
-
     }
-
-
 }

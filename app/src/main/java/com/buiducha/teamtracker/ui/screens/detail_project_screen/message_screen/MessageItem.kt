@@ -25,12 +25,14 @@ import androidx.compose.ui.unit.dp
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.message_screen.demo_data.messages
 
+//Truyền danh sách các message theo workspace vào đây
 @Preview()
 @Composable
 fun MessageItem() {
     Surface(color = MaterialTheme.colorScheme.background) {
         Column() {
             messages.forEach { message ->
+                //sửa lại: kiểm tra senderId có trùng với user hiện tại hay không
                 if (message.sender == "User1") {
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(top = 2.dp, bottom = 2.dp, start = 40.dp)
@@ -59,6 +61,7 @@ fun MessageItem() {
                                 .background(Color.Green, CircleShape)
                         ){
                             Image(
+                                // sửa lại hình ảnh theo avatarURI
                                 painter = painterResource(id = R.drawable.ic_launcher_background),
                                 contentDescription = null,
                                 modifier = Modifier.clip(CircleShape)
@@ -76,6 +79,7 @@ fun MessageItem() {
                                 .background(Color.Green, CircleShape)
                         ){
                             Image(
+                                // sửa lại hình ảnh theo avatarURI
                                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                                 contentDescription = null,
                                 modifier = Modifier.clip(CircleShape)
