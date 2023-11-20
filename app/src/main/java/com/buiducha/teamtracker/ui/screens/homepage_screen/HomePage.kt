@@ -21,13 +21,24 @@ fun HomePage(
 ) {
     Scaffold(
         topBar = {
-            HPTopBar()
+            HPTopBar(
+                modifier = Modifier
+                    .padding(
+                        top = 16.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    )
+            )
         }
     ) {padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp)
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                )
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             HPSearchBar()
