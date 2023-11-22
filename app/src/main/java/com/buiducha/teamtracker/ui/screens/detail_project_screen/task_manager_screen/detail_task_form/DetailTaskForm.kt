@@ -23,8 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.TaskData
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.demo_data.taskData
-import com.buiducha.teamtracker.ui.states.listStatus
-import com.buiducha.teamtracker.ui.states.userList
+
 import java.util.Calendar
 
 @Preview(showSystemUi = true)
@@ -83,16 +82,16 @@ fun TaskDetailScreen(task: TaskData, onTaskUpdated: (TaskData) -> Unit, onDelete
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                userList.forEach { label ->
-                    Box(contentAlignment = Alignment.Center) {
-                        DropdownMenuItem(text = { label },
-                            onClick = {
-                                expanded = false
-                                editedOwner.value = label
-                            })
-                        Text(text = label)
-                    }
-                }
+//                userList.forEach { label ->
+//                    Box(contentAlignment = Alignment.Center) {
+//                        DropdownMenuItem(text = { label },
+//                            onClick = {
+//                                expanded = false
+//                                editedOwner.value = label
+//                            })
+//                        Text(text = label)
+//                    }
+//                }
             }
         }
 
@@ -173,16 +172,16 @@ fun TaskDetailScreen(task: TaskData, onTaskUpdated: (TaskData) -> Unit, onDelete
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                listStatus.forEach { label ->
-                    Box(contentAlignment = Alignment.Center) {
-                        DropdownMenuItem(text = { label },
-                            onClick = {
-                                expanded = false
-                                editedStatus.value = label
-                            })
-                        Text(text = label)
-                    }
-                }
+//                listStatus.forEach { label ->
+//                    Box(contentAlignment = Alignment.Center) {
+//                        DropdownMenuItem(text = { label },
+//                            onClick = {
+//                                expanded = false
+//                                editedStatus.value = label
+//                            })
+//                        Text(text = label)
+//                    }
+//                }
             }
         }
         Row {
