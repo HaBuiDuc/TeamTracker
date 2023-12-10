@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -24,7 +25,7 @@ import com.buiducha.teamtracker.R
 @Preview(showSystemUi = true)
 @Composable
 fun SplashScreen() {
-    var currentScreen by rememberSaveable { mutableStateOf(1) }
+    var currentScreen by remember { mutableStateOf(1) }
 
 
     Box(modifier = Modifier
@@ -52,7 +53,7 @@ fun SplashScreen() {
         }
         if(currentScreen != 1){
             Button(onClick = {
-                currentScreen = currentScreen-1
+                currentScreen -= 1
             }, modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(bottom = 30.dp, start = 20.dp)) {
@@ -60,10 +61,9 @@ fun SplashScreen() {
             }
         }
 
-
         if(currentScreen != 3){
             Button(onClick = {
-                currentScreen = currentScreen + 1
+                currentScreen += 1
             }, modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 30.dp, end = 20.dp)) {

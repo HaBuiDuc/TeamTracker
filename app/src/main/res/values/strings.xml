@@ -8,4 +8,20 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="introduce">Introduce</string>
     <string name="log_out">Log out</string>
+    <string name="log_in">Log in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="register">Register</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="user_name">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="do_not_have_account">Don\'t have an account?</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="full_name">Full name</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="phone_number">Phone number</string>
+    <string name="fill_information_guide">Let\'s fill in your information</string>
+    <string name="submit">Submit</string>
+    <string name="location">Location</string>
+    <string name="company">Company</string>
 </resources>
