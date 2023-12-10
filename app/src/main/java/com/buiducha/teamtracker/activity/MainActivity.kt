@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker
+package com.buiducha.teamtracker.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

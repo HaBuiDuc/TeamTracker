@@ -1,4 +1,4 @@
-package com.buiducha.speedyfood.ui.screens.auth_screens.create_user_info
+package com.buiducha.teamtracker.ui.screens.authentication.add_info_screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

@@ -1,11 +1,9 @@
 package com.buiducha.teamtracker.viewmodel
 
 import android.app.Activity
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.repository.FirebaseRepository
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class LoginViewModel : ViewModel() {
     private val firebaseRepository = FirebaseRepository.get()
@@ -30,15 +28,20 @@ class LoginViewModel : ViewModel() {
         onUserExists: () -> Unit,
         onUserNotExists: () -> Unit
     ) {
-//        firebaseRepository.isUserInfoExists(
-//            userId = firebaseRepository.getCurrentUser()?.uid!!,
-//            onUserExists = onUserExists,
-//            onUserNotExists = onUserNotExists
-//        )
+        Log.d(TAG, "onLoginSuccess: ")
+        firebaseRepository.isUserInfoExists(
+            userId = firebaseRepository.getCurrentUser()?.uid!!,
+            onUserExists = onUserExists,
+            onUserNotExists = onUserNotExists
+        )
     }
 
     fun isValueValid(
         email: String,
         password: String,
     ): Boolean = email.isNotEmpty() && password.isNotEmpty()
+
+    companion object {
+        const val TAG = "LoginViewModel"
+    }
 }

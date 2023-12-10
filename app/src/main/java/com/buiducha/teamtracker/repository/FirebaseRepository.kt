@@ -6,6 +6,9 @@ import android.util.Log
 import com.buiducha.teamtracker.data.model.UserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -14,6 +17,32 @@ class FirebaseRepository private constructor(context: Context){
     private val database = Firebase.database
     private val usersRef = database.getReference("users")
 
+    fun getCurrentUser() = auth.currentUser
+
+    fun isUserInfoExists(
+        userId: String,
+        onUserExists: () -> Unit,
+        onUserNotExists: () -> Unit
+    ) {
+        Log.d(TAG, "isUserInfoExists: ")
+        usersRef.orderByChild("id").equalTo(userId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Log.d(TAG, snapshot.value.toString())
+                if (snapshot.exists()) {
+                    onUserExists()
+                    Log.d(TAG, "user exists")
+                } else {
+                    onUserNotExists()
+                    Log.d(TAG, "user not exists")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(TAG, "onCancelled: can't check")
+            }
+
+        })
+    }
 
     fun addUserInfo(
         userData: UserData,
