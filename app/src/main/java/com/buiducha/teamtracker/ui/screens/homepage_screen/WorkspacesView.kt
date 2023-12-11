@@ -14,18 +14,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Android
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.data.model.project.Workspace
-import com.buiducha.teamtracker.ui.theme.DarkGreen
+import java.util.Locale
 
 @Composable
 fun WorkspacesView(
@@ -34,7 +33,7 @@ fun WorkspacesView(
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        items(workspaceList) {workspace ->
+        items(workspaceList) { workspace ->
             WorkspaceItem(workspace = workspace)
         }
     }
@@ -50,34 +49,38 @@ private fun WorkspaceItem(
             .clickable { }
             .fillMaxWidth()
     ) {
-       Box(
-           modifier = Modifier
-               .background(
-                   color = Color.LightGray,
-                   shape = RoundedCornerShape(16.dp)
-               )
-       ) {
-           Icon(
-               tint = DarkGreen,
-               imageVector = Icons.Filled.Android,
-               contentDescription = null,
-               modifier = Modifier
-                   .padding(12.dp)
-                   .size(32.dp)
-           )
-       }
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .background(
+                    color = Color.LightGray,
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .padding(12.dp)
+                .size(32.dp)
+        ) {
+            Text(
+                text = workspace.name.substring(0, 2).uppercase(Locale.ROOT),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
         Spacer(modifier = Modifier.width(8.dp))
         Column {
             Text(
                 text = workspace.name,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Medium,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
             )
-            workspace.describe?.let {des ->
+            workspace.describe?.let { des ->
                 Text(
                     text = des,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Light
+                    fontWeight = FontWeight.Light,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
                 )
             }
 
