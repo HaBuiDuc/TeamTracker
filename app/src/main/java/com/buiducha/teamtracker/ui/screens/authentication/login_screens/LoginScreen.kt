@@ -1,6 +1,7 @@
 package com.buiducha.teamtracker.ui.screens.authentication.login_screens
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -197,8 +198,17 @@ fun LoginScreen(
                                         email = email,
                                         password = password,
                                         onLoginSuccess = {
-                                            startMainActivity(context = context)
-                                            navController.navigate(Screen.AddInfoScreen.route)
+                                            Log.d(TAG, "LoginScreen: onLoginSuccess")
+                                            loginViewModel.onLoginSuccess(
+                                                onUserExists = {
+                                                    Log.d(TAG, "LoginScreen: onLoginSuccess")
+                                                    startMainActivity(context = context)
+                                                },
+                                                onUserNotExists = {
+                                                    Log.d(TAG, "LoginScreen: onLoginFailure")
+                                                    navController.navigate(Screen.AddInfoScreen.route)
+                                                }
+                                            )
                                         },
                                         onLoginFailure = { msg ->
                                             scope.launch {
@@ -243,3 +253,5 @@ fun LoginScreen(
         }
     }
 }
+
+const val TAG = "LoginScreen"

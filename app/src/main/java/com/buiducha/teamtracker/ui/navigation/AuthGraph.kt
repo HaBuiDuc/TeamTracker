@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.buiducha.teamtracker.ui.screens.authentication.add_info_screen.AddUserInfo
 import com.buiducha.teamtracker.ui.screens.authentication.login_screens.LoginScreen
 import com.buiducha.teamtracker.ui.screens.authentication.register_screens.RegisterScreen
 
@@ -29,12 +30,12 @@ fun AuthGraph(
                 navController = navHostController
             )
         }
-//        composable(
-//            route = Screen.AddInfoScreen.route
-//        ) {
-//            AddUserInfo(
-//                navController = navHostController
-//            )
-//        }
+        composable(
+            route = Screen.AddInfoScreen.route
+        ) {
+            AddUserInfo(
+                navController = navHostController
+            )
+        }
     }
 }
