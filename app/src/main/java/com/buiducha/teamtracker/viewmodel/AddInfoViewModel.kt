@@ -1,7 +1,7 @@
 package com.buiducha.teamtracker.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.buiducha.teamtracker.data.model.UserData
+import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.ui.states.AddInfoState
 import kotlinx.coroutines.flow.MutableStateFlow

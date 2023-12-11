@@ -3,7 +3,8 @@ package com.buiducha.teamtracker.repository
 import android.app.Activity
 import android.content.Context
 import android.util.Log
-import com.buiducha.teamtracker.data.model.UserData
+import com.buiducha.teamtracker.data.model.project.Workspace
+import com.buiducha.teamtracker.data.model.user.UserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -16,6 +17,25 @@ class FirebaseRepository private constructor(context: Context){
     private var auth: FirebaseAuth = Firebase.auth
     private val database = Firebase.database
     private val usersRef = database.getReference("users")
+    private val workspacesRef = database.getReference("workspaces")
+
+    fun createWorkspace(
+        workspace: Workspace,
+        onCreateSuccess: () -> Unit,
+        onCreateFailure: () -> Unit
+    ) {
+        workspacesRef.push().setValue(workspace)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "create workspace success")
+                    onCreateSuccess()
+                }
+            }
+            .addOnFailureListener {e ->
+                Log.e(TAG, "add workspace failure", e)
+                onCreateFailure()
+            }
+    }
 
     fun getCurrentUser() = auth.currentUser
 

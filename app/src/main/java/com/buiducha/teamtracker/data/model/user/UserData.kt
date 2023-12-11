@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.data.model
+package com.buiducha.teamtracker.data.model.user
 
 import java.util.UUID
 

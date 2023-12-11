@@ -5,6 +5,12 @@
       <entry key="AddUserInfoPreview">
         <State />
       </entry>
+      <entry key="CreateWorkspacePreview">
+        <State />
+      </entry>
+      <entry key="CreateWorkspaceTopBarPreview">
+        <State />
+      </entry>
       <entry key="SplashScreen">
         <State />
       </entry>

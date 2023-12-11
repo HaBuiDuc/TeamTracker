@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.buiducha.teamtracker.ui.screens.create_workspace_screen.CreateWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.settings_screen.SettingsScreen
 
@@ -18,7 +19,7 @@ fun MainGraph(
         composable(
             route = BottomBarScreen.HomeScreen.route
         ) {
-            HomePage()
+            HomePage(navController = navHostController)
         }
         composable(
             route = BottomBarScreen.CalendarScreen.route
@@ -33,6 +34,11 @@ fun MainGraph(
             route = BottomBarScreen.SettingsScreen.route
         ) {
             SettingsScreen()
+        }
+        composable(
+            route = Screen.CreateWSScreen.route
+        ) {
+            CreateWorkspaceScreen(navController = navHostController)
         }
     }
 }
