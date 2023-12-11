@@ -19,6 +19,28 @@ class FirebaseRepository private constructor(context: Context){
     private val usersRef = database.getReference("users")
     private val workspacesRef = database.getReference("workspaces")
 
+    fun getWorkspaces(
+        onGetWorkspaceSuccess: (MutableList<Workspace>) -> Unit,
+        onGetWorkspaceFailure: () -> Unit
+    ) {
+        workspacesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val dataList = mutableListOf<Workspace>()
+                snapshot.children.forEach { shot ->
+                    val data = shot.getValue(Workspace::class.java)
+                    data?.let { dataList += data }
+                    Log.d(TAG, "onDataChange: $data")
+                }
+                onGetWorkspaceSuccess(dataList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                onGetWorkspaceFailure()
+            }
+
+        })
+    }
+
     fun createWorkspace(
         workspace: Workspace,
         onCreateSuccess: () -> Unit,

@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class Workspace(
     val id: String = UUID.randomUUID().mostSignificantBits.toString(),
-    val name: String,
+    val name: String = "",
     val describe: String? = null,
-    val startDay: String,
+    val startDay: String = "",
 )

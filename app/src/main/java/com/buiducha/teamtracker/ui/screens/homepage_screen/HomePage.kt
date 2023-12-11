@@ -11,14 +11,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.ui.navigation.Screen
+import com.buiducha.teamtracker.viewmodel.HomeViewModel
 import kotlinx.coroutines.launch
 
 @Preview
@@ -30,8 +34,10 @@ fun HomePagePreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(
-    navController: NavController
+    navController: NavController,
+    homeViewModel: HomeViewModel = viewModel(),
 ) {
+    val homeState by homeViewModel.homeState.collectAsState()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
             skipHiddenState = false
@@ -96,7 +102,9 @@ fun HomePage(
             Spacer(modifier = Modifier.height(16.dp))
             HPSearchBar()
             Spacer(modifier = Modifier.height(24.dp))
-            WorkspacesView()
+            WorkspacesView(
+                workspaceList = homeState.workspaceList
+            )
         }
     }
 }

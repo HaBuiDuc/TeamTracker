@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
@@ -23,26 +24,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.ui.theme.DarkGreen
 
 @Composable
-fun WorkspacesView() {
+fun WorkspacesView(
+    workspaceList: List<Workspace>
+) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        items(10) {
-            WorkspaceItem()
+        items(workspaceList) {workspace ->
+            WorkspaceItem(workspace = workspace)
         }
     }
 }
 
 @Composable
 private fun WorkspaceItem(
+    workspace: Workspace,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
-            .clickable {  }
+            .clickable { }
             .fillMaxWidth()
     ) {
        Box(
@@ -62,19 +67,20 @@ private fun WorkspaceItem(
            )
        }
         Spacer(modifier = Modifier.width(8.dp))
-        Column(
-
-        ) {
+        Column {
             Text(
-                text = "Xay dung ung dung quan...",
+                text = workspace.name,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium
             )
-            Text(
-                text = "0 cap nhat moi",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Light
-            )
+            workspace.describe?.let {des ->
+                Text(
+                    text = des,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Light
+                )
+            }
+
         }
     }
 }
