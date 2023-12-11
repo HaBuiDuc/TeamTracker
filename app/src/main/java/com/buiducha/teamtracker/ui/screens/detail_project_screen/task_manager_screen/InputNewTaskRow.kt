@@ -14,9 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.buiducha.teamtracker.ui.states.listStatus
-import com.buiducha.teamtracker.ui.states.userList
-import com.buiducha.teamtracker.ui.states.width
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

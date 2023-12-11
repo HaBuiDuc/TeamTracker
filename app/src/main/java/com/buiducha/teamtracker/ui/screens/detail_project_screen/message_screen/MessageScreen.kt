@@ -10,17 +10,22 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.buiducha.teamtracker.ui.screens.detail_project_screen.shared.TopNavBarDetailProject
+import com.buiducha.teamtracker.viewmodel.MessageViewModel
 
-@Preview(showSystemUi = true)
 @Composable
-fun MessageTab(){
+fun MessageScreen(
+    navController: NavController,
+    messageViewModel: MessageViewModel = viewModel()
+){
     Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(10.dp),
+        .fillMaxWidth(),
         contentAlignment = Alignment.TopCenter) {
         Column {
+            TopNavBarDetailProject(navController = navController, tabIndex = 0)
             NoteArea()
             Box(
                 modifier = Modifier
