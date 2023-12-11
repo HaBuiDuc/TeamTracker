@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.buiducha.teamtracker.ui.states.width
 import java.util.Calendar
 
 @Composable
@@ -113,7 +112,6 @@ fun CustomDropdownMenu(
                         expanded = false})
                     Text(text = label)
                 }
-
             }
         }
     }
