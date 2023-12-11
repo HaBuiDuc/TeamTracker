@@ -23,21 +23,24 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.viewmodel.HomeViewModel
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import kotlinx.coroutines.launch
 
 @Preview
 @Composable
 fun HomePagePreview() {
-    HomePage(rememberNavController())
+//    HomePage(rememberNavController())
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(
     navController: NavController,
+    currentUserInfoViewModel: CurrentUserInfoViewModel,
     homeViewModel: HomeViewModel = viewModel(),
 ) {
     val homeState by homeViewModel.homeState.collectAsState()
+    val currentUserInfo by currentUserInfoViewModel.currentUserInfo.collectAsState()
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
             skipHiddenState = false
@@ -69,6 +72,7 @@ fun HomePage(
                         scaffoldState.bottomSheetState.expand()
                     }
                 },
+                userData = currentUserInfo,
                 modifier = Modifier
                     .padding(
                         top = 16.dp,

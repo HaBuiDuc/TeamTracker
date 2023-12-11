@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.data.model.project.Workspace
+import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.ui.states.CreateWorkspaceState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +37,13 @@ class CreateWorkspaceViewModel : ViewModel() {
         val workspace = Workspace(
             name = createWorkspaceState.value.workspaceName,
             describe = createWorkspaceState.value.workspaceDes,
-            startDay = LocalDate.now().toString()
+            startDay = LocalDate.now().toString(),
+            workspaceOwnerId = firebaseRepository.getCurrentUser()?.uid!!
+        )
+
+        val workspaceMember = WorkspaceMember(
+            workspaceId = workspace.id,
+            userId = workspace.workspaceOwnerId
         )
 
        if(isValueValid()) {
@@ -44,6 +51,12 @@ class CreateWorkspaceViewModel : ViewModel() {
                workspace = workspace,
                onCreateSuccess = onCreateSuccess,
                onCreateFailure = onCreateFailure
+           )
+
+           firebaseRepository.addMemberToWorkspace(
+               workspaceMember = workspaceMember,
+               onAddSuccess = {},
+               onAddFailure = {}
            )
        }
     }

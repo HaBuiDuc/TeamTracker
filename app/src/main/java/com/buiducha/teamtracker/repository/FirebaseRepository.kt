@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.buiducha.teamtracker.data.model.project.Workspace
+import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -12,32 +13,75 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlin.math.log
 
 class FirebaseRepository private constructor(context: Context){
     private var auth: FirebaseAuth = Firebase.auth
     private val database = Firebase.database
     private val usersRef = database.getReference("users")
     private val workspacesRef = database.getReference("workspaces")
+    private val workspaceMemberRef = database.getReference("workspace_member")
+
+    fun addMemberToWorkspace(
+        workspaceMember: WorkspaceMember,
+        onAddSuccess: () -> Unit,
+        onAddFailure: () -> Unit
+    ) {
+        workspaceMemberRef.push().setValue(workspaceMember)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "add member to workspace success")
+                    onAddSuccess()
+                }
+            }
+            .addOnFailureListener {e ->
+                Log.e(TAG, "add member to workspace failure", e)
+                onAddFailure()
+            }
+    }
 
     fun getWorkspaces(
         onGetWorkspaceSuccess: (MutableList<Workspace>) -> Unit,
         onGetWorkspaceFailure: () -> Unit
     ) {
-        workspacesRef.addValueEventListener(object : ValueEventListener {
+
+        workspaceMemberRef.orderByChild("userId").equalTo(auth.uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val dataList = mutableListOf<Workspace>()
+                val teams = mutableListOf<String>()
+
                 snapshot.children.forEach { shot ->
-                    val data = shot.getValue(Workspace::class.java)
-                    data?.let { dataList += data }
-                    Log.d(TAG, "onDataChange: $data")
+                    val teamId = shot.child("workspaceId").getValue(String::class.java)
+                    if (teamId != null) {
+                        teams.add(teamId)
+                    }
                 }
-                onGetWorkspaceSuccess(dataList)
+
+                workspacesRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val dataList = mutableListOf<Workspace>()
+                        snapshot.children.forEach { shot ->
+                            val data = shot.getValue(Workspace::class.java)
+                            data?.let { workspace ->
+                                if (teams.contains(workspace.id)) {
+                                    dataList += workspace
+                                }
+                            }
+                            Log.d(TAG, "onDataChange: $data")
+                        }
+                        onGetWorkspaceSuccess(dataList)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        onGetWorkspaceFailure()
+                    }
+                })
+
+                Log.d(TAG, "get workspace id $teams")
             }
 
             override fun onCancelled(error: DatabaseError) {
-                onGetWorkspaceFailure()
-            }
 
+            }
         })
     }
 
@@ -60,6 +104,27 @@ class FirebaseRepository private constructor(context: Context){
     }
 
     fun getCurrentUser() = auth.currentUser
+
+    fun getUserInfo(
+        userId: String,
+        onGetInfoSuccess: (UserData) -> Unit,
+        onGetInfoFailure: () -> Unit
+    ) {
+        Log.d(TAG, "getUserInfo: $userId")
+        usersRef.orderByChild("id").equalTo(userId).addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { user ->
+                    val data = user.getValue(UserData::class.java)
+                    data?.let(onGetInfoSuccess)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                onGetInfoFailure()
+            }
+
+        })
+    }
 
     fun isUserInfoExists(
         userId: String,

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,17 +30,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
+import com.buiducha.teamtracker.data.model.user.UserData
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 
 @Preview
 @Composable
 fun TopBarPreview() {
-    HPTopBar() {}
+//    HPTopBar() {}
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun HPTopBar(
     modifier: Modifier = Modifier,
-    avatar: Int? = null,
+    userData: UserData,
     onMenuToggle: () -> Unit
 ) {
     Row(
@@ -51,10 +57,11 @@ fun HPTopBar(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            if (avatar != null) {
-                Image(
-                    painter = painterResource(id = avatar),
+            if (userData.avatarUri != null) {
+                GlideImage(
+                    model = userData.avatarUri,
                     contentDescription = null,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .clip(CircleShape)
                         .size(40.dp)
@@ -69,7 +76,7 @@ fun HPTopBar(
                         .size(40.dp)
                 ) {
                     Text(
-                        text = "BH",
+                        text = if (userData.fullName.length > 3) userData.fullName.substring(0, 2).uppercase() else "",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
                     )

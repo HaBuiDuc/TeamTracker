@@ -3,7 +3,7 @@ package com.buiducha.teamtracker.data.model.user
 import java.util.UUID
 
 data class UserData(
-    val id: String = UUID.randomUUID().mostSignificantBits.toString(),
+    val id: String = "",
     val fullName: String = "",
     val phoneNumber: String = "",
     val avatarUri: String? = null,

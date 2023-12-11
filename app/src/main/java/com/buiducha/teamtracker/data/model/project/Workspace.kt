@@ -7,5 +7,6 @@ data class Workspace(
     val name: String = "",
     val describe: String? = null,
     val startDay: String = "",
-    val avatar: String? = null
+    val avatar: String? = null,
+    val workspaceOwnerId: String = ""
 )
