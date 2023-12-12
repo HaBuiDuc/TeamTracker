@@ -14,6 +14,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,13 +32,17 @@ import java.util.Locale
 
 @Composable
 fun WorkspacesView(
-    workspaceList: List<Workspace>
+    workspaceList: List<Workspace>,
+    onMenuToggle: (Workspace) -> Unit
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         items(workspaceList) { workspace ->
-            WorkspaceItem(workspace = workspace)
+            WorkspaceItem(
+                workspace = workspace,
+                onMenuToggle = onMenuToggle
+            )
         }
     }
 }
@@ -42,48 +50,64 @@ fun WorkspacesView(
 @Composable
 private fun WorkspaceItem(
     workspace: Workspace,
+    onMenuToggle: (Workspace) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .clickable { }
             .fillMaxWidth()
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .background(
-                    color = Color.LightGray,
-                    shape = RoundedCornerShape(16.dp)
-                )
-                .padding(12.dp)
-                .size(32.dp)
+        Row(
+
         ) {
-            Text(
-                text = workspace.name.substring(0, 2).uppercase(Locale.ROOT),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-        }
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Text(
-                text = workspace.name,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-            )
-            workspace.describe?.let { des ->
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .background(
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .padding(12.dp)
+                    .size(32.dp)
+            ) {
                 Text(
-                    text = des,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Light,
+                    text = workspace.name.substring(0, 2).uppercase(Locale.ROOT),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Column {
+                Text(
+                    text = workspace.name,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                 )
-            }
+                workspace.describe?.let { des ->
+                    Text(
+                        text = des,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Light,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                    )
+                }
 
+            }
+        }
+        IconButton(
+            onClick = {
+                onMenuToggle(workspace)
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.MoreVert,
+                contentDescription = null
+            )
         }
     }
 }

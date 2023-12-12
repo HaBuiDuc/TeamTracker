@@ -34,4 +34,10 @@
     <string name="description">Description</string>
     <string name="workspace_name_placeholder">Input your workspace name</string>
     <string name="workspace_des_placeholder">Input your workspace description</string>
+
+    <string name="manage_members">Manage members</string>
+    <string name="leave_team">Leave team</string>
+    <string name="edit_team">Edit team</string>
+    <string name="delete_team">Delete team</string>
+    <string name="view_members">View members</string>
 </resources>
