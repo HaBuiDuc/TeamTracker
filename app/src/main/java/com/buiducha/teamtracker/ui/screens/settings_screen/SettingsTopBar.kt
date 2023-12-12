@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +21,8 @@ import com.buiducha.teamtracker.R
 
 @Composable
 fun SettingsTopBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onPopBack: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -28,14 +30,20 @@ fun SettingsTopBar(
             .padding(
                 all = 12.dp
             )
-//            .border()
     ) {
-        Icon(
-            imageVector = Icons.Filled.ArrowBack,
-            contentDescription = null,
-            modifier = Modifier
-                .size(26.dp)
-        )
+        IconButton(
+            onClick = {
+                onPopBack()
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Filled.ArrowBack,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(26.dp)
+            )
+        }
+
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = stringResource(id = R.string.settings),

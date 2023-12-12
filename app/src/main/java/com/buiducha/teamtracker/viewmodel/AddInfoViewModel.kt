@@ -53,6 +53,7 @@ class AddInfoViewModel : ViewModel() {
         onAddFailure: () -> Unit
     ) {
         val userInfo = UserData(
+            id = fireBaseRepository.getCurrentUser()?.uid!!,
             fullName = addInfoState.value.fullName,
             phoneNumber = addInfoState.value.phoneNumber,
             location = addInfoState.value.location,
