@@ -19,12 +19,13 @@ import androidx.compose.ui.unit.sp
 @Preview
 @Composable
 fun MemberManagementTopBarPreview() {
-    MemberManagementTopBar()
+    MemberManagementTopBar() {}
 }
 
 @Composable
 fun MemberManagementTopBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onPopBack: () -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -37,7 +38,7 @@ fun MemberManagementTopBar(
         ) {
             IconButton(
                 onClick = {
-
+                    onPopBack()
                 }
             ) {
                 Icon(

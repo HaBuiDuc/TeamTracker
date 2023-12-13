@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.viewmodel.HomeViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.launch
 
 @Preview
@@ -45,6 +46,7 @@ fun HomePagePreview() {
 fun HomePage(
     navController: NavController,
     currentUserInfoViewModel: CurrentUserInfoViewModel,
+    selectedWorkspaceViewModel: SelectedWorkspaceViewModel,
     homeViewModel: HomeViewModel = viewModel(),
 ) {
     val homeState by homeViewModel.homeState.collectAsState()
@@ -64,11 +66,25 @@ fun HomePage(
         sheetContent = {
             if (currentBottomSheet == BottomSheetScreen.WSManagement) {
                 WSManagementBS(
-                    onMemberManager = { /*TODO*/ },
-                    onViewMembers = { /*TODO*/ },
-                    onLeaveWorkspace = { /*TODO*/ },
-                    onEditWorkspace = { /*TODO*/ },
-                    onDeleteWorkspace = { /*TODO*/ },
+                    onMemberManager = {
+                        navController.navigate(Screen.MemberManagementScreen.route)
+                        scope.launch {
+                            homeState.selectedWorkspace?.let { selectedWorkspaceViewModel.workspaceUpdate(workspace = it) }
+                            scaffoldState.bottomSheetState.hide()
+                        }
+                    },
+                    onLeaveWorkspace = {
+                        homeViewModel.leaveWorkspace()
+                        scope.launch {
+                            scaffoldState.bottomSheetState.hide()
+                        }
+                    },
+                    onEditWorkspace = {
+
+                    },
+                    onDeleteWorkspace = {
+
+                    },
                     isWorkspaceOwner = currentUserInfo.id == homeState.selectedWorkspace?.workspaceOwnerId
                 )
             } else {

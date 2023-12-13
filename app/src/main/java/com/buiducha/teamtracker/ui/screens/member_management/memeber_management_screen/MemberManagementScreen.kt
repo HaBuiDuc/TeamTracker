@@ -17,27 +17,45 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
+import com.buiducha.teamtracker.viewmodel.MemberManagementViewModel
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.launch
 
 @Preview
 @Composable
 fun MemberManagementPreview() {
-    MemberManagementScreen()
+//    MemberManagementScreen(rememberNavController())
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MemberManagementScreen() {
+fun MemberManagementScreen(
+    selectedWorkspaceViewModel: SelectedWorkspaceViewModel,
+    memberManagementViewModel: MemberManagementViewModel = viewModel {
+        MemberManagementViewModel(selectedWorkspaceViewModel)
+    },
+    navController: NavController
+) {
+    val memberManagementState by memberManagementViewModel.memberManagementState.collectAsState()
     val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
-            MemberManagementTopBar()
+            MemberManagementTopBar(
+                onPopBack = {
+                    navController.popBackStack()
+                }
+            )
         },
         floatingActionButton = {
             FloatingActionButton(
@@ -91,15 +109,21 @@ fun MemberManagementScreen() {
             HorizontalPager(
                 state = pagerState,
                 userScrollEnabled = false
-            ) {page ->
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(text = "Page ${page}")
+            ) { page ->
+                if (page == 0) {
+                    MemberSection(
+                        memberList = mutableListOf(memberManagementState.workspaceOwner),
+                        isWorkspaceOwner = memberManagementState.isWorkspaceOwner,
+                        onMenuToggle = {}
+                    )
+                } else {
+                    MemberSection(
+                        memberList = memberManagementState.memberList,
+                        isWorkspaceOwner = memberManagementState.isWorkspaceOwner,
+                        onMenuToggle = {}
+                    )
                 }
+
             }
         }
 

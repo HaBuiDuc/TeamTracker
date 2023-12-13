@@ -2,6 +2,7 @@ package com.buiducha.teamtracker.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.data.model.project.Workspace
+import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.ui.states.HomeState
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
@@ -16,6 +17,19 @@ class HomeViewModel() : ViewModel() {
 
     init {
         getWorkspace()
+    }
+
+    fun leaveWorkspace() {
+        val workspaceMember = WorkspaceMember(
+            userId = firebaseRepository.getCurrentUser()?.uid!!,
+            workspaceId = homeState.value.selectedWorkspace?.id!!
+        )
+
+        firebaseRepository.removeMemberFromWorkspace(
+            workspaceMember = workspaceMember,
+            onRemoveSuccess = {},
+            onRemoveFailure = {}
+        )
     }
 
     private fun getWorkspace() {
