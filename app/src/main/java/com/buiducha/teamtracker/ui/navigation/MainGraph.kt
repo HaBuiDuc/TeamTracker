@@ -9,16 +9,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.buiducha.teamtracker.ui.screens.create_workspace_screen.CreateWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
+import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
 import com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen.MemberManagementScreen
 import com.buiducha.teamtracker.ui.screens.settings_screen.SettingsScreen
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.UserInfoViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainGraph(
     navHostController: NavHostController
 ) {
+    val userInfoViewModel: UserInfoViewModel = viewModel()
     val currentUserInfoViewModel: CurrentUserInfoViewModel = viewModel()
     val selectedWorkspaceViewModel: SelectedWorkspaceViewModel = viewModel()
     NavHost(
@@ -61,6 +64,14 @@ fun MainGraph(
             MemberManagementScreen(
                 selectedWorkspaceViewModel = selectedWorkspaceViewModel,
                 navController = navHostController
+            )
+        }
+        composable(
+            route = Screen.AddMemberScreen.route
+        ) {
+            AddMemberScreen(
+                navController = navHostController,
+                userInfoViewModel = userInfoViewModel
             )
         }
     }

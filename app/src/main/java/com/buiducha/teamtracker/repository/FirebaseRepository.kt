@@ -173,6 +173,29 @@ class FirebaseRepository private constructor(context: Context) {
 
     fun getCurrentUser() = auth.currentUser
 
+    fun getUserInfoList(
+        onGetInfoSuccess: (List<UserData>) -> Unit,
+        onGetInfoFailure: () -> Unit
+    ) {
+        usersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val userList = mutableListOf<UserData>()
+                snapshot.children.forEach { shot ->
+                    val data = shot.getValue(UserData::class.java)
+                    data?.let {user ->
+                        userList += user
+                    }
+                }
+                onGetInfoSuccess(userList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                onGetInfoFailure()
+            }
+
+        })
+    }
+
     fun getUserInfo(
         userId: String,
         onGetInfoSuccess: (UserData) -> Unit,
