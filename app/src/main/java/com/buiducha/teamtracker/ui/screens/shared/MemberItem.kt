@@ -1,6 +1,7 @@
 package com.buiducha.teamtracker.ui.screens.shared
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -34,12 +35,17 @@ fun MemberItem(
     member: UserData,
     modifier: Modifier = Modifier,
     isWorkspaceOwner: Boolean = false,
-    onMenuToggle: () -> Unit,
+    onMenuToggle: () -> Unit = {},
+    onItemPressed: (UserData) -> Unit = {}
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+                onItemPressed(member)
+            }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
