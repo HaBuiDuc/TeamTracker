@@ -45,6 +45,25 @@ class FirebaseRepository private constructor(context: Context) {
             })
     }
 
+    fun addMembersToWorkspace(
+        workspaceMembers: List<WorkspaceMember>,
+        onAddSuccess: () -> Unit,
+        onAddFailure: () -> Unit
+    ) {
+        workspaceMemberRef.push().setValue(workspaceMembers)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "add member to workspace success")
+                    onAddSuccess()
+                }
+            }
+
+            .addOnFailureListener { e ->
+                Log.e(TAG, "add member to workspace failure", e)
+                onAddFailure()
+            }
+    }
+
     fun addMemberToWorkspace(
         workspaceMember: WorkspaceMember,
         onAddSuccess: () -> Unit,

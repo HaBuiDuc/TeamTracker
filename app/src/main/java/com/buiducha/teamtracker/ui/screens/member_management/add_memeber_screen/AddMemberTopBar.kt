@@ -23,6 +23,7 @@ import com.buiducha.teamtracker.R
 fun AddMemberTopBarPreview() {
     AddMemberTopBar(
         onCancel = {},
+        isAddEnabled = true,
         onAddSubmit = {}
     )
 }
@@ -30,6 +31,7 @@ fun AddMemberTopBarPreview() {
 @Composable
 fun AddMemberTopBar(
     modifier: Modifier = Modifier,
+    isAddEnabled: Boolean,
     onCancel: () -> Unit,
     onAddSubmit: () -> Unit
 ) {
@@ -61,7 +63,8 @@ fun AddMemberTopBar(
         IconButton(
             onClick = {
                 onAddSubmit()
-            }
+            },
+            enabled = isAddEnabled
         ) {
             Icon(
                 imageVector = Icons.Default.Check,

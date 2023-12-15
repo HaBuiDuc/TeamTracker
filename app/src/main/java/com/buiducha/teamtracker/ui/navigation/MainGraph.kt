@@ -71,7 +71,8 @@ fun MainGraph(
         ) {
             AddMemberScreen(
                 navController = navHostController,
-                userInfoViewModel = userInfoViewModel
+                userInfoViewModel = userInfoViewModel,
+                selectedWorkspaceViewModel = selectedWorkspaceViewModel
             )
         }
     }

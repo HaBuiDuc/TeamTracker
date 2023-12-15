@@ -26,7 +26,11 @@ fun MemberSection(
                 MemberItem(
                     member = member,
                     isWorkspaceOwner = isWorkspaceOwner,
-                    onMenuToggle = onMenuToggle
+                    onMenuToggle = onMenuToggle,
+                    modifier = Modifier
+                        .padding(
+                            vertical = 4.dp
+                        )
                 )
             }
         }
