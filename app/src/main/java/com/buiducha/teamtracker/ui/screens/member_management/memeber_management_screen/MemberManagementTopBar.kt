@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 @Preview
 @Composable
 fun MemberManagementTopBarPreview() {
-    MemberManagementTopBar() {}
+    MemberManagementTopBar {}
 }
 
 @Composable

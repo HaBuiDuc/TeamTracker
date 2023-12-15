@@ -70,31 +70,6 @@ fun AddMemberScreen(
             modifier = Modifier
                 .padding(paddingValues)
         ) {
-//            TextField(
-//                value = addMemberState.query,
-//                onValueChange = {
-//                    addMemberViewModel.setQuery(it)
-//                },
-//                colors = TextFieldDefaults.colors(
-//                    focusedContainerColor = Color.Transparent,
-//                    unfocusedContainerColor = Color.Transparent
-//                ),
-//                placeholder = {
-//                    Text(text = "Enter email address")
-//                },
-//                leadingIcon = {
-//                    Text(
-//                        text = "Add:",
-//                        modifier = Modifier
-//                            .padding(
-//                                horizontal = 8.dp
-//                            )
-//                    )
-//                },
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//            )
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier

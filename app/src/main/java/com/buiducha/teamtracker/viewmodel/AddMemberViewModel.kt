@@ -25,7 +25,6 @@ class AddMemberViewModel(
     }
 
     fun addMembers() {
-        val workspaceMemberList = mutableListOf<WorkspaceMember>()
         addMemberState.value.selectedUser.forEach { userData ->
             val workspaceMember = WorkspaceMember(
                 userId = userData.id,
