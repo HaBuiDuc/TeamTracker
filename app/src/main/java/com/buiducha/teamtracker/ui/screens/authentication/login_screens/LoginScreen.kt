@@ -108,8 +108,8 @@ fun LoginScreen(
                     painterResource(id = R.drawable.team_tracker_authentication),
                     contentDescription = "",
                     modifier = Modifier
-                        .size(300.dp)
-                        .padding(top = 100.dp)
+                        .size(240.dp)
+                        .padding(top = 50.dp)
                 )
             }
 

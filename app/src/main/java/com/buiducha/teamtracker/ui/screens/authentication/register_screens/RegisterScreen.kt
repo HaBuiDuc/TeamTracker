@@ -110,7 +110,7 @@ fun RegisterScreen(
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .background(Color.LightGray)
+                    .background(Color.Gray)
                     .fillMaxWidth()
                     .fillMaxHeight(0.3f)
             ) {
