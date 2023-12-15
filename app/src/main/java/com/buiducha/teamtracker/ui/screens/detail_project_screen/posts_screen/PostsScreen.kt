@@ -26,18 +26,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.shared.DetailProjectTopBar
+import com.buiducha.teamtracker.viewmodel.PostViewModel
 
 @Composable
 @Preview
 fun PostScreenPreview(){
-    PostsScreen()
+    PostsScreen(navController = rememberNavController(),
+        postViewModel = PostViewModel())
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun PostsScreen(){
+fun PostsScreen(
+    navController: NavController,
+    postViewModel: PostViewModel
+){
 
     Scaffold(
         topBar = {
@@ -71,12 +78,6 @@ fun PostsScreen(){
             .verticalScroll(rememberScrollState())
             .offset(y = 50.dp)
         ) {
-            PostItem()
-            PostItem()
-            PostItem()
-            PostItem()
-            PostItem()
-            PostItem()
         }
     }
 }

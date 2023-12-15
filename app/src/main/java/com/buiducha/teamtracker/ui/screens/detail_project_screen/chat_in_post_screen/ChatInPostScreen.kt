@@ -23,13 +23,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.data.model.message.Message
 import java.sql.Timestamp
 import java.util.UUID
 
 @Preview(showSystemUi = true)
 @Composable
-fun ChatInPostScreen(){
+fun ChatInPostPrev(){
+    ChatInPostScreen(navController = rememberNavController())
+}
+
+@Composable
+fun ChatInPostScreen(navController: NavController){
     var mesContent by remember { mutableStateOf("") }
 
     val postId = UUID.randomUUID()

@@ -3,6 +3,7 @@ package com.buiducha.teamtracker.repository
 import android.app.Activity
 import android.content.Context
 import android.util.Log
+import com.buiducha.teamtracker.data.model.message.Message
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.data.model.user.UserData
@@ -318,7 +319,36 @@ class FirebaseRepository private constructor(context: Context) {
     }
 
     fun getMessage(postId: String){
+        messagesRef.orderByChild("postId").equalTo(postId)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val messagesList = mutableListOf<Message>()
+                    snapshot.children.forEach { shot ->
+                        val message = shot.getValue(Message::class.java)
+                        message?.let {
+                            messagesList += it
+                        }
+                    }
+                }
 
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+    }
+
+    fun createMessage(
+        message: Message
+    ) {
+        messagesRef.push().setValue(message)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "create message success")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "add message failure", e)
+            }
     }
 
     companion object {

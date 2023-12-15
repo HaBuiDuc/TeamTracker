@@ -25,11 +25,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
 
 @Preview(showSystemUi = true)
 @Composable
-fun CreatePostScreen(){
+fun CrPostScrPrev(){
+    CreatePostScreen(navController = rememberNavController())
+}
+
+@Composable
+fun CreatePostScreen(navController: NavController){
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
 

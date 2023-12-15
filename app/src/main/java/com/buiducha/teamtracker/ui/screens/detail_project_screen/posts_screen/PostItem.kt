@@ -34,12 +34,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
+import com.buiducha.teamtracker.data.model.project.Posts
 import java.util.Locale
 
 @Composable
-@Preview(showSystemUi = true)
-fun PostItem() {
+fun PostItem(navController: NavController,
+             post: Posts) {
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp, 5.dp)
@@ -62,7 +64,7 @@ fun PostItem() {
                 ) {
                     Text(
 //                        text = workspace.name.substring(0, 2).uppercase(Locale.ROOT),
-                        text = "CO",
+                        text = post.content.toString().substring(0, 2).uppercase(),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -71,14 +73,14 @@ fun PostItem() {
                     Text(modifier = Modifier
                         .height(29.dp)
                         .padding(start = 5.dp),
-                        text = "Nguyễn Viết Công",
+                        text = post.userId.toString(),
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp)
                     Text(modifier = Modifier
                         .height(29.dp)
                         .padding(5.dp),
                         fontStyle = FontStyle.Italic,
-                        text = "9:28pm 13/12/2023")
+                        text = post.timestamp.toString())
                 }
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(imageVector = Icons.Filled.MoreVert,

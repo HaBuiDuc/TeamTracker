@@ -17,6 +17,6 @@ class MessageViewModel : ViewModel() {
     }
 
     private fun getMessage() {
-        TODO("Not yet implemented")
+//        firebaseRepository.getMessage();
     }
 }
