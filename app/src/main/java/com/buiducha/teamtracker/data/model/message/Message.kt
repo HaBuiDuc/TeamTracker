@@ -1,12 +1,13 @@
 package com.buiducha.teamtracker.data.model.message
 
+import java.sql.Timestamp
 import java.util.Date
 import java.util.UUID
 
 data class Message(
-    val id: UUID = UUID.randomUUID(),
-    val workspaceId: UUID,
+    val id: String = UUID.randomUUID().mostSignificantBits.toString(),
+    val postId: UUID,
     val content: String,
-    val senderId: UUID,
-    val time: Date
+    val userId: UUID,
+    val time: Timestamp
 )
