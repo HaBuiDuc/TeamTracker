@@ -14,13 +14,8 @@
         android:theme="@style/Theme.TeamTracker"
         tools:targetApi="31">
         <activity
-<<<<<<< HEAD
-            android:name=".AuthActivity"
-=======
-            android:name=".activity.AuthActivity"
->>>>>>> 20da9fc (Lưu lại những thay đổi trên nhánh main)
+            android:name=".activity.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.TeamTracker">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,11 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-        <activity android:name=".MainActivity"/>
-=======
-        <activity android:name=".activity.MainActivity"/>
->>>>>>> 20da9fc (Lưu lại những thay đổi trên nhánh main)
+        <activity android:name=".activity.AuthActivity"/>
     </application>
 
 </manifest>
