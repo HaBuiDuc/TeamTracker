@@ -13,12 +13,9 @@ class FirebaseRepository private constructor(context: Context){
     private var auth: FirebaseAuth = Firebase.auth
     private val database = Firebase.database
     private val usersRef = database.getReference("users")
-//<<<<<<< HEAD
-//=======
-//    private val workspacesRef = database.getReference("workspaces")
-//    private val workspaceMemberRef = database.getReference("workspace_member")
-//    private val messagesRef = database.getReference("messages")
-//>>>>>>> 20da9fc (Lưu lại những thay đổi trên nhánh main)
+    private val workspacesRef = database.getReference("workspaces")
+    private val workspaceMemberRef = database.getReference("workspace_member")
+    private val messagesRef = database.getReference("messages")
 
 
     fun addUserInfo(
