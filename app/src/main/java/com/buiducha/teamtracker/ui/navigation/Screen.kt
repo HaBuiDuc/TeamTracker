@@ -16,4 +16,6 @@ sealed class Screen(
     object MessageScreen: Screen("message_screen")
     object TaskManagerScreen: Screen("task_manager_screen")
     object TeamMemberDetailScreen: Screen("team_member_detail_screen")
+    object MemberManagementScreen: Screen("member_management_screen")
+    object AddMemberScreen: Screen("add_member_screen")
 }

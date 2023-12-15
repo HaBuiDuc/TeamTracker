@@ -1,35 +1,43 @@
-package com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen
+package com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.buiducha.teamtracker.R
 
 @Preview
 @Composable
-fun MemberManagementTopBarPreview() {
-    MemberManagementTopBar {}
+fun AddMemberTopBarPreview() {
+    AddMemberTopBar(
+        onCancel = {},
+        isAddEnabled = true,
+        onAddSubmit = {}
+    )
 }
 
 @Composable
-fun MemberManagementTopBar(
+fun AddMemberTopBar(
     modifier: Modifier = Modifier,
-    onPopBack: () -> Unit
+    isAddEnabled: Boolean,
+    onCancel: () -> Unit,
+    onAddSubmit: () -> Unit
 ) {
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
     ) {
@@ -38,27 +46,28 @@ fun MemberManagementTopBar(
         ) {
             IconButton(
                 onClick = {
-                    onPopBack()
+                    onCancel()
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                    imageVector = Icons.Default.Clear,
                     contentDescription = null
                 )
             }
             Text(
-                text = "Team member",
+                text = stringResource(id = R.string.add_members),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold
             )
         }
         IconButton(
             onClick = {
-
-            }
+                onAddSubmit()
+            },
+            enabled = isAddEnabled
         ) {
             Icon(
-                imageVector = Icons.Default.Search,
+                imageVector = Icons.Default.Check,
                 contentDescription = null
             )
         }

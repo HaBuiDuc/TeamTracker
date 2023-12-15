@@ -14,12 +14,36 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class FirebaseRepository private constructor(context: Context){
+class FirebaseRepository private constructor(context: Context) {
     private var auth: FirebaseAuth = Firebase.auth
     private val database = Firebase.database
     private val usersRef = database.getReference("users")
     private val workspacesRef = database.getReference("workspaces")
     private val workspaceMemberRef = database.getReference("workspace_member")
+
+
+    fun removeMemberFromWorkspace(
+        workspaceMember: WorkspaceMember,
+        onRemoveSuccess: () -> Unit,
+        onRemoveFailure: () -> Unit
+    ) {
+        workspaceMemberRef.orderByChild("workspaceId")
+            .equalTo(workspaceMember.workspaceId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { shot ->
+                        val memberId = shot.child("userId").getValue(String::class.java)
+                        if (memberId == workspaceMember.userId) {
+                            shot.ref.removeValue()
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
+    }
 
     fun addMemberToWorkspace(
         workspaceMember: WorkspaceMember,
@@ -33,10 +57,54 @@ class FirebaseRepository private constructor(context: Context){
                     onAddSuccess()
                 }
             }
-            .addOnFailureListener {e ->
+            .addOnFailureListener { e ->
                 Log.e(TAG, "add member to workspace failure", e)
                 onAddFailure()
             }
+    }
+
+    fun getWorkspaceMember(
+        workspaceId: String,
+        onGetMemberSuccess: (MutableList<UserData>) -> Unit,
+        onGetMemberFailure: () -> Unit
+    ) {
+        workspaceMemberRef.orderByChild("workspaceId").equalTo(workspaceId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val members = mutableListOf<String>()
+                    snapshot.children.forEach { shot ->
+                        val memberId = shot.child("userId").getValue(String::class.java)
+                        if (memberId != null) {
+                            members.add(memberId)
+                        }
+                    }
+
+                    usersRef.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val dataList = mutableListOf<UserData>()
+                            snapshot.children.forEach { shot ->
+                                val data = shot.getValue(UserData::class.java)
+                                data?.let { member ->
+                                    if (members.contains(member.id)) {
+                                        dataList += member
+                                    }
+                                }
+                                Log.d(TAG, "onDataChange: $data")
+                            }
+                            onGetMemberSuccess(dataList)
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            onGetMemberFailure()
+                        }
+                    })
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
     }
 
     fun getWorkspaces(
@@ -44,44 +112,45 @@ class FirebaseRepository private constructor(context: Context){
         onGetWorkspaceFailure: () -> Unit
     ) {
 
-        workspaceMemberRef.orderByChild("userId").equalTo(auth.uid).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val teams = mutableListOf<String>()
+        workspaceMemberRef.orderByChild("userId").equalTo(auth.uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val teams = mutableListOf<String>()
 
-                snapshot.children.forEach { shot ->
-                    val teamId = shot.child("workspaceId").getValue(String::class.java)
-                    if (teamId != null) {
-                        teams.add(teamId)
+                    snapshot.children.forEach { shot ->
+                        val teamId = shot.child("workspaceId").getValue(String::class.java)
+                        if (teamId != null) {
+                            teams.add(teamId)
+                        }
                     }
+
+                    workspacesRef.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val dataList = mutableListOf<Workspace>()
+                            snapshot.children.forEach { shot ->
+                                val data = shot.getValue(Workspace::class.java)
+                                data?.let { workspace ->
+                                    if (teams.contains(workspace.id)) {
+                                        dataList += workspace
+                                    }
+                                }
+                                Log.d(TAG, "onDataChange: $data")
+                            }
+                            onGetWorkspaceSuccess(dataList)
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            onGetWorkspaceFailure()
+                        }
+                    })
+
+                    Log.d(TAG, "get workspace id $teams")
                 }
 
-                workspacesRef.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val dataList = mutableListOf<Workspace>()
-                        snapshot.children.forEach { shot ->
-                            val data = shot.getValue(Workspace::class.java)
-                            data?.let { workspace ->
-                                if (teams.contains(workspace.id)) {
-                                    dataList += workspace
-                                }
-                            }
-                            Log.d(TAG, "onDataChange: $data")
-                        }
-                        onGetWorkspaceSuccess(dataList)
-                    }
+                override fun onCancelled(error: DatabaseError) {
 
-                    override fun onCancelled(error: DatabaseError) {
-                        onGetWorkspaceFailure()
-                    }
-                })
-
-                Log.d(TAG, "get workspace id $teams")
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
+                }
+            })
     }
 
     fun createWorkspace(
@@ -96,7 +165,7 @@ class FirebaseRepository private constructor(context: Context){
                     onCreateSuccess()
                 }
             }
-            .addOnFailureListener {e ->
+            .addOnFailureListener { e ->
                 Log.e(TAG, "add workspace failure", e)
                 onCreateFailure()
             }
@@ -104,18 +173,20 @@ class FirebaseRepository private constructor(context: Context){
 
     fun getCurrentUser() = auth.currentUser
 
-    fun getUserInfo(
-        userId: String,
-        onGetInfoSuccess: (UserData) -> Unit,
+    fun getUserInfoList(
+        onGetInfoSuccess: (List<UserData>) -> Unit,
         onGetInfoFailure: () -> Unit
     ) {
-        Log.d(TAG, "getUserInfo: $userId")
-        usersRef.orderByChild("id").equalTo(userId).addListenerForSingleValueEvent(object : ValueEventListener{
+        usersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.children.forEach { user ->
-                    val data = user.getValue(UserData::class.java)
-                    data?.let(onGetInfoSuccess)
+                val userList = mutableListOf<UserData>()
+                snapshot.children.forEach { shot ->
+                    val data = shot.getValue(UserData::class.java)
+                    data?.let {user ->
+                        userList += user
+                    }
                 }
+                onGetInfoSuccess(userList)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -125,29 +196,52 @@ class FirebaseRepository private constructor(context: Context){
         })
     }
 
+    fun getUserInfo(
+        userId: String,
+        onGetInfoSuccess: (UserData) -> Unit,
+        onGetInfoFailure: () -> Unit
+    ) {
+        Log.d(TAG, "getUserInfo: $userId")
+        usersRef.orderByChild("id").equalTo(userId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { user ->
+                        val data = user.getValue(UserData::class.java)
+                        data?.let(onGetInfoSuccess)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    onGetInfoFailure()
+                }
+
+            })
+    }
+
     fun isUserInfoExists(
         userId: String,
         onUserExists: () -> Unit,
         onUserNotExists: () -> Unit
     ) {
         Log.d(TAG, "isUserInfoExists: ")
-        usersRef.orderByChild("id").equalTo(userId).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d(TAG, snapshot.value.toString())
-                if (snapshot.exists()) {
-                    onUserExists()
-                    Log.d(TAG, "user exists")
-                } else {
-                    onUserNotExists()
-                    Log.d(TAG, "user not exists")
+        usersRef.orderByChild("id").equalTo(userId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Log.d(TAG, snapshot.value.toString())
+                    if (snapshot.exists()) {
+                        onUserExists()
+                        Log.d(TAG, "user exists")
+                    } else {
+                        onUserNotExists()
+                        Log.d(TAG, "user not exists")
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.d(TAG, "onCancelled: can't check")
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d(TAG, "onCancelled: can't check")
+                }
 
-        })
+            })
     }
 
     fun addUserInfo(
@@ -162,7 +256,7 @@ class FirebaseRepository private constructor(context: Context){
                     onAddSuccess()
                 }
             }
-            .addOnFailureListener {e ->
+            .addOnFailureListener { e ->
                 Log.e(TAG, "add user failure", e)
                 onAddFailure()
             }

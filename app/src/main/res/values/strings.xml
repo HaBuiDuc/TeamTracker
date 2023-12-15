@@ -40,4 +40,5 @@
     <string name="edit_team">Edit team</string>
     <string name="delete_team">Delete team</string>
     <string name="view_members">View members</string>
+    <string name="add_members">Add members</string>
 </resources>

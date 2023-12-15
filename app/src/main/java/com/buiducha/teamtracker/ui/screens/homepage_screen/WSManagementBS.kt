@@ -10,7 +10,6 @@ import com.buiducha.teamtracker.data.model.settings.ManagementValue
 @Composable
 fun WSManagementBS(
     onMemberManager: () -> Unit,
-    onViewMembers: () -> Unit,
     onLeaveWorkspace: () -> Unit,
     onEditWorkspace: () -> Unit,
     onDeleteWorkspace: () -> Unit,
@@ -31,7 +30,7 @@ fun WSManagementBS(
         } else {
             ManagementItem(
                 setting = ManagementValue.ViewMembers,
-                onOptionSelected = onViewMembers
+                onOptionSelected = onMemberManager
             )
         }
         ManagementItem(

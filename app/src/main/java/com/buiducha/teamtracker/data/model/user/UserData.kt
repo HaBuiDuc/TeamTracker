@@ -9,5 +9,6 @@ data class UserData(
     val avatarUri: String? = null,
     val location: String = "",
     val company: String? = null,
-    val dateOfBirth: String = ""
+    val dateOfBirth: String = "",
+    val email: String = ""
 )
