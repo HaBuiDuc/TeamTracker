@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.ui.states.AddInfoState
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.UserInfoViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -53,11 +54,13 @@ class AddInfoViewModel : ViewModel() {
         onAddFailure: () -> Unit
     ) {
         val userInfo = UserData(
+            id = fireBaseRepository.getCurrentUser()?.uid!!,
             fullName = addInfoState.value.fullName,
             phoneNumber = addInfoState.value.phoneNumber,
             location = addInfoState.value.location,
             company = addInfoState.value.company,
-            dateOfBirth = addInfoState.value.dateOfBirth
+            dateOfBirth = addInfoState.value.dateOfBirth,
+            email = fireBaseRepository.getCurrentUser()?.email!!
         )
 
         fireBaseRepository.addUserInfo(

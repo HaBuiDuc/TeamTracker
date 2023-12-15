@@ -3,18 +3,17 @@ package com.buiducha.teamtracker.ui.screens.authentication.login_screens
 import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -60,11 +59,14 @@ import com.buiducha.teamtracker.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
 
+
+
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(rememberNavController())
+    LoginScreen(navController = rememberNavController())
 }
+
 
 @Composable
 fun LoginScreen(
@@ -78,50 +80,50 @@ fun LoginScreen(
         mutableStateOf("")
     }
 
+
     var isPasswordVisible by remember {
         mutableStateOf(false)
     }
+
 
     val activity = LocalContext.current as Activity
     val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
 
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState)
         },
     ) {padding ->
-        Box(
-            contentAlignment = Alignment.BottomCenter,
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
         ) {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Gray), contentAlignment = Alignment.TopCenter
+                modifier = Modifier,
+                contentAlignment = Alignment.TopCenter
             ) {
 
+
                 Image(
-                    painterResource(id = R.drawable.team_tracker_authentication),
+                    painterResource(id = R.drawable.team_tracker_new_logo2),
                     contentDescription = "",
                     modifier = Modifier
-                        .size(240.dp)
-                        .padding(top = 50.dp)
+                        .fillMaxWidth()
                 )
             }
+
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.60f)
-                    .background(Color.White)
-                    .padding(10.dp)
             ) {
+
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -129,11 +131,12 @@ fun LoginScreen(
                     Text(
                         text = "Sign In",
                         fontSize = 30.sp,
+                        color = Blue40,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                         )
                     )
-                    Spacer(modifier = Modifier.padding(20.dp))
+                    Spacer(modifier = Modifier.padding(10.dp))
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -169,6 +172,7 @@ fun LoginScreen(
                                             .clickable {
                                                 isPasswordVisible = !isPasswordVisible
                                             }
+
 
                                     )
                                 }
@@ -236,22 +240,40 @@ fun LoginScreen(
                                 fontSize = 18.sp
                             )
                         }
-                        Spacer(modifier = Modifier.padding(20.dp))
-                        Text(
-                            text = "Create An Account",
-                            fontSize = 16.sp,
-                            modifier = Modifier
-                                .clickable {
-                                    navController.popBackStack()
-                                    navController.navigate(Screen.RegisterScreen.route)
-                                }
-                        )
-                        Spacer(modifier = Modifier.padding(20.dp))
+                        Row {
+                            Text(text = "Don't have an account?",
+                                fontSize = 16.sp,
+                                modifier = Modifier
+                                    .padding(0.dp, 15.dp))
+                            Text(
+                                text = "Sign up here!",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(5.dp, 15.dp)
+                                    .clickable {
+                                        navController.popBackStack()
+                                        navController.navigate(Screen.RegisterScreen.route)
+                                    },
+                                color = Blue40,
+                            )
+                        }
+
+
                     }
                 }
+
+                Image(
+                    painterResource(id = R.drawable.login_image),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.6f)
+                )
             }
         }
     }
 }
+
 
 const val TAG = "LoginScreen"

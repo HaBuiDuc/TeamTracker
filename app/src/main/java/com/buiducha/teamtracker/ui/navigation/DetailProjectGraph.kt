@@ -14,7 +14,8 @@ fun DetailProjectScreenGraph(
     navHostController: NavHostController
 ){
     NavHost(navHostController, startDestination = DETAIL_PROJECT_ROUTE) {
-        navigation(startDestination = Screen.MessageScreen.route,
+        navigation(
+            startDestination = Screen.MessageScreen.route,
             route = DETAIL_PROJECT_ROUTE){
             composable(
                 route = Screen.MessageScreen.route

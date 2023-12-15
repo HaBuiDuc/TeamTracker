@@ -2,16 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddUserInfoPreview">
+      <entry key="AddMemberTopBarPreview">
         <State />
       </entry>
-      <entry key="CreateWorkspacePreview">
+      <entry key="MemberManagementPreview">
         <State />
       </entry>
-      <entry key="CreateWorkspaceTopBarPreview">
+      <entry key="MemberManagementTopBarPreview">
         <State />
       </entry>
-      <entry key="SplashScreen">
+      <entry key="MessageItem">
+        <State />
+      </entry>
+      <entry key="TeamMemberDetailPreview">
         <State />
       </entry>
       <entry key="app">

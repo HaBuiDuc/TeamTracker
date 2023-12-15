@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("com.google.firebase:firebase-auth:22.2.0")
+    implementation("com.google.firebase:firebase-auth-ktx:22.2.0")
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.5")
     implementation("com.google.firebase:firebase-database:20.3.0")
     testImplementation("junit:junit:4.13.2")
@@ -81,5 +82,6 @@ dependencies {
 
     implementation ("androidx.navigation:navigation-compose:2.7.5")
 
+    implementation ("com.github.bumptech.glide:compose:1.0.0-beta01")
 
 }
