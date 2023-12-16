@@ -9,9 +9,6 @@ import com.buiducha.teamtracker.ui.screens.splash_screen.FirstSplashScreen
 import com.buiducha.teamtracker.ui.screens.splash_screen.SecondSplashScreen
 import com.buiducha.teamtracker.ui.screens.splash_screen.ThirdSplashScreen
 
-
-
-
 @Composable
 fun SplashScreenGraph(
     navHostController: NavHostController

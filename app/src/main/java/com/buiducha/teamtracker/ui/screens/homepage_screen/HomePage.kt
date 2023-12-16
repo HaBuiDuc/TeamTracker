@@ -60,6 +60,9 @@ fun HomePage(
         mutableStateOf(null)
     }
     val scope = rememberCoroutineScope()
+    var isDialogVisible by remember {
+        mutableStateOf(false)
+    }
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -83,7 +86,10 @@ fun HomePage(
 
                     },
                     onDeleteWorkspace = {
-
+                        scope.launch {
+                            scaffoldState.bottomSheetState.hide()
+                        }
+                        isDialogVisible = true
                     },
                     isWorkspaceOwner = currentUserInfo.id == homeState.selectedWorkspace?.workspaceOwnerId
                 )
@@ -148,6 +154,17 @@ fun HomePage(
                             scaffoldState.bottomSheetState.hide()
                         }
                     }
+            )
+        }
+        if (isDialogVisible) {
+            DeleteWSConfirm(
+                onConfirm = {
+                    isDialogVisible = false
+                    homeViewModel.deleteWorkspace()
+                },
+                onDismiss = {
+                    isDialogVisible = false
+                }
             )
         }
         Column(

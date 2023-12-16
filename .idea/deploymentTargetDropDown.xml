@@ -5,19 +5,19 @@
       <entry key="AddMemberTopBarPreview">
         <State />
       </entry>
-      <entry key="MemberManagementPreview">
+      <entry key="EditWorkspacePreview">
         <State />
       </entry>
-      <entry key="MemberManagementTopBarPreview">
+      <entry key="FssPreview">
         <State />
       </entry>
-      <entry key="MessageItem">
-        <State />
-      </entry>
-      <entry key="TeamMemberDetailPreview">
+      <entry key="SecondPreview">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="fssPreview">
         <State />
       </entry>
     </value>

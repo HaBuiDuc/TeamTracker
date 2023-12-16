@@ -57,7 +57,6 @@ class AddMemberViewModel(
         }
         newList.removeAll { addMemberState.value.selectedUser.contains(it) }
         Log.d(TAG, addMemberState.value.selectedUser.size.toString())
-//        Log.d(TAG, newList.size.toString())
         _addMemberState.value = _addMemberState.value.copy(
             query = query,
             resultList = newList
