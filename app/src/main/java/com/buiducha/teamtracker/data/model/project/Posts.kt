@@ -4,10 +4,10 @@ import java.sql.Timestamp
 import java.util.UUID
 
 data class Posts(
-    val id: UUID = UUID.randomUUID(),
-    val workspaceId: UUID,
-    val userId: UUID,
-    val content: String,
-    val timestamp: Timestamp,
-    val likesCount: Int
+    val id: String = UUID.randomUUID().mostSignificantBits.toString(),
+    val workspaceId: String? = null,
+    val userId: String? = null,
+    val content: String = "new post",
+    val timestamp: Long? = System.currentTimeMillis(),
+    val likesCount: Int = 0
 )

@@ -2,12 +2,15 @@ package com.buiducha.teamtracker.ui.screens.detail_project_screen.posts_screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +23,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,15 +34,17 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
+import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.shared.DetailProjectTopBar
+import com.buiducha.teamtracker.ui.states.DetailWorkspaceState
 import com.buiducha.teamtracker.viewmodel.PostViewModel
 
-@Composable
-@Preview
-fun PostScreenPreview(){
-    PostsScreen(navController = rememberNavController(),
-        postViewModel = PostViewModel())
-}
+//@Composable
+//@Preview
+//fun PostScreenPreview(){
+//    PostsScreen(navController = rememberNavController(),
+//        postViewModel = PostViewModel())
+//}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -45,14 +52,16 @@ fun PostsScreen(
     navController: NavController,
     postViewModel: PostViewModel
 ){
-
+    val detailWorkspaceState by postViewModel.detailWorkspaceState.collectAsState()
     Scaffold(
         topBar = {
             DetailProjectTopBar(teamName = "team1")
         },
         floatingActionButton = {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                          navController.navigate(Screen.CreatePostScreen.route)
+                          },
                 modifier = Modifier,
                 shape = CircleShape,
                 colors = ButtonDefaults.buttonColors(
@@ -75,9 +84,15 @@ fun PostsScreen(
             .fillMaxWidth()
             .background(color = Color.White))
         Column(modifier = Modifier
-            .verticalScroll(rememberScrollState())
             .offset(y = 50.dp)
         ) {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(24.dp)){
+                items(detailWorkspaceState.postsList){post->
+                    PostItem(navController = navController,
+                        postViewModel,
+                        post = post)
+                }
+            }
         }
     }
 }

@@ -37,10 +37,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.project.Posts
+import com.buiducha.teamtracker.viewmodel.PostViewModel
 import java.util.Locale
 
 @Composable
 fun PostItem(navController: NavController,
+             postViewModel: PostViewModel,
              post: Posts) {
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -64,7 +66,7 @@ fun PostItem(navController: NavController,
                 ) {
                     Text(
 //                        text = workspace.name.substring(0, 2).uppercase(Locale.ROOT),
-                        text = post.content.toString().substring(0, 2).uppercase(),
+                        text = post.content.substring(0, 2).uppercase(),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
                     )

@@ -14,7 +14,7 @@
         android:theme="@style/Theme.TeamTracker"
         tools:targetApi="31">
         <activity
-            android:name=".activity.AuthActivity"
+            android:name=".activity.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.TeamTracker">
             <intent-filter>
@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.AuthActivity"/>
     </application>
 
 </manifest>

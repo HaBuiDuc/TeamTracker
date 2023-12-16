@@ -169,7 +169,11 @@ fun HomePage(
                         currentBottomSheet = BottomSheetScreen.WSManagement
                         scaffoldState.bottomSheetState.expand()
                     }
-                }
+                },
+                onSelectWorkspace = { workspace ->
+                    homeViewModel.setSelectedWorkspace(workspace)
+                },
+                navController = navController
             )
         }
     }

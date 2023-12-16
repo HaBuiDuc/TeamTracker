@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.buiducha.teamtracker.data.model.message.Message
+import com.buiducha.teamtracker.data.model.project.Posts
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.data.model.user.UserData
@@ -12,6 +13,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -22,6 +24,7 @@ class FirebaseRepository private constructor(context: Context) {
     private val workspacesRef = database.getReference("workspaces")
     private val workspaceMemberRef = database.getReference("workspace_member")
     private val messagesRef = database.getReference("messages")
+    private val postsRef = database.getReference("posts")
 
 
     fun removeMemberFromWorkspace(
@@ -318,6 +321,28 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
+    fun getPost(workspaceId: String,
+                onGetPostsSuccess: (MutableList<Posts>) -> Unit,
+                onGetPostsFailure: () -> Unit){
+        postsRef.orderByChild("workspaceId").equalTo(workspaceId)
+            .addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val postsList = mutableListOf<Posts>()
+                    snapshot.children.forEach{shot->
+                        val post = shot.getValue(Posts::class.java)
+                        post?.let {
+                            postsList += it
+                        }
+                    }
+                    onGetPostsSuccess(postsList)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+    }
+
     fun getMessage(postId: String){
         messagesRef.orderByChild("postId").equalTo(postId)
             .addValueEventListener(object : ValueEventListener{
@@ -348,6 +373,23 @@ class FirebaseRepository private constructor(context: Context) {
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "add message failure", e)
+            }
+    }
+    fun createPost(
+        posts: Posts,
+        onCreateSuccess: () -> Unit,
+        onCreateFailure: () -> Unit
+    ) {
+        postsRef.push().setValue(posts)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "create post success")
+                    onCreateSuccess()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "add post failure", e)
+                onCreateFailure()
             }
     }
 
