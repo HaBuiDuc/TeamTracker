@@ -2,13 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddMemberTopBarPreview">
-        <State />
-      </entry>
       <entry key="EditWorkspacePreview">
         <State />
       </entry>
       <entry key="FssPreview">
+        <State />
+      </entry>
+      <entry key="MessageItemPreview">
         <State />
       </entry>
       <entry key="SecondPreview">
