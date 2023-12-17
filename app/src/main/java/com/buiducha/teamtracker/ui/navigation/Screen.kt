@@ -18,8 +18,11 @@ sealed class Screen(
     object TeamMemberDetailScreen: Screen("team_member_detail_screen")
     object MemberManagementScreen: Screen("member_management_screen")
     object AddMemberScreen: Screen("add_member_screen")
+
+    object PostsScreen: Screen("posts_screen")
+    object ChatInPostScreen: Screen("chat_in_post_screen")
+    object CreatePostScreen: Screen("create_post_screen")
     object FirstSplashScreen: Screen("first_splash_screen")
     object SecondSplashScreen: Screen("second_splash_screen")
     object ThirdSplashScreen: Screen("third_splash_screen")
-
 }

@@ -27,13 +27,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.buiducha.teamtracker.data.model.project.Workspace
+import com.buiducha.teamtracker.ui.navigation.Screen
 import java.util.Locale
 
 @Composable
 fun WorkspacesView(
     workspaceList: List<Workspace>,
-    onMenuToggle: (Workspace) -> Unit
+    onMenuToggle: (Workspace) -> Unit,
+    onSelectWorkspace: (Workspace) -> Unit,
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(24.dp)
@@ -41,7 +44,8 @@ fun WorkspacesView(
         items(workspaceList) { workspace ->
             WorkspaceItem(
                 workspace = workspace,
-                onMenuToggle = onMenuToggle
+                onMenuToggle = onMenuToggle,
+                onSelectWorkspace = onSelectWorkspace,
             )
         }
     }
@@ -50,13 +54,16 @@ fun WorkspacesView(
 @Composable
 private fun WorkspaceItem(
     workspace: Workspace,
+    modifier: Modifier = Modifier,
     onMenuToggle: (Workspace) -> Unit,
-    modifier: Modifier = Modifier
+    onSelectWorkspace: (Workspace) -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
-            .clickable { }
+            .clickable {
+                onSelectWorkspace(workspace)
+            }
             .fillMaxWidth()
     ) {
         Row(

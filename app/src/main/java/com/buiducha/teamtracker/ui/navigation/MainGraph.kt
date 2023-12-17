@@ -8,10 +8,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.buiducha.teamtracker.ui.screens.create_workspace_screen.CreateWorkspaceScreen
+import com.buiducha.teamtracker.ui.screens.detail_project_screen.chat_in_post_screen.ChatInPostScreen
+import com.buiducha.teamtracker.ui.screens.detail_project_screen.create_post_screen.CreatePostScreen
+import com.buiducha.teamtracker.ui.screens.detail_project_screen.posts_screen.PostsScreen
+import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.TaskManagerScreen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
 import com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen.MemberManagementScreen
 import com.buiducha.teamtracker.ui.screens.settings_screen.SettingsScreen
+import com.buiducha.teamtracker.viewmodel.PostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.UserInfoViewModel
@@ -22,8 +27,9 @@ fun MainGraph(
     navHostController: NavHostController
 ) {
     val userInfoViewModel: UserInfoViewModel = viewModel()
-    val currentUserInfoViewModel: CurrentUserInfoViewModel = viewModel()
     val selectedWorkspaceViewModel: SelectedWorkspaceViewModel = viewModel()
+    val currentUserInfoViewModel: CurrentUserInfoViewModel = viewModel()
+
     NavHost(
         navController = navHostController,
         startDestination = BottomBarScreen.HomeScreen.route
@@ -73,6 +79,38 @@ fun MainGraph(
                 navController = navHostController,
                 userInfoViewModel = userInfoViewModel,
                 selectedWorkspaceViewModel = selectedWorkspaceViewModel
+            )
+        }
+
+        composable(
+            route = Screen.PostsScreen.route
+        ) {
+            PostsScreen(
+                navController = navHostController,
+                selectedWorkspaceViewModel = selectedWorkspaceViewModel
+            )
+        }
+
+        composable(
+            route = Screen.CreatePostScreen.route
+        ) {
+            CreatePostScreen(
+                navController = navHostController,
+                selectedWorkspaceViewModel,
+            )
+        }
+
+        composable(
+            route = Screen.ChatInPostScreen.route
+        ) {
+            ChatInPostScreen(navController = navHostController)
+        }
+
+        composable(
+            route = Screen.TaskManagerScreen.route
+        ) {
+            TaskManagerScreen(
+                navController = navHostController
             )
         }
     }

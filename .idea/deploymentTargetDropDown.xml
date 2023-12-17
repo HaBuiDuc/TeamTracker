@@ -2,21 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddMemberTopBarPreview">
-        <State />
-      </entry>
-      <entry key="MemberManagementPreview">
-        <State />
-      </entry>
-      <entry key="MemberManagementTopBarPreview">
-        <State />
-      </entry>
-      <entry key="MessageItem">
-        <State />
-      </entry>
-      <entry key="TeamMemberDetailPreview">
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>

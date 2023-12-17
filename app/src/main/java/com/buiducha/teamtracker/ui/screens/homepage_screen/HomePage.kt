@@ -169,6 +169,12 @@ fun HomePage(
                         currentBottomSheet = BottomSheetScreen.WSManagement
                         scaffoldState.bottomSheetState.expand()
                     }
+                },
+                onSelectWorkspace = { workspace ->
+                    homeViewModel.setSelectedWorkspace(workspace)
+                    selectedWorkspaceViewModel.workspaceUpdate(workspace = workspace)
+                    Log.d(TAG, selectedWorkspaceViewModel.workspace.value.name)
+                    navController.navigate(Screen.PostsScreen.route)
                 }
             )
         }

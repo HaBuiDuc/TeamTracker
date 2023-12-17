@@ -1,5 +1,6 @@
-package com.buiducha.speedyfood.ui.screens.root_screen
+package com.buiducha.teamtracker.ui.screens.root_screen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -22,6 +23,7 @@ import com.buiducha.teamtracker.ui.navigation.MainGraph
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
 import com.buiducha.teamtracker.utils.advancedShadow
 
+@SuppressLint("NewApi")
 @Composable
 fun RootScreen(
 ) {

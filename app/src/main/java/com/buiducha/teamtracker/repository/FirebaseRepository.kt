@@ -3,6 +3,8 @@ package com.buiducha.teamtracker.repository
 import android.app.Activity
 import android.content.Context
 import android.util.Log
+import com.buiducha.teamtracker.data.model.message.PostMessage
+import com.buiducha.teamtracker.data.model.project.WorkspacePost
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.data.model.user.UserData
@@ -20,6 +22,8 @@ class FirebaseRepository private constructor(context: Context) {
     private val usersRef = database.getReference("users")
     private val workspacesRef = database.getReference("workspaces")
     private val workspaceMemberRef = database.getReference("workspace_member")
+    private val messagesRef = database.getReference("messages")
+    private val postsRef = database.getReference("posts")
 
 
     fun removeMemberFromWorkspace(
@@ -182,7 +186,7 @@ class FirebaseRepository private constructor(context: Context) {
                 val userList = mutableListOf<UserData>()
                 snapshot.children.forEach { shot ->
                     val data = shot.getValue(UserData::class.java)
-                    data?.let {user ->
+                    data?.let { user ->
                         userList += user
                     }
                 }
@@ -313,6 +317,80 @@ class FirebaseRepository private constructor(context: Context) {
             .addOnFailureListener(activity) { _ ->
                 Log.d(TAG, "login failure")
                 onLoginFailure("Login failure")
+            }
+    }
+
+    fun getPosts(
+        workspaceId: String,
+        onGetPostsSuccess: (MutableList<WorkspacePost>) -> Unit,
+        onGetPostsFailure: () -> Unit
+    ) {
+        postsRef.orderByChild("workspaceId").equalTo(workspaceId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val postsList = mutableListOf<WorkspacePost>()
+                    snapshot.children.forEach { shot ->
+                        val post = shot.getValue(WorkspacePost::class.java)
+                        post?.let {
+                            postsList += it
+                        }
+                    }
+                    onGetPostsSuccess(postsList)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+    }
+
+    fun getMessage(postId: String) {
+        messagesRef.orderByChild("postId").equalTo(postId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val messagesList = mutableListOf<PostMessage>()
+                    snapshot.children.forEach { shot ->
+                        val message = shot.getValue(PostMessage::class.java)
+                        message?.let {
+                            messagesList += it
+                        }
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+    }
+
+    fun createMessage(
+        message: PostMessage
+    ) {
+        messagesRef.push().setValue(message)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "create message success")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "add message failure", e)
+            }
+    }
+
+    fun createPost(
+        post: WorkspacePost,
+        onCreateSuccess: () -> Unit,
+        onCreateFailure: () -> Unit
+    ) {
+        postsRef.push().setValue(post)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "create post success")
+                    onCreateSuccess()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "add post failure", e)
+                onCreateFailure()
             }
     }
 
