@@ -75,7 +75,7 @@ fun CreatePostScreen(
                 .padding(paddingValues)
         ) {
             TextField(
-                value = createPostState.content,
+                value = createPostState.title,
                 onValueChange = {
                     createPostViewModel.setPostTitle(it)
                 },

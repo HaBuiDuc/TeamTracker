@@ -172,8 +172,10 @@ fun HomePage(
                 },
                 onSelectWorkspace = { workspace ->
                     homeViewModel.setSelectedWorkspace(workspace)
-                },
-                navController = navController
+                    selectedWorkspaceViewModel.workspaceUpdate(workspace = workspace)
+                    Log.d(TAG, selectedWorkspaceViewModel.workspace.value.name)
+                    navController.navigate(Screen.PostsScreen.route)
+                }
             )
         }
     }

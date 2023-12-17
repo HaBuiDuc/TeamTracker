@@ -35,7 +35,7 @@ fun PostsScreen(
         )
     }
 ) {
-    val detailWorkspaceState by postViewModel.detailWorkspaceState.collectAsState()
+    val postState by postViewModel.postsState.collectAsState()
     Scaffold(
         topBar = {
             DetailProjectTopBar(
@@ -66,13 +66,12 @@ fun PostsScreen(
                 .padding(paddingValues)
         ) {
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(detailWorkspaceState.postsList) { post ->
+                items(postState.postList) { post ->
                     PostItem(
-                        navController = navController,
-                        postViewModel,
-                        post = post
+                        post = post,
+                        onViewMessage = {}
                     )
                 }
             }

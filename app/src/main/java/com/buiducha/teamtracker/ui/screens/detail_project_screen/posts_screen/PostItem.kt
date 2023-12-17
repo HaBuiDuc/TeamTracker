@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,22 +32,41 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.project.WorkspacePost
+import com.buiducha.teamtracker.utils.convertDate
 import com.buiducha.teamtracker.viewmodel.PostViewModel
 
 @Composable
-fun PostItem(navController: NavController,
-             postViewModel: PostViewModel,
-             post: WorkspacePost) {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(10.dp, 5.dp)
-        .shadow(elevation = 5.dp, shape = RoundedCornerShape(15.dp)),
+fun PostItem(
+    post: WorkspacePost,
+    onViewMessage: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                8.dp
+            )
+            .shadow(
+                elevation = 3.dp,
+                shape = RoundedCornerShape(10.dp)
+            ),
         colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.white)))
+            containerColor = colorResource(id = R.color.white)
+        )
+    )
     {
-        Column(modifier = Modifier.padding(10.dp, 10.dp, 0.dp, 10.dp)) {
-            Row(modifier = Modifier
-                .fillMaxWidth()){
+        Column(
+            modifier = Modifier.padding(
+                10.dp,
+                10.dp,
+                0.dp,
+                10.dp
+            )
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -58,51 +78,83 @@ fun PostItem(navController: NavController,
                         .size(28.dp)
                 ) {
                     Text(
-//                        text = workspace.name.substring(0, 2).uppercase(Locale.ROOT),
-                        text = post.content.substring(0, 2).uppercase(),
+                        text = post.title.substring(0, 2).uppercase(),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
                     )
                 }
-                Column(Modifier.weight(1f)) {
-                    Text(modifier = Modifier
-                        .height(29.dp)
-                        .padding(start = 5.dp),
+                Column {
+                    Text(
+                        modifier = Modifier
+                            .height(29.dp)
+                            .padding(start = 5.dp),
                         text = post.userId.toString(),
                         fontWeight = FontWeight.Medium,
-                        fontSize = 16.sp)
-                    Text(modifier = Modifier
-                        .height(29.dp)
-                        .padding(5.dp),
+                        fontSize = 16.sp
+                    )
+                    Text(
+                        modifier = Modifier
+                            .height(29.dp)
+                            .padding(5.dp),
                         fontStyle = FontStyle.Italic,
-                        text = post.timestamp.toString())
+                        text = convertDate(post.timestamp!!)
+                    )
                 }
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Filled.MoreVert,
-                        contentDescription = "",
-                        Modifier.clickable{true})
+                IconButton(
+                    onClick = {
+
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = null,
+                        Modifier.clickable {
+
+                        }
+                    )
                 }
 
             }
 
-            Text(text = "Content content content content " +
-                    "content content content content" +
-                    " content content content content")
+            Column {
+                Text(
+                    text = post.title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = post.content,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Normal
+                )
+            }
 
-            Row() {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Filled.ThumbUpOffAlt,
-                        contentDescription = "")
+            Row {
+                IconButton(onClick = {
+
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.ThumbUpOffAlt,
+                        contentDescription = ""
+                    )
                 }
-                Text(modifier = Modifier
-                    .align(Alignment.CenterVertically),
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically),
                     fontStyle = FontStyle.Italic,
-                    text = "100 likes")
+                    text = "100 likes"
+                )
             }
 
-
-            Text(text = "View all message",
-                color = colorResource(id = R.color.blue_2))
+            Text(
+                text = "View all message",
+                color = colorResource(id = R.color.blue_2),
+                modifier = Modifier
+                    .clickable {
+                        onViewMessage()
+                    }
+            )
         }
     }
 }

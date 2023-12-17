@@ -320,7 +320,7 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
-    fun getPost(
+    fun getPosts(
         workspaceId: String,
         onGetPostsSuccess: (MutableList<WorkspacePost>) -> Unit,
         onGetPostsFailure: () -> Unit

@@ -36,8 +36,7 @@ import java.util.Locale
 fun WorkspacesView(
     workspaceList: List<Workspace>,
     onMenuToggle: (Workspace) -> Unit,
-    onSelectWorkspace: (Workspace) ->Unit,
-    navController: NavController
+    onSelectWorkspace: (Workspace) -> Unit,
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(24.dp)
@@ -47,7 +46,6 @@ fun WorkspacesView(
                 workspace = workspace,
                 onMenuToggle = onMenuToggle,
                 onSelectWorkspace = onSelectWorkspace,
-                navController = navController
             )
         }
     }
@@ -56,17 +54,15 @@ fun WorkspacesView(
 @Composable
 private fun WorkspaceItem(
     workspace: Workspace,
+    modifier: Modifier = Modifier,
     onMenuToggle: (Workspace) -> Unit,
     onSelectWorkspace: (Workspace) -> Unit,
-    modifier: Modifier = Modifier,
-    navController: NavController
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .clickable {
                 onSelectWorkspace(workspace)
-                navController.navigate(Screen.PostsScreen.route)
             }
             .fillMaxWidth()
     ) {

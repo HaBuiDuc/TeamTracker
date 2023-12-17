@@ -43,6 +43,7 @@ class CreatePostViewModel(
             timestamp = System.currentTimeMillis(),
             likesCount = 0
         )
+
         firebaseRepository.createPost(
             post = newPost,
             onCreateSuccess = onCreateSuccess,
