@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.buiducha.teamtracker.data.model.message.Message
+import com.buiducha.teamtracker.data.model.message.PostMessage
 import java.sql.Timestamp
 import java.util.UUID
 
@@ -44,7 +44,7 @@ fun ChatInPostScreen(navController: NavController){
     val time = Timestamp(System.currentTimeMillis())
     val content = "Nội dung tin nhắn"
 
-    val message = Message(
+    val message = PostMessage(
         postId = postId,
         content = content,
         userId = userId,

@@ -3,7 +3,7 @@ package com.buiducha.teamtracker.repository
 import android.app.Activity
 import android.content.Context
 import android.util.Log
-import com.buiducha.teamtracker.data.model.message.Message
+import com.buiducha.teamtracker.data.model.message.PostMessage
 import com.buiducha.teamtracker.data.model.project.WorkspacePost
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
@@ -348,9 +348,9 @@ class FirebaseRepository private constructor(context: Context) {
         messagesRef.orderByChild("postId").equalTo(postId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val messagesList = mutableListOf<Message>()
+                    val messagesList = mutableListOf<PostMessage>()
                     snapshot.children.forEach { shot ->
-                        val message = shot.getValue(Message::class.java)
+                        val message = shot.getValue(PostMessage::class.java)
                         message?.let {
                             messagesList += it
                         }
@@ -363,7 +363,7 @@ class FirebaseRepository private constructor(context: Context) {
     }
 
     fun createMessage(
-        message: Message
+        message: PostMessage
     ) {
         messagesRef.push().setValue(message)
             .addOnCompleteListener {

@@ -66,7 +66,7 @@ fun PostsScreen(
                 .padding(paddingValues)
         ) {
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(postState.postList) { post ->
                     PostItem(
