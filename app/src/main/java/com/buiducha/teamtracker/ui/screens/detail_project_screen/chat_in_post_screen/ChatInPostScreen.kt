@@ -36,12 +36,14 @@ fun ChatInPostPrev(){
 }
 
 @Composable
-fun ChatInPostScreen(navController: NavController){
+fun ChatInPostScreen(
+    navController: NavController
+){
     var mesContent by remember { mutableStateOf("") }
 
-    val postId = UUID.randomUUID()
-    val userId = UUID.randomUUID()
-    val time = Timestamp(System.currentTimeMillis())
+    val postId = UUID.randomUUID().mostSignificantBits.toString()
+    val userId = UUID.randomUUID().mostSignificantBits.toString()
+    val time = 1234452345345
     val content = "Nội dung tin nhắn"
 
     val message = PostMessage(
