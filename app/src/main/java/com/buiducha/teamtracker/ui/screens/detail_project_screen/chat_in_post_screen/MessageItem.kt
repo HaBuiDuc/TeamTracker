@@ -14,13 +14,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.message.PostMessage
+import java.sql.Timestamp
+
+@Preview
+@Composable
+fun MessageItemPreview() {
+    MessageItem(
+        message = PostMessage(
+            id = "56789",
+            postId = "456789",
+            content = "Hello this is a message",
+            userId = "3456789",
+            time = 1234
+        )
+    )
+}
 
 @Composable
-fun MessageItem(message: PostMessage){
+fun MessageItem(
+    message: PostMessage
+){
     Row(verticalAlignment = Alignment.Top,
         modifier = Modifier.padding(10.dp)) {
         Box(
@@ -41,16 +59,23 @@ fun MessageItem(message: PostMessage){
             )
         }
         Column(modifier = Modifier.padding(start = 8.dp)) {
-            Row() {
-                Text(text = message.userId.toString().substring(0, 10), fontWeight = FontWeight.Bold)
-                Text(text = message.time.toString().substring(0, 19),
-                    modifier = Modifier.align(Alignment.CenterVertically)
+            Row {
+                Text(
+                    text = message.userId.substring(0, 10),
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = message.time.toString().substring(0, 19),
+                    fontSize = 12.sp, color = Color.Gray,
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
                         .padding(start = 5.dp),
-                    fontSize = 12.sp, color = Color.Gray)
+                )
             }
 
             Text(
-                text = message.content.toString())
+                text = message.content
+            )
         }
     }
 }
