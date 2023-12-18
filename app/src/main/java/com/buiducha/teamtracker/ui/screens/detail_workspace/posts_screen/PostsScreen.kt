@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_project_screen.posts_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -21,7 +21,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.ui.navigation.Screen
-import com.buiducha.teamtracker.ui.screens.detail_project_screen.shared.DetailProjectTopBar
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
 import com.buiducha.teamtracker.viewmodel.PostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
@@ -41,14 +40,6 @@ fun PostsScreen(
     val postState by postViewModel.postsState.collectAsState()
     val scrollState = rememberLazyListState()
     Scaffold(
-        topBar = {
-            DetailProjectTopBar(
-                workspaceName = postViewModel.getWorkspaceName(),
-                onPopBack = {
-                    navController.popBackStack()
-                }
-            )
-        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {

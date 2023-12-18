@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.task_management.create_task_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.create_task_screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.screens.shared.HorizontalLine
-import com.buiducha.teamtracker.ui.screens.task_management._share.BoxTagColor
+import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management._share.BoxTagColor
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

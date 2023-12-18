@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.task_management._share
+package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management._share
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_project_screen.chat_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.chat_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

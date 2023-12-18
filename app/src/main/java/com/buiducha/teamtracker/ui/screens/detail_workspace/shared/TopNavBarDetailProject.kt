@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_project_screen.shared
+package com.buiducha.teamtracker.ui.screens.detail_workspace.shared
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_project_screen.create_post_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.create_post_screen
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -24,7 +24,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.viewmodel.CreatePostViewModel
-import com.buiducha.teamtracker.viewmodel.PostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.launch
 
