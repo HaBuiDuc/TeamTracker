@@ -47,6 +47,5 @@ fun WSManagementBS(
                 onOptionSelected = onDeleteWorkspace
             )
         }
-
     }
 }

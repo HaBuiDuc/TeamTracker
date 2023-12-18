@@ -26,12 +26,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
 
+@Preview
+@Composable
+fun SecondPreview() {
+    SecondSplashScreen(navController = rememberNavController())
+}
 
 @Composable
 fun SecondSplashScreen(navController: NavController){
@@ -46,7 +53,9 @@ fun SecondSplashScreen(navController: NavController){
         Box(
             modifier = Modifier
                 .fillMaxSize()) {
-            Row(modifier = Modifier.align(Alignment.TopEnd).padding(20.dp))
+            Row(modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(20.dp))
             {
                 ClickableText(text = AnnotatedString("Skip"), onClick = {
                     navController.navigate(Screen.ThirdSplashScreen.route)

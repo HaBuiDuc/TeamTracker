@@ -49,7 +49,10 @@ fun PostItem(
             .shadow(
                 elevation = 3.dp,
                 shape = RoundedCornerShape(10.dp)
-            ),
+            )
+            .clickable {
+                onViewMessage()
+            },
         colors = CardDefaults.cardColors(
             containerColor = colorResource(id = R.color.white)
         )

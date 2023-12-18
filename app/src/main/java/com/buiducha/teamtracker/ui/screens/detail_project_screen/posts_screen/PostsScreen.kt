@@ -23,12 +23,14 @@ import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.shared.DetailProjectTopBar
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
 import com.buiducha.teamtracker.viewmodel.PostViewModel
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 
 @Composable
 fun PostsScreen(
     navController: NavController,
     selectedWorkspaceViewModel: SelectedWorkspaceViewModel,
+    selectedPostViewModel: SelectedPostViewModel,
     postViewModel: PostViewModel = viewModel {
         PostViewModel(
             selectedWorkspace = selectedWorkspaceViewModel
@@ -71,7 +73,10 @@ fun PostsScreen(
                 items(postState.postList) { post ->
                     PostItem(
                         post = post,
-                        onViewMessage = {}
+                        onViewMessage = {
+                            selectedPostViewModel.postUpdate(post)
+                            navController.navigate(Screen.ChatScreen.route)
+                        }
                     )
                 }
             }

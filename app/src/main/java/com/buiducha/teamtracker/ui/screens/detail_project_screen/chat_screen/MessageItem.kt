@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_project_screen.chat_in_post_screen
+package com.buiducha.teamtracker.ui.screens.detail_project_screen.chat_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.message.PostMessage
-import java.sql.Timestamp
+import com.buiducha.teamtracker.utils.convertDate
 
 @Preview
 @Composable
@@ -61,11 +61,11 @@ fun MessageItem(
         Column(modifier = Modifier.padding(start = 8.dp)) {
             Row {
                 Text(
-                    text = message.userId.substring(0, 10),
+                    text = message.userId,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = message.time.toString().substring(0, 19),
+                    text = message.time?.let { convertDate(it) } ?: "",
                     fontSize = 12.sp, color = Color.Gray,
                     modifier = Modifier
                         .align(Alignment.CenterVertically)

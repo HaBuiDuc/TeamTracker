@@ -157,6 +157,22 @@ class FirebaseRepository private constructor(context: Context) {
             })
     }
 
+    fun deleteWorkspace(
+        workspaceId: String
+    ) {
+        workspacesRef.orderByChild("id").equalTo(workspaceId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { workspace ->
+                    workspace.ref.removeValue()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
     fun createWorkspace(
         workspace: Workspace,
         onCreateSuccess: () -> Unit,
@@ -344,7 +360,10 @@ class FirebaseRepository private constructor(context: Context) {
             })
     }
 
-    fun getMessage(postId: String) {
+    fun getMessages(
+        postId: String,
+        onGetMessagesSuccess: (MutableList<PostMessage>) -> Unit
+    ) {
         messagesRef.orderByChild("postId").equalTo(postId)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -355,6 +374,7 @@ class FirebaseRepository private constructor(context: Context) {
                             messagesList += it
                         }
                     }
+                    onGetMessagesSuccess(messagesList)
                 }
                 override fun onCancelled(error: DatabaseError) {
 
@@ -362,7 +382,7 @@ class FirebaseRepository private constructor(context: Context) {
             })
     }
 
-    fun createMessage(
+    fun sendMessage(
         message: PostMessage
     ) {
         messagesRef.push().setValue(message)

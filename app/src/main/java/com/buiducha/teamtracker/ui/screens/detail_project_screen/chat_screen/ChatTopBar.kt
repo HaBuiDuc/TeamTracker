@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen
+package com.buiducha.teamtracker.ui.screens.detail_project_screen.chat_screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -16,18 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
-@Preview
 @Composable
-fun MemberManagementTopBarPreview() {
-//    MemberManagementTopBar {}
-}
-
-@Composable
-fun MemberManagementTopBar(
-    onMenuHide: () -> Unit,
+fun ChatTopBar(
     modifier: Modifier = Modifier,
     onPopBack: () -> Unit
 ) {
@@ -36,12 +28,6 @@ fun MemberManagementTopBar(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ) {
-                onMenuHide()
-            }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically

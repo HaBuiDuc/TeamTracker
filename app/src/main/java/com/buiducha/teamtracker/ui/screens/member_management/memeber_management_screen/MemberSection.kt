@@ -14,7 +14,7 @@ import com.buiducha.teamtracker.ui.screens.shared.MemberItem
 fun MemberSection(
     memberList: List<UserData>,
     isWorkspaceOwner: Boolean,
-    onMenuToggle: () -> Unit,
+    onMenuToggle: (UserData) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -22,11 +22,11 @@ fun MemberSection(
             .padding(16.dp)
     ) {
         LazyColumn {
-            items(memberList) {member ->
+            items(memberList) { member ->
                 MemberItem(
                     member = member,
                     isWorkspaceOwner = isWorkspaceOwner,
-                    onMenuToggle = onMenuToggle,
+                    onMenuToggle = { onMenuToggle(member) },
                     modifier = Modifier
                         .padding(
                             vertical = 4.dp
