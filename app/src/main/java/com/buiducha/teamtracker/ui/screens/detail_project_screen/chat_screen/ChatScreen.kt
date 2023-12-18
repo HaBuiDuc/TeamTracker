@@ -4,14 +4,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.viewmodel.ChatViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 
@@ -30,6 +33,7 @@ fun ChatScreen(
     },
 ) {
     val chatState by chatViewModel.chatState.collectAsState()
+    val scrollState = rememberLazyListState()
 
     Scaffold(
         topBar = {
@@ -55,26 +59,22 @@ fun ChatScreen(
             modifier = Modifier
                 .padding(paddingValues)
         ) {
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .weight(1f)
-//                    .verticalScroll(rememberScrollState())
-//            ) {
-//                MessageItem(message)
-//                MessageItem(message)
-//                MessageItem(message)
-//                MessageItem(message)
-//                MessageItem(message)
-//            }
-
-            LazyColumn {
+            LazyColumn(
+                state = scrollState
+            ) {
                 items(chatState.messageList) { message ->
-                    MessageItem(message = message)
+                    MessageItem(
+                        message = message,
+                        user = chatState.userList.find { user -> user.id == message.userId } ?: UserData()
+                    )
                 }
             }
         }
     }
-
+    if (chatState.messageList.isNotEmpty()) {
+        LaunchedEffect(Unit) {
+            scrollState.scrollToItem(index = chatState.messageList.size - 1)
+        }
+    }
 
 }

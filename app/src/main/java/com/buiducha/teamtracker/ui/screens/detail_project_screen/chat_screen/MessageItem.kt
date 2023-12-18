@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -19,28 +20,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.message.PostMessage
+import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.utils.convertDate
 
 @Preview
 @Composable
 fun MessageItemPreview() {
-    MessageItem(
-        message = PostMessage(
-            id = "56789",
-            postId = "456789",
-            content = "Hello this is a message",
-            userId = "3456789",
-            time = 1234
-        )
-    )
 }
 
 @Composable
 fun MessageItem(
-    message: PostMessage
+    message: PostMessage,
+    user: UserData
 ){
     Row(verticalAlignment = Alignment.Top,
-        modifier = Modifier.padding(10.dp)) {
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxWidth()
+    ) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -52,8 +49,7 @@ fun MessageItem(
                 .size(20.dp)
         ) {
             Text(
-//                text = workspace.name.substring(0, 2).uppercase(Locale.ROOT),
-                text = "CO",
+                text = if (user.fullName.length > 3) user.fullName.substring(0, 2).uppercase() else user.fullName.uppercase(),
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -61,7 +57,7 @@ fun MessageItem(
         Column(modifier = Modifier.padding(start = 8.dp)) {
             Row {
                 Text(
-                    text = message.userId,
+                    text = user.fullName,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
