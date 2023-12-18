@@ -62,6 +62,7 @@ fun AddMemberScreen(
                 },
                 onAddSubmit = {
                     addMemberViewModel.addMembers()
+                    navController.popBackStack()
                 }
             )
         }
