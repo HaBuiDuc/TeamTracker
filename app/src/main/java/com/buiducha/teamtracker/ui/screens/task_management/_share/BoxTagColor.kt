@@ -8,8 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.buiducha.teamtracker.R
+
+@Preview
+@Composable
+fun BoxTagColorPrev(){
+    BoxTagColor(taskTag = 3)
+}
 
 @Composable()
 fun BoxTagColor(taskTag:Int){
@@ -47,9 +54,10 @@ fun BoxTagColor(taskTag:Int){
     }
     else if(taskTag == 5){
         Box(
-            Modifier.height(30.dp)
-            .width(80.dp)
-            .background(color = colorResource(id = R.color.teal_200))
+            Modifier
+                .height(30.dp)
+                .width(80.dp)
+                .background(color = colorResource(id = R.color.teal_200))
         ){}
     }
 }

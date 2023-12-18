@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.screens.task_management._share.BoxTagColor
 
+// có 3 composable: TableTaskScreen, TaskList, TaskItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -78,15 +79,8 @@ fun TableTaskScreen() {
 
         }
     ) {
-//        Row (modifier = Modifier
-//            .offset(y = 50.dp)
-//            .horizontalScroll(rememberScrollState())) {
-//            TaskList()
-//            TaskList()
-//        }
-        val pagerState = rememberPagerState(pageCount = {
-            10
-        })
+        //pageCount == số TaskList
+        val pagerState = rememberPagerState(pageCount = {10})
         HorizontalPager(
             state = pagerState,
             contentPadding = PaddingValues(horizontal = 32.dp),
@@ -101,7 +95,6 @@ fun TableTaskScreen() {
 
 @Composable
 fun TaskList() {
-
     Card(
         Modifier
             .padding(5.dp),

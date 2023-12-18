@@ -122,48 +122,7 @@ fun CreateTaskScreen(){
                     contentDescription = "",
                     modifier = Modifier.padding(15.dp)
                     )
-
                 BoxTagColor(taskTag = taskTag.value)
-//                if(taskTag.value == 1){
-//                    Box(
-//                        Modifier
-//                            .height(30.dp)
-//                            .width(80.dp)
-//                            .background(color = Color.Blue)
-//                    ){}
-//                }
-//                else if(taskTag.value == 2){
-//                    Box(
-//                        Modifier
-//                            .height(30.dp)
-//                            .width(80.dp)
-//                            .background(color = Color.Green)
-//                    ){}
-//                }
-//                else if(taskTag.value == 3){
-//                    Box(
-//                        Modifier
-//                            .height(30.dp)
-//                            .width(80.dp)
-//                            .background(color = Color.Red)
-//                    ){}
-//                }
-//                else if(taskTag.value == 4){
-//                    Box(
-//                        Modifier
-//                            .height(30.dp)
-//                            .width(80.dp)
-//                            .background(color = colorResource(id = R.color.purple_200))
-//                    ){}
-//                }
-//                else if(taskTag.value == 5){
-//                    Box(Modifier.height(30.dp)
-//                        .width(80.dp)
-//                        .background(color = colorResource(id = R.color.teal_200))
-//                    ){}
-//                }
-
-
                 DropDownMenuTag(expanded = expanded, taskTag = taskTag)
             }
 
