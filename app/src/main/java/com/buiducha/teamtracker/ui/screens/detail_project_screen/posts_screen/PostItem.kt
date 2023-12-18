@@ -2,6 +2,7 @@ package com.buiducha.teamtracker.ui.screens.detail_project_screen.posts_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,22 +30,25 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.project.WorkspacePost
+import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.utils.convertDate
-import com.buiducha.teamtracker.viewmodel.PostViewModel
 
 @Composable
 fun PostItem(
     post: WorkspacePost,
+    user: UserData,
     onViewMessage: () -> Unit
 ) {
     Card(
+        colors = CardDefaults.cardColors(
+            containerColor = colorResource(id = R.color.white)
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                8.dp
+                12.dp
             )
             .shadow(
                 elevation = 3.dp,
@@ -52,56 +56,57 @@ fun PostItem(
             )
             .clickable {
                 onViewMessage()
-            },
-        colors = CardDefaults.cardColors(
-            containerColor = colorResource(id = R.color.white)
-        )
+            }
     )
     {
         Column(
-            modifier = Modifier.padding(
-                10.dp,
-                10.dp,
-                0.dp,
-                10.dp
-            )
+            modifier = Modifier
+                .padding(
+                    12.dp
+                )
+                .fillMaxWidth()
         ) {
             Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .background(
-                            color = colorResource(id = R.color.super_light_blue),
-                            shape = CircleShape
+                Row {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .background(
+                                color = colorResource(id = R.color.super_light_blue),
+                                shape = CircleShape
+                            )
+                            .padding(12.dp)
+                            .size(28.dp)
+                    ) {
+                        Text(
+                            text = user.fullName.substring(0, 2).uppercase(),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
                         )
-                        .padding(12.dp)
-                        .size(28.dp)
-                ) {
-                    Text(
-                        text = post.title.substring(0, 2).uppercase(),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-                Column {
-                    Text(
+                    }
+                    Column(
+                        verticalArrangement = Arrangement.Top,
                         modifier = Modifier
-                            .height(29.dp)
-                            .padding(start = 5.dp),
-                        text = post.userId.toString(),
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 16.sp
-                    )
-                    Text(
-                        modifier = Modifier
-                            .height(29.dp)
-                            .padding(5.dp),
-                        fontStyle = FontStyle.Italic,
-                        text = convertDate(post.timestamp!!)
-                    )
+
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 5.dp),
+                            text = user.fullName,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 16.sp
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(5.dp),
+                            fontStyle = FontStyle.Italic,
+                            text = convertDate(post.timestamp!!)
+                        )
+                    }
                 }
                 IconButton(
                     onClick = {
@@ -111,15 +116,15 @@ fun PostItem(
                     Icon(
                         imageVector = Icons.Filled.MoreVert,
                         contentDescription = null,
-                        Modifier.clickable {
-
-                        }
                     )
                 }
 
             }
 
-            Column {
+            Column(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+            ) {
                 Text(
                     text = post.title,
                     fontSize = 20.sp,
@@ -146,7 +151,7 @@ fun PostItem(
                     modifier = Modifier
                         .align(Alignment.CenterVertically),
                     fontStyle = FontStyle.Italic,
-                    text = "100 likes"
+                    text = "${post.likesCount} likes"
                 )
             }
 

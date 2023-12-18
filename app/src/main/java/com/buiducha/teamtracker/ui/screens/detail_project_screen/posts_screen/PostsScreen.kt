@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EditNote
@@ -12,6 +13,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.ui.screens.detail_project_screen.shared.DetailProjectTopBar
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
@@ -38,6 +41,7 @@ fun PostsScreen(
     }
 ) {
     val postState by postViewModel.postsState.collectAsState()
+    val scrollState = rememberLazyListState()
     Scaffold(
         topBar = {
             DetailProjectTopBar(
@@ -68,11 +72,13 @@ fun PostsScreen(
                 .padding(paddingValues)
         ) {
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                state = scrollState
             ) {
                 items(postState.postList) { post ->
                     PostItem(
                         post = post,
+                        user = postState.userList.find { user -> user.id == post.userId } ?: UserData(),
                         onViewMessage = {
                             selectedPostViewModel.postUpdate(post)
                             navController.navigate(Screen.ChatScreen.route)
@@ -82,4 +88,11 @@ fun PostsScreen(
             }
         }
     }
+
+    if (postState.postList.isNotEmpty()) {
+        LaunchedEffect(Unit) {
+            scrollState.scrollToItem(index = postState.postList.size - 1)
+        }
+    }
+
 }

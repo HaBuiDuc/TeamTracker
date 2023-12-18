@@ -1,13 +1,18 @@
 package com.buiducha.teamtracker.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.buiducha.teamtracker.data.model.message.PostMessage
+import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.ui.states.ChatState
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class ChatViewModel(
     private val selectedPostViewModel: SelectedPostViewModel
@@ -39,15 +44,36 @@ class ChatViewModel(
         firebaseRepository.sendMessage(
             message = message
         )
+
+        setChatContent("")
     }
 
     private fun getMessages() {
         firebaseRepository.getMessages(
             postId = selectedPostViewModel.post.value.id,
             onGetMessagesSuccess = {messages ->
-                _chatState.value = _chatState.value.copy(
-                    messageList = messages
-                )
+
+
+                viewModelScope.launch {
+                    val userList = mutableListOf<UserData>()
+                    messages.forEach { message ->
+                        val user = suspendCoroutine { continuation ->
+                            firebaseRepository.getUserInfo(
+                                userId = message.userId,
+                                onGetInfoSuccess = { user ->
+                                    continuation.resume(user)
+                                },
+                                onGetInfoFailure = {}
+                            )
+                        }
+                        userList += user
+                    }
+                    _chatState.value = _chatState.value.copy(
+                        messageList = messages,
+                        userList = userList
+                    )
+
+                }
             }
         )
     }
