@@ -167,11 +167,11 @@ fun EditWorkspaceScreen(
                 HorizontalLine()
                 Button(onClick = {
                     uri?.let{
-                        EditWorkspaceViewModel
-                            .uploadImageToStorage(
+                        editWorkspaceViewModel.uploadImage(
                                 uri=it,
                                 context=context,
-                                imgUrl = imgUrl
+                                imgUrl = imgUrl,
+                                oldImageUrl = editWorkspaceViewModel.editWorkspaceState.value.workspace?.avatar.toString()
                             )
                     }
                 }){
