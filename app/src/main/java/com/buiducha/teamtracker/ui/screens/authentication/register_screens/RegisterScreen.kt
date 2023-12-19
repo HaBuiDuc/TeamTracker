@@ -117,7 +117,7 @@ fun RegisterScreen(
                 contentAlignment = Alignment.TopCenter
             ) {
                 Image(
-                    painterResource(id = R.drawable.team_tracker_new_logo2),
+                    painterResource(id = R.drawable.team_tracker_new_logo),
                     contentDescription = "",
                     modifier = Modifier
                         .fillMaxWidth()
@@ -290,15 +290,12 @@ fun RegisterScreen(
                                         navController.popBackStack()
                                         navController.navigate(Screen.LoginScreen.route)
                                     },
-                                color = Blue40,
+                                color = Color.Blue
                             )
                         }
 
-
                     }
                 }
-
-
                 Image(
                     painterResource(id = R.drawable.login_image),
                     contentDescription = "",

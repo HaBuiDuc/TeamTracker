@@ -8,11 +8,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.buiducha.teamtracker.ui.screens.create_workspace_screen.CreateWorkspaceScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.chat_screen.ChatScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.create_post_screen.CreatePostScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.detail_workspace_screen.DetailWorkspaceScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen.PostsScreen
+import com.buiducha.teamtracker.ui.screens.edit_workspace.EditWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
 import com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen.MemberManagementScreen
-import com.buiducha.teamtracker.ui.screens.settings_screen.SettingsScreen
+import com.buiducha.teamtracker.ui.screens.settings.settings_screen.SettingsScreen
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.UserInfoViewModel
 
@@ -22,8 +28,10 @@ fun MainGraph(
     navHostController: NavHostController
 ) {
     val userInfoViewModel: UserInfoViewModel = viewModel()
-    val currentUserInfoViewModel: CurrentUserInfoViewModel = viewModel()
     val selectedWorkspaceViewModel: SelectedWorkspaceViewModel = viewModel()
+    val currentUserInfoViewModel: CurrentUserInfoViewModel = viewModel()
+    val selectedPostViewModel: SelectedPostViewModel = viewModel()
+
     NavHost(
         navController = navHostController,
         startDestination = BottomBarScreen.HomeScreen.route
@@ -74,6 +82,51 @@ fun MainGraph(
                 userInfoViewModel = userInfoViewModel,
                 selectedWorkspaceViewModel = selectedWorkspaceViewModel
             )
+        }
+
+        composable(
+            route = Screen.PostsScreen.route
+        ) {
+            PostsScreen(
+                navController = navHostController,
+                selectedWorkspaceViewModel = selectedWorkspaceViewModel,
+                selectedPostViewModel = selectedPostViewModel
+            )
+        }
+
+        composable(
+            route = Screen.CreatePostScreen.route
+        ) {
+            CreatePostScreen(
+                navController = navHostController,
+                selectedWorkspaceViewModel,
+            )
+        }
+
+        composable(
+            route = Screen.ChatScreen.route
+        ) {
+            ChatScreen(
+                navController = navHostController,
+                selectedPostViewModel = selectedPostViewModel
+            )
+        }
+
+        composable(
+            route = Screen.DetailWorkspaceScreen.route
+        ) {
+            DetailWorkspaceScreen(
+                navController = navHostController,
+                selectedWorkspaceViewModel =selectedWorkspaceViewModel ,
+                selectedPostViewModel = selectedPostViewModel
+            )
+        }
+
+        composable(
+            route = Screen.EditWorkSpaceScreen.route
+        ){
+            EditWorkspaceScreen(navController = navHostController,
+                selectedWorkspaceViewModel = selectedWorkspaceViewModel)
         }
     }
 }

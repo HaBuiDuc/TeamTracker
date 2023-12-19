@@ -97,19 +97,21 @@ fun LoginScreen(
             SnackbarHost(hostState = snackBarHostState)
         },
     ) {padding ->
-        Column(
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
         ) {
             Box(
-                modifier = Modifier,
+                modifier = Modifier
+                    .fillMaxSize(),
                 contentAlignment = Alignment.TopCenter
             ) {
 
 
                 Image(
-                    painterResource(id = R.drawable.team_tracker_new_logo2),
+                    painterResource(id = R.drawable.team_tracker_new_logo),
                     contentDescription = "",
                     modifier = Modifier
                         .fillMaxWidth()
@@ -128,6 +130,7 @@ fun LoginScreen(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Spacer(modifier = Modifier.padding(10.dp))
                     Text(
                         text = "Sign In",
                         fontSize = 30.sp,
@@ -255,11 +258,9 @@ fun LoginScreen(
                                         navController.popBackStack()
                                         navController.navigate(Screen.RegisterScreen.route)
                                     },
-                                color = Blue40,
+                                color = Color.Blue
                             )
                         }
-
-
                     }
                 }
 

@@ -37,7 +37,7 @@ import com.buiducha.teamtracker.ui.navigation.Screen
 
 @Preview
 @Composable
-fun fssPreview(){
+fun FssPreview(){
     FirstSplashScreen(navController = rememberNavController())
 }
 
@@ -68,7 +68,7 @@ fun FirstSplashScreen(navController: NavController){
                     .size(300.dp)
                     .align(Alignment.TopCenter)
                     .offset(y = 80.dp))
-            Text(text = "WELCOME TEAMTRACKER",
+            Text(text = "WELCOME TO TEAM TRACKER",
                 fontWeight = FontWeight.Bold,
                 fontSize = 40.sp,
                 color = colorResource(id = R.color.textcl),

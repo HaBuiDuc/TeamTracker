@@ -3,6 +3,7 @@ package com.buiducha.teamtracker.data.model.settings
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Group
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Tag
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import com.buiducha.teamtracker.R
 
 enum class ManagementValue(
@@ -44,14 +46,19 @@ enum class ManagementValue(
     ),
     LeaveWorkspace(
         icon = Icons.Default.GroupRemove,
-        label = R.string.leave_team
+        label = R.string.leave_ws
     ),
     EditWorkspace(
         icon = Icons.Default.Edit,
-        label = R.string.edit_team
+        label = R.string.edit_ws
     ),
     DeleteWorkspace(
         icon = Icons.Default.Delete,
-        label = R.string.delete_team
+        label = R.string.delete_ws
+    ),
+
+    RemoveUser(
+        icon = Icons.Default.Close,
+        label = R.string.remove_user
     )
 }

@@ -2,7 +2,12 @@ package com.buiducha.teamtracker.repository
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.runtime.MutableState
+import com.buiducha.teamtracker.data.model.message.PostMessage
+import com.buiducha.teamtracker.data.model.project.WorkspacePost
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.data.model.user.UserData
@@ -13,6 +18,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
+import com.google.firebase.storage.storage
+import java.util.UUID
 
 class FirebaseRepository private constructor(context: Context) {
     private var auth: FirebaseAuth = Firebase.auth
@@ -20,6 +29,10 @@ class FirebaseRepository private constructor(context: Context) {
     private val usersRef = database.getReference("users")
     private val workspacesRef = database.getReference("workspaces")
     private val workspaceMemberRef = database.getReference("workspace_member")
+    private val messagesRef = database.getReference("messages")
+    private val postsRef = database.getReference("posts")
+    private val storage = com.google.firebase.Firebase.storage
+    private var storageRef = storage.reference
 
 
     fun removeMemberFromWorkspace(
@@ -153,6 +166,22 @@ class FirebaseRepository private constructor(context: Context) {
             })
     }
 
+    fun deleteWorkspace(
+        workspaceId: String
+    ) {
+        workspacesRef.orderByChild("id").equalTo(workspaceId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { workspace ->
+                    workspace.ref.removeValue()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
     fun createWorkspace(
         workspace: Workspace,
         onCreateSuccess: () -> Unit,
@@ -171,6 +200,30 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
+    fun updateWorkspace(
+        workspace: Workspace,
+        onUpdateSuccess: () -> Unit,
+        onUpdateFailure: () -> Unit
+    ) {
+        val workspaceRef = workspacesRef.orderByChild("id").equalTo(workspace.id).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { shot ->
+                        shot.ref.child("name").setValue(workspace.name)
+                        shot.ref.child("describe").setValue(workspace.describe)
+                        if (workspace.avatar != ""){
+                            shot.ref.child("avatar").setValue(workspace.avatar)
+                        }
+                    }
+                    onUpdateSuccess()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    onUpdateFailure()
+                }
+
+            })
+    }
+
     fun getCurrentUser() = auth.currentUser
 
     fun getUserInfoList(
@@ -182,7 +235,7 @@ class FirebaseRepository private constructor(context: Context) {
                 val userList = mutableListOf<UserData>()
                 snapshot.children.forEach { shot ->
                     val data = shot.getValue(UserData::class.java)
-                    data?.let {user ->
+                    data?.let { user ->
                         userList += user
                     }
                 }
@@ -314,6 +367,106 @@ class FirebaseRepository private constructor(context: Context) {
                 Log.d(TAG, "login failure")
                 onLoginFailure("Login failure")
             }
+    }
+
+    fun getPosts(
+        workspaceId: String,
+        onGetPostsSuccess: (MutableList<WorkspacePost>) -> Unit,
+        onGetPostsFailure: () -> Unit
+    ) {
+        postsRef.orderByChild("workspaceId").equalTo(workspaceId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val postsList = mutableListOf<WorkspacePost>()
+                    snapshot.children.forEach { shot ->
+                        val post = shot.getValue(WorkspacePost::class.java)
+                        post?.let {
+                            postsList += it
+                        }
+                    }
+                    onGetPostsSuccess(postsList)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+    }
+
+    fun getMessages(
+        postId: String,
+        onGetMessagesSuccess: (MutableList<PostMessage>) -> Unit
+    ) {
+        messagesRef.orderByChild("postId").equalTo(postId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val messagesList = mutableListOf<PostMessage>()
+                    snapshot.children.forEach { shot ->
+                        val message = shot.getValue(PostMessage::class.java)
+                        message?.let {
+                            messagesList += it
+                        }
+                    }
+                    onGetMessagesSuccess(messagesList)
+                }
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+    }
+
+    fun sendMessage(
+        message: PostMessage
+    ) {
+        messagesRef.push().setValue(message)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "create message success")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "add message failure", e)
+            }
+    }
+
+    fun createPost(
+        post: WorkspacePost,
+        onCreateSuccess: () -> Unit,
+        onCreateFailure: () -> Unit
+    ) {
+        postsRef.push().setValue(post)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "create post success")
+                    onCreateSuccess()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "add post failure", e)
+                onCreateFailure()
+            }
+    }
+
+    fun uploadImageToStorage(uri: Uri, context: Context, imgUrl: MutableState<String>, oldImage: String) {
+        val uniqueImageName: UUID? = UUID.randomUUID()
+        var spaceRef: StorageReference = storageRef.child("images/$uniqueImageName.jpg")
+
+        val byteArray: ByteArray? = context.contentResolver
+            .openInputStream(uri)
+            ?.use { it.readBytes() }
+
+        byteArray?.let {
+
+            var uploadTask = spaceRef.putBytes(byteArray)
+            uploadTask.addOnFailureListener {
+                Toast.makeText(context,"upload failed", Toast.LENGTH_SHORT).show()
+            }.addOnSuccessListener {task ->
+                task.metadata?.reference?.downloadUrl?.addOnSuccessListener {
+                    imgUrl.value = it.toString()
+                    storageRef.child("images/$oldImage").delete()
+                }
+            }
+        }
     }
 
     companion object {
