@@ -191,6 +191,30 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
+    fun updateWorkspace(
+        workspace: Workspace,
+        onUpdateSuccess: () -> Unit,
+        onUpdateFailure: () -> Unit
+    ) {
+        val workspaceRef = workspacesRef.orderByChild("id").equalTo(workspace.id).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { shot ->
+                        shot.ref.child("name").setValue(workspace.name)
+                        shot.ref.child("describe").setValue(workspace.describe)
+                        if (workspace.avatar != ""){
+                            shot.ref.child("avatar").setValue(workspace.avatar)
+                        }
+                    }
+                    onUpdateSuccess()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    onUpdateFailure()
+                }
+
+            })
+    }
+
     fun getCurrentUser() = auth.currentUser
 
     fun getUserInfoList(
