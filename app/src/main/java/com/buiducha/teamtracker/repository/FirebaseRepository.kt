@@ -2,7 +2,10 @@ package com.buiducha.teamtracker.repository
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.runtime.MutableState
 import com.buiducha.teamtracker.data.model.message.PostMessage
 import com.buiducha.teamtracker.data.model.project.WorkspacePost
 import com.buiducha.teamtracker.data.model.project.Workspace
@@ -15,7 +18,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import com.google.firebase.storage.storage
+import java.util.UUID
 
 class FirebaseRepository private constructor(context: Context) {
     private var auth: FirebaseAuth = Firebase.auth
@@ -25,6 +31,8 @@ class FirebaseRepository private constructor(context: Context) {
     private val workspaceMemberRef = database.getReference("workspace_member")
     private val messagesRef = database.getReference("messages")
     private val postsRef = database.getReference("posts")
+    private val storage = com.google.firebase.Firebase.storage
+    private var storageRef = storage.reference
 
 
     fun removeMemberFromWorkspace(
@@ -437,6 +445,28 @@ class FirebaseRepository private constructor(context: Context) {
                 Log.e(TAG, "add post failure", e)
                 onCreateFailure()
             }
+    }
+
+    fun uploadImageToStorage(uri: Uri, context: Context, imgUrl: MutableState<String>, oldImage: String) {
+        val uniqueImageName: UUID? = UUID.randomUUID()
+        var spaceRef: StorageReference = storageRef.child("images/$uniqueImageName.jpg")
+
+        val byteArray: ByteArray? = context.contentResolver
+            .openInputStream(uri)
+            ?.use { it.readBytes() }
+
+        byteArray?.let {
+
+            var uploadTask = spaceRef.putBytes(byteArray)
+            uploadTask.addOnFailureListener {
+                Toast.makeText(context,"upload failed", Toast.LENGTH_SHORT).show()
+            }.addOnSuccessListener {task ->
+                task.metadata?.reference?.downloadUrl?.addOnSuccessListener {
+                    imgUrl.value = it.toString()
+                    storageRef.child("images/$oldImage").delete()
+                }
+            }
+        }
     }
 
     companion object {

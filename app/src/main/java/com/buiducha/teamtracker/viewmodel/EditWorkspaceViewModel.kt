@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.tasks.await
 import java.util.UUID
 
 class EditWorkspaceViewModel(
@@ -49,28 +50,16 @@ class EditWorkspaceViewModel(
         }
     }
 
-    companion object {
-        fun uploadImageToStorage(uri: Uri, context: Context, imgUrl: MutableState<String>) {
-            val storage = Firebase.storage
-            var storageRef = storage.reference
-            val uniqueImageName: UUID? = UUID.randomUUID()
-            var spaceRef: StorageReference = storageRef.child("images/$uniqueImageName.jpg")
+    fun uploadImage(uri: Uri, context: Context, imgUrl: MutableState<String>, oldImageUrl: String) {
+        var oldImage: String = ""
+        if (oldImageUrl.length > 1){
+            oldImage = oldImageUrl.substring(85, 125)
+        }
 
-            val byteArray: ByteArray? = context.contentResolver
-                .openInputStream(uri)
-                ?.use { it.readBytes() }
-
-            byteArray?.let {
-
-                var uploadTask = spaceRef.putBytes(byteArray)
-                uploadTask.addOnFailureListener {
-                    Toast.makeText(context,"upload failed", Toast.LENGTH_SHORT).show()
-                }.addOnSuccessListener {task ->
-                    task.metadata?.reference?.downloadUrl?.addOnSuccessListener {
-                        imgUrl.value = it.toString()
-                    }
-                }
-            }
+        Toast.makeText(context,oldImage, Toast.LENGTH_SHORT).show()
+        firebaseRepository.uploadImageToStorage(uri, context, imgUrl, oldImage)
+        _editWorkspaceState.update {
+            it.copy(workspace = it.workspace?.copy(avatar = imgUrl.value))
         }
     }
 
