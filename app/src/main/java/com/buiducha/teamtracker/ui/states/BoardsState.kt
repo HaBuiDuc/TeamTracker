@@ -1,5 +1,7 @@
 package com.buiducha.teamtracker.ui.states
 
-//data class BoardsState(
-//    val
-//)
+import com.buiducha.teamtracker.data.model.project.Board
+
+data class BoardsState(
+    val boardList: List<Board> = emptyList()
+)
