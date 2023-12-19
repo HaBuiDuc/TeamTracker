@@ -5,10 +5,11 @@ import java.util.UUID
 
 data class Task(
     val id: UUID = UUID.randomUUID(),
-    val taskTableId: UUID,
-    val name: String,
-    val ownerId: UUID,
-    val startTime: Date,
-    val finishTime: Date,
-    val status: String
+    val boardId: String = "",
+    val title: String = "",
+    val tag: String = "",
+    val authorId: String = "",
+    val startTime: Date = Date(),
+    val dueTime: Date = Date(),
+    val description: String = ""
 )

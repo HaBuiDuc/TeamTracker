@@ -191,7 +191,7 @@ fun HomePage(
                     homeViewModel.setSelectedWorkspace(workspace)
                     selectedWorkspaceViewModel.workspaceUpdate(workspace = workspace)
                     Log.d(TAG, selectedWorkspaceViewModel.workspace.value.name)
-                    navController.navigate(Screen.PostsScreen.route)
+                    navController.navigate(Screen.DetailWorkspaceScreen.route)
                 }
             )
         }

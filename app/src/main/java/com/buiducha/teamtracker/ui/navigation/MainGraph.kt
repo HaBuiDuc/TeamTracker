@@ -8,10 +8,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.buiducha.teamtracker.ui.screens.create_workspace_screen.CreateWorkspaceScreen
-import com.buiducha.teamtracker.ui.screens.detail_project_screen.chat_screen.ChatScreen
-import com.buiducha.teamtracker.ui.screens.detail_project_screen.create_post_screen.CreatePostScreen
-import com.buiducha.teamtracker.ui.screens.detail_project_screen.posts_screen.PostsScreen
-import com.buiducha.teamtracker.ui.screens.detail_project_screen.task_manager_screen.TaskManagerScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.chat_screen.ChatScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.create_post_screen.CreatePostScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.detail_workspace_screen.DetailWorkspaceScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen.PostsScreen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
 import com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen.MemberManagementScreen
@@ -112,10 +112,12 @@ fun MainGraph(
         }
 
         composable(
-            route = Screen.TaskManagerScreen.route
+            route = Screen.DetailWorkspaceScreen.route
         ) {
-            TaskManagerScreen(
-                navController = navHostController
+            DetailWorkspaceScreen(
+                navController = navHostController,
+                selectedWorkspaceViewModel =selectedWorkspaceViewModel ,
+                selectedPostViewModel = selectedPostViewModel
             )
         }
     }
