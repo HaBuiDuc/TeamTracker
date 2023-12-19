@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.settings_screen
+package com.buiducha.teamtracker.ui.screens.settings.settings_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
