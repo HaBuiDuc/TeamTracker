@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.settings_screen
+package com.buiducha.teamtracker.ui.screens.settings.settings_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
