@@ -201,16 +201,18 @@ class FirebaseRepository private constructor(context: Context) {
     }
 
     fun updateWorkspace(
+        uri: Uri?,
         workspace: Workspace,
         onUpdateSuccess: () -> Unit,
         onUpdateFailure: () -> Unit
     ) {
-        val workspaceRef = workspacesRef.orderByChild("id").equalTo(workspace.id).addListenerForSingleValueEvent(object : ValueEventListener {
+        workspacesRef.orderByChild("id").equalTo(workspace.id)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach { shot ->
                         shot.ref.child("name").setValue(workspace.name)
                         shot.ref.child("describe").setValue(workspace.describe)
-                        if (workspace.avatar != ""){
+                        if (uri != null) {
                             shot.ref.child("avatar").setValue(workspace.avatar)
                         }
                     }
@@ -220,7 +222,6 @@ class FirebaseRepository private constructor(context: Context) {
                 override fun onCancelled(error: DatabaseError) {
                     onUpdateFailure()
                 }
-
             })
     }
 

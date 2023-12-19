@@ -64,11 +64,13 @@ class EditWorkspaceViewModel(
     }
 
     fun editWorkspace(
+        uri: Uri?,
         onUpdateSuccess: () -> Unit,
         onUpdateFailure: () -> Unit
     ) {
-        val editedWorkspace = editWorkspaceState.value.workspace ?: return
+        val editedWorkspace = _editWorkspaceState.value.workspace ?: return
         firebaseRepository.updateWorkspace(
+            uri = uri,
             workspace = editedWorkspace,
             onUpdateSuccess = onUpdateSuccess,
             onUpdateFailure = onUpdateFailure
