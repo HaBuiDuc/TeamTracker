@@ -51,6 +51,7 @@ fun HomePage(
 ) {
     val homeState by homeViewModel.homeState.collectAsState()
     val currentUserInfo by currentUserInfoViewModel.currentUserInfo.collectAsState()
+    Log.d(TAG, "current user: ${currentUserInfo.id}")
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
             skipHiddenState = false

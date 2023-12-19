@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.boards_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,10 +29,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
+import com.buiducha.teamtracker.data.model.project.Task
 import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management._share.BoxTagColor
 
 @Composable
-fun TaskItemView() {
+fun TaskItemView(
+    task: Task
+) {
     Card(
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(Color.White),
@@ -44,8 +47,10 @@ fun TaskItemView() {
 
     ) {
         Column(Modifier.padding(10.dp)) {
-            BoxTagColor(taskTag = 2)
-            Text(text = "Thẻ 1")
+            BoxTagColor(
+                taskTag = 2
+            )
+            Text(text = task.title)
             Spacer(modifier = Modifier.padding(5.dp))
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -55,18 +60,20 @@ fun TaskItemView() {
             ) {
                 Icon(
                     imageVector = Icons.Filled.RemoveRedEye,
-                    contentDescription = ""
+                    contentDescription = null
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.AccessTime,
-                        contentDescription = ""
-                    )
-                    Text(
-                        text = "18/12/2023 - 18/12/2023"
-                    )
+                if (task.startTime != null && task.dueTime != null) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.AccessTime,
+                            contentDescription = null
+                        )
+                        Text(
+                            text = "18/12/2023 - 18/12/2023"
+                        )
+                    }
                 }
             }
             Spacer(modifier = Modifier.padding(5.dp))

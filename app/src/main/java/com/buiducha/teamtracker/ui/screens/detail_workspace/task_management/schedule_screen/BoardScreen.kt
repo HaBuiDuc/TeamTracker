@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.boards_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,14 +15,21 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.buiducha.teamtracker.viewmodel.BoardViewModel
 
 @Composable
-fun BoardScreen() {
+fun BoardScreen(
+    boardViewModel: BoardViewModel = viewModel()
+) {
+    val boardState by boardViewModel.boardState.collectAsState()
     Card(
         Modifier
             .padding(5.dp),
@@ -37,7 +44,7 @@ fun BoardScreen() {
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "Danh sách 1",
+                    text = boardState.board.label,
                     fontWeight = FontWeight.Bold
                 )
                 Icon(
@@ -46,14 +53,16 @@ fun BoardScreen() {
                 )
             }
 
-            TaskItemView()
 //            TaskItemView()
 
             Button(
                 onClick = { },
                 colors = ButtonDefaults.buttonColors(Color.Transparent)
             ) {
-                Text(text = "+ Thêm thẻ", color = Color.Blue)
+                Text(
+                    text = "+ Add task",
+                    color = Color.Blue
+                )
             }
         }
 

@@ -9,7 +9,7 @@ data class Task(
     val title: String = "",
     val tag: String = "",
     val authorId: String = "",
-    val startTime: Date = Date(),
-    val dueTime: Date = Date(),
+    val startTime: Date? = null,
+    val dueTime: Date? = null,
     val description: String = ""
 )

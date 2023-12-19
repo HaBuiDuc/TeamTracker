@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.boards_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -24,7 +24,7 @@ import com.buiducha.teamtracker.R
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BoardsScreen() {
+fun ScheduleScreen() {
     Scaffold(
         floatingActionButton = {
             Box(
