@@ -12,6 +12,7 @@ import com.buiducha.teamtracker.ui.screens.detail_workspace.chat_screen.ChatScre
 import com.buiducha.teamtracker.ui.screens.detail_workspace.create_post_screen.CreatePostScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.detail_workspace_screen.DetailWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen.PostsScreen
+import com.buiducha.teamtracker.ui.screens.edit_workspace.EditWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
 import com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen.MemberManagementScreen
@@ -119,6 +120,13 @@ fun MainGraph(
                 selectedWorkspaceViewModel =selectedWorkspaceViewModel ,
                 selectedPostViewModel = selectedPostViewModel
             )
+        }
+
+        composable(
+            route = Screen.EditWorkSpaceScreen.route
+        ){
+            EditWorkspaceScreen(navController = navHostController,
+                selectedWorkspaceViewModel = selectedWorkspaceViewModel)
         }
     }
 }

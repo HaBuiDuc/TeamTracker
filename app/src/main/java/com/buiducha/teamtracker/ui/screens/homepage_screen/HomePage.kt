@@ -83,7 +83,11 @@ fun HomePage(
                         }
                     },
                     onEditWorkspace = {
-
+                        navController.navigate(Screen.EditWorkSpaceScreen.route)
+                        scope.launch {
+                            homeState.selectedWorkspace?.let { selectedWorkspaceViewModel.workspaceUpdate(workspace = it) }
+                            scaffoldState.bottomSheetState.hide()
+                        }
                     },
                     onDeleteWorkspace = {
                         scope.launch {
