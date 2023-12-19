@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.table_task_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.boards_screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -43,7 +43,7 @@ import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management._sha
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TableTaskScreen() {
+fun BoardsScreen() {
     Scaffold(
         floatingActionButton = {
             Box(
@@ -65,7 +65,6 @@ fun TableTaskScreen() {
             modifier = Modifier
                 .padding(paddingValues)
         ) {
-            //pageCount == số TaskList
             val pagerState = rememberPagerState(pageCount = { 10 })
             HorizontalPager(
                 state = pagerState,

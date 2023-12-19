@@ -1,7 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.detail_workspace.detail_workspace_screen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen.PostsScreen
-import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.table_task_screen.TableTaskScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.boards_screen.BoardsScreen
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.launch
@@ -88,7 +87,7 @@ fun DetailWorkspaceScreen(
                         selectedPostViewModel = selectedPostViewModel
                     )
                 } else if (page == 1) {
-                    TableTaskScreen()
+                    BoardsScreen()
                 }
             }
         }
