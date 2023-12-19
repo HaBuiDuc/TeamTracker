@@ -65,8 +65,10 @@ class EditWorkspaceViewModel(
                 var uploadTask = spaceRef.putBytes(byteArray)
                 uploadTask.addOnFailureListener {
                     Toast.makeText(context,"upload failed", Toast.LENGTH_SHORT).show()
-                }.addOnSuccessListener {
-                    imgUrl.value = it.metadata?.path.toString()
+                }.addOnSuccessListener {task ->
+                    task.metadata?.reference?.downloadUrl?.addOnSuccessListener {
+                        imgUrl.value = it.toString()
+                    }
                 }
             }
         }
