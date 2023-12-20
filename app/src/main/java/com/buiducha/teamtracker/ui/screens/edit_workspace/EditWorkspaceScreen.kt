@@ -94,6 +94,7 @@ fun EditWorkspaceScreen(
                 onEditSubmit = {
                     editWorkspaceViewModel.setWorkspaceAvatar(imgUrl.value)
                     editWorkspaceViewModel.editWorkspace(
+                        uri = uri,
                         onUpdateSuccess = {
                             navController.popBackStack()
                         },
@@ -184,6 +185,7 @@ fun EditWorkspaceScreen(
                 }else isUploadSuccess = "upload success"
                 Text(
                     text = isUploadSuccess
+//                    text = uri.toString()
                 )
             }
         }
