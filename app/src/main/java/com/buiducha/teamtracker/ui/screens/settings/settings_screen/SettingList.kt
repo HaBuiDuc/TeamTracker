@@ -37,8 +37,11 @@ fun SettingItem(
 ) {
     Row(
         modifier = Modifier.clickable {
-            if(settingItem.settingName.equals(R.string.introduce)){
+            if(settingItem.settingName == R.string.introduce){
                 navController.navigate(Screen.IntroduceScreen.route)
+            }
+            if(settingItem.settingName == R.string.privacy_policy){
+                navController.navigate(Screen.PrivacyPolicyScreen.route)
             }
         }
     ) {

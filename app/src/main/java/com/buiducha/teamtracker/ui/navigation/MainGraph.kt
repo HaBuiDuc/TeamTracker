@@ -17,6 +17,7 @@ import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
 import com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen.MemberManagementScreen
 import com.buiducha.teamtracker.ui.screens.settings.introduce_screen.IntroduceScreen
+import com.buiducha.teamtracker.ui.screens.settings.privacy_policy_screen.PrivacyPolicyScreen
 import com.buiducha.teamtracker.ui.screens.settings.settings_screen.SettingsScreen
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
@@ -134,6 +135,12 @@ fun MainGraph(
             route = Screen.IntroduceScreen.route
         ){
             IntroduceScreen(navController = navHostController)
+        }
+
+        composable(
+            route = Screen.PrivacyPolicyScreen.route
+        ){
+            PrivacyPolicyScreen(navController = navHostController)
         }
     }
 }

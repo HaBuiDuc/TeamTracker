@@ -52,46 +52,50 @@ fun IntroduceScreen(navController: NavController) {
                 .padding(top = 70.dp)) {
             Image(painter = painterResource(id = R.drawable.ic_launcher_background),
                 contentDescription = "")
-            Text(text = "Trường Đại học Công nghệ Thông tin",
+            Text(text = "TeamTracker",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold)
-            Text(text = "Đại học Quốc gia Hồ Chí Minh",
+            Spacer(modifier = Modifier.padding(5.dp))
+            Text(text = "University of Information Technology",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold)
-            Text(text = "Phát triển ứng dụng trên thiết bị di động",
+            Text(text = "Vietnam National University",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold)
+            Text(text = "Develop applications on mobile devices",
                 textAlign = TextAlign.Center)
-            Text(text = "Lớp NT118.O12")
+            Text(text = "NT118.O12")
 
-            Text(text = "Phiên bản: 1.0.0",
+            Text(text = "Version: 1.0.0",
                 fontWeight = FontWeight.Bold)
-            Text(text = "Chi tiết giấy phép: không có",
+            Text(text = "License Details: None",
                 fontWeight = FontWeight.Bold)
 
             Spacer(modifier = Modifier.padding(20.dp))
 
             Column(horizontalAlignment = Alignment.Start,
                 modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Quyền riêng tư & cookie",
+                Text(text = "Privacy & cookies",
                     color = Blue40,
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp
                 )
-                Text(text = "Điều khoản sử dụng",
+                Text(text = "Terms of use",
                     color = Blue40,
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp
                 )
-                Text(text = "Thông tin và thông báo về phần mềm của bên thứ ba",
+                Text(text = "Third Party Software Notices and Information",
                     color = Blue40,
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp
                 )
-                Text(text = "Trải nghiệm được kết nối",
+                Text(text = "Connected experiences",
                     color = Blue40,
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp
                 )
-                Text(text = "Trình xem dữ liệu chẩn đoán",
+                Text(text = "Diagnostic data Viewer",
                     color = Blue40,
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp
