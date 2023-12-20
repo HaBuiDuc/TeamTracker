@@ -4,7 +4,7 @@ import java.util.Date
 import java.util.UUID
 
 data class Task(
-    val id: UUID = UUID.randomUUID(),
+    val id: String = UUID.randomUUID().mostSignificantBits.toString(),
     val boardId: String = "",
     val title: String = "",
     val tag: String = "",

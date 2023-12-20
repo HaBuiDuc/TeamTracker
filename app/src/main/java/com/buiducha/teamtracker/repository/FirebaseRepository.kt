@@ -6,6 +6,9 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.buiducha.teamtracker.data.model.message.PostMessage
 import com.buiducha.teamtracker.data.model.project.Board
 import com.buiducha.teamtracker.data.model.project.WorkspacePost
@@ -17,6 +20,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
@@ -482,7 +486,7 @@ class FirebaseRepository private constructor(context: Context) {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val boardsList = mutableListOf<Board>()
                     snapshot.children.forEach { shot ->
-                        val board = shot.getValue(Board::class.java)
+                        val board = shot.getValue<Board>(Board::class.java)
                         board?.let {
                             boardsList += it
                         }
@@ -513,6 +517,7 @@ class FirebaseRepository private constructor(context: Context) {
                 onCreateFailure()
             }
     }
+
 
 
     companion object {
