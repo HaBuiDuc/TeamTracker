@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import com.buiducha.teamtracker.data.model.message.PostMessage
+import com.buiducha.teamtracker.data.model.project.Board
 import com.buiducha.teamtracker.data.model.project.WorkspacePost
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
@@ -31,6 +32,7 @@ class FirebaseRepository private constructor(context: Context) {
     private val workspaceMemberRef = database.getReference("workspace_member")
     private val messagesRef = database.getReference("messages")
     private val postsRef = database.getReference("posts")
+    private val boardsRef = database.getReference("boards")
     private val storage = com.google.firebase.Firebase.storage
     private var storageRef = storage.reference
 
@@ -469,6 +471,49 @@ class FirebaseRepository private constructor(context: Context) {
             }
         }
     }
+
+    fun getBoards(
+        workspaceId: String,
+        onGetBoardsSuccess: (MutableList<Board>) -> Unit,
+        onGetBoardsFailure: () -> Unit
+    ) {
+        boardsRef.orderByChild("workspaceId").equalTo(workspaceId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val boardsList = mutableListOf<Board>()
+                    snapshot.children.forEach { shot ->
+                        val board = shot.getValue(Board::class.java)
+                        board?.let {
+                            boardsList += it
+                        }
+                    }
+                    onGetBoardsSuccess(boardsList)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+    }
+
+    fun createBoard(
+        board: Board,
+        onCreateSuccess: () -> Unit,
+        onCreateFailure: () -> Unit
+    ) {
+        boardsRef.push().setValue(board)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "create board success")
+                    onCreateSuccess()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "add board failure", e)
+                onCreateFailure()
+            }
+    }
+
 
     companion object {
         const val TAG = "FirebaseRepository"

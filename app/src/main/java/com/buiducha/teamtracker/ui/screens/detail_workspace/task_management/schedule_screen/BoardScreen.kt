@@ -14,9 +14,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.buiducha.teamtracker.viewmodel.BoardViewModel
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 
 @Composable
 fun BoardScreen(
@@ -65,7 +68,31 @@ fun BoardScreen(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun CreateBoardScreen(
+    selectedWorkspaceViewModel: SelectedWorkspaceViewModel,
+
+){
+    Column(Modifier.padding(10.dp)) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+
+
+
+            Icon(
+                imageVector = Icons.Filled.MoreVert,
+                contentDescription = ""
+            )
+        }
+
+//            TaskItemView()
 
     }
-
 }

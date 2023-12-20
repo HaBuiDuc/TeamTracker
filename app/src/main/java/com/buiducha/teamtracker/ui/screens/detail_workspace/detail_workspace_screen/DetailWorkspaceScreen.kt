@@ -87,7 +87,7 @@ fun DetailWorkspaceScreen(
                         selectedPostViewModel = selectedPostViewModel
                     )
                 } else if (page == 1) {
-                    ScheduleScreen()
+//                    ScheduleScreen()
                 }
             }
         }
