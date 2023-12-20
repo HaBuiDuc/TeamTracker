@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen.PostsScreen
-import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.boards_screen.BoardsScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen.ScheduleScreen
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.launch
@@ -87,7 +87,7 @@ fun DetailWorkspaceScreen(
                         selectedPostViewModel = selectedPostViewModel
                     )
                 } else if (page == 1) {
-                    BoardsScreen()
+                    ScheduleScreen()
                 }
             }
         }
