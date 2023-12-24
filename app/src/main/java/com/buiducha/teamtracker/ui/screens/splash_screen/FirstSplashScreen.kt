@@ -17,13 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,25 +32,27 @@ import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
 
 
-@Preview
+
+
+@Preview(showSystemUi = true)
 @Composable
 fun fssPreview(){
     FirstSplashScreen(navController = rememberNavController())
 }
 
 
+
+
 @Composable
 fun FirstSplashScreen(navController: NavController){
     Box(modifier = Modifier
-        .fillMaxSize()
-        .paint(
-            painterResource(id = R.drawable.background_sps),
-            contentScale = ContentScale.FillBounds
-        ))
+        .fillMaxSize())
     {
         Box(modifier = Modifier
             .fillMaxSize()){
-            Row(modifier = Modifier.align(Alignment.TopEnd).padding(20.dp))
+            Row(modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(20.dp))
             {
                 ClickableText(text = AnnotatedString("Skip"), onClick = {
                     navController.navigate(Screen.ThirdSplashScreen.route)
@@ -63,17 +62,19 @@ fun FirstSplashScreen(navController: NavController){
             }
 
 
-            Image(painterResource(id = R.drawable.team_tracker_new_logo), contentDescription = "",
+
+
+            Image(painterResource(id = R.drawable.splashscreen_img_1),
+                contentDescription = "",
                 modifier = Modifier
                     .size(300.dp)
                     .align(Alignment.TopCenter)
                     .offset(y = 80.dp))
-            Text(text = "WELCOME TEAMTRACKER",
+            Text(text = "WELCOME TO TEAMTRACKER",
                 fontWeight = FontWeight.Bold,
-                fontSize = 40.sp,
+                fontSize = 30.sp,
                 color = colorResource(id = R.color.textcl),
                 textAlign = TextAlign.Center,
-                style = TextStyle(lineHeight = 50.sp),
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 280.dp))
@@ -88,11 +89,15 @@ fun FirstSplashScreen(navController: NavController){
         }
 
 
+
+
         Box(modifier = Modifier
             .align(Alignment.BottomCenter)
             .padding(bottom = 80.dp)){
             TabPageIndex(index = 1)
         }
+
+
 
 
         Button(onClick = {

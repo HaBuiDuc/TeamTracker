@@ -16,33 +16,36 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
+
+
+@Preview(showSystemUi = true)
+@Composable
+fun tssPreview(){
+    ThirdSplashScreen(navController = rememberNavController())
+}
 @Composable
 fun ThirdSplashScreen(navController: NavController){
     Box(modifier = Modifier
-        .fillMaxSize()
-        .paint(
-            painterResource(id = R.drawable.background_sps),
-            contentScale = ContentScale.FillBounds
-        ))
+        .fillMaxSize())
     {
         Box(
             modifier = Modifier
                 .fillMaxSize()
         ) {
             Image(
-                painterResource(id = R.drawable.team_tracker_new_logo),
+                painterResource(id = R.drawable.splashscreen_img_3),
                 contentDescription = "",
                 modifier = Modifier
                     .size(300.dp)
@@ -52,7 +55,7 @@ fun ThirdSplashScreen(navController: NavController){
             Text(
                 text = "Bắt đầu ngay",
                 fontWeight = FontWeight.Bold,
-                fontSize = 40.sp,
+                fontSize = 30.sp,
                 color = colorResource(id = R.color.textcl),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -79,6 +82,8 @@ fun ThirdSplashScreen(navController: NavController){
         }
 
 
+
+
         Button(onClick = {
             navController.navigate(route = Screen.SecondSplashScreen.route)
         }, modifier = Modifier
@@ -95,7 +100,11 @@ fun ThirdSplashScreen(navController: NavController){
         }
 
 
+
+
         Button(onClick = {
+
+
 
 
         }, modifier = Modifier
