@@ -1,5 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.splash_screen
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,11 +35,19 @@ import com.buiducha.teamtracker.ui.navigation.Screen
 
 
 
+
+
+
+
 @Preview(showSystemUi = true)
 @Composable
 fun fssPreview(){
     FirstSplashScreen(navController = rememberNavController())
 }
+
+
+
+
 
 
 
@@ -64,12 +73,32 @@ fun FirstSplashScreen(navController: NavController){
 
 
 
-            Image(painterResource(id = R.drawable.splashscreen_img_1),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(300.dp)
-                    .align(Alignment.TopCenter)
-                    .offset(y = 80.dp))
+            Box(modifier = Modifier
+                .align(Alignment.TopCenter)) {
+                Image(painterResource(id = R.drawable.sls_1_img1),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(400.dp)
+                        .align(Alignment.TopCenter)
+                        .offset(y = 80.dp))
+                Box(
+                    modifier = Modifier
+                        .size(400.dp)
+                        .align(Alignment.TopCenter)
+                        .offset(y = 80.dp)
+                        .background(color = colorResource(id = R.color.transparent_white))
+                )
+                Image(painterResource(id = R.drawable.splashscreen_img_1),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(300.dp)
+                        .align(Alignment.TopCenter)
+                        .offset(y = 80.dp))
+            }
+
+
+
+
             Text(text = "WELCOME TO TEAMTRACKER",
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
@@ -91,11 +120,19 @@ fun FirstSplashScreen(navController: NavController){
 
 
 
+
+
+
+
         Box(modifier = Modifier
             .align(Alignment.BottomCenter)
             .padding(bottom = 80.dp)){
             TabPageIndex(index = 1)
         }
+
+
+
+
 
 
 

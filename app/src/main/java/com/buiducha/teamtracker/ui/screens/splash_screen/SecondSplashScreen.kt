@@ -1,5 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.splash_screen
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,39 +34,67 @@ import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
 
 
+
+
 @Preview(showSystemUi = true)
 @Composable
 fun sssPreview(){
     SecondSplashScreen(navController = rememberNavController())
 }
 @Composable
-fun SecondSplashScreen(navController: NavController){
-    Box(modifier = Modifier
-        .fillMaxSize()
+fun SecondSplashScreen(navController: NavController) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
     )
     {
         Box(
             modifier = Modifier
-                .fillMaxSize()) {
+                .fillMaxSize()
+        ) {
             Row(modifier = Modifier.align(Alignment.TopEnd).padding(20.dp))
             {
-                ClickableText(text = AnnotatedString("Skip"), onClick = {
-                    navController.navigate(Screen.ThirdSplashScreen.route)
-                },
-                    modifier = Modifier.align(Alignment.CenterVertically))
+                ClickableText(
+                    text = AnnotatedString("Skip"), onClick = {
+                        navController.navigate(Screen.ThirdSplashScreen.route)
+                    },
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                )
                 Icon(imageVector = Icons.Filled.ArrowForward, contentDescription = "")
             }
 
 
 
 
-            Image(
-                painterResource(id = R.drawable.splashscreen_img_2), contentDescription = "",
+            Box(
                 modifier = Modifier
-                    .size(300.dp)
                     .align(Alignment.TopCenter)
-                    .offset(y = 80.dp)
-            )
+            ) {
+                Image(
+                    painterResource(id = R.drawable.sls_2_img1),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(400.dp)
+                        .align(Alignment.TopCenter)
+                        .offset(y = 80.dp)
+                )
+                Box(
+                    modifier = Modifier
+                        .size(400.dp)
+                        .align(Alignment.TopCenter)
+                        .offset(y = 80.dp)
+                        .background(color = colorResource(id = R.color.transparent_white))
+                )
+                Image(
+                    painterResource(id = R.drawable.splashscreen_img_2), contentDescription = "",
+                    modifier = Modifier
+                        .size(280.dp)
+                        .align(Alignment.TopCenter)
+                        .offset(y = 80.dp)
+                )
+            }
+
+
             Text(
                 text = "TeamTracker\nQuản lý dự án thông minh",
                 fontWeight = FontWeight.Bold,
@@ -93,24 +122,36 @@ fun SecondSplashScreen(navController: NavController){
 
 
 
-        Box(modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .padding(bottom = 80.dp)){
+
+
+
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 80.dp)
+        ) {
             TabPageIndex(index = 2)
         }
 
 
 
 
-        Button(onClick = {
-            navController.navigate(route = Screen.FirstSplashScreen.route)
-        }, modifier = Modifier
-            .align(Alignment.BottomStart)
-            .padding(bottom = 30.dp),
+
+
+
+
+        Button(
+            onClick = {
+                navController.navigate(route = Screen.FirstSplashScreen.route)
+            }, modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(bottom = 30.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
         ) {
             Row() {
-                Icon(imageVector = Icons.Filled.NavigateBefore,
+                Icon(
+                    imageVector = Icons.Filled.NavigateBefore,
                     contentDescription = "", tint = Color.Black
                 )
                 Text(text = "Prev", color = Color.Black, fontSize = 18.sp)
@@ -120,23 +161,25 @@ fun SecondSplashScreen(navController: NavController){
 
 
 
-        Button(onClick = {
-            navController.navigate(route = Screen.ThirdSplashScreen.route)
-        }, modifier = Modifier
-            .align(Alignment.BottomEnd)
-            .padding(bottom = 30.dp),
+
+
+
+
+        Button(
+            onClick = {
+                navController.navigate(route = Screen.ThirdSplashScreen.route)
+            }, modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 30.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
         ) {
             Row() {
                 Text(text = "Next", color = Color.Black, fontSize = 18.sp)
-                Icon(imageVector = Icons.Filled.NavigateNext,
+                Icon(
+                    imageVector = Icons.Filled.NavigateNext,
                     contentDescription = "", tint = Color.Black
                 )
             }
         }
-
-
-
-
     }
 }
