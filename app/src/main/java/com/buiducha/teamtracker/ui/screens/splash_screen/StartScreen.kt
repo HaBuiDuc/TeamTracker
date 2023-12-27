@@ -4,7 +4,9 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,6 +30,10 @@ import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
 import kotlinx.coroutines.delay
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun AnimatedSplashScreen(navController: NavHostController){
@@ -64,6 +70,19 @@ fun AnimatedSplashScreen(navController: NavHostController){
 
 @Composable
 fun StartScreen(alpha: Float, progress: Float) {
+    var loadingText by remember { mutableStateOf("Loading") }
+
+    LaunchedEffect(key1 = Unit) {
+        while (true) {
+            delay(500)  // delay 0.5 second
+            loadingText = when (loadingText) {
+                "Loading" -> "Loading."
+                "Loading." -> "Loading.."
+                "Loading.." -> "Loading..."
+                else -> "Loading"
+            }
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -82,14 +101,27 @@ fun StartScreen(alpha: Float, progress: Float) {
                     .align(Alignment.Center)
                     .alpha(alpha = alpha)
             )
-            // Add the loading bar beneath the image
-            LinearProgressIndicator(
-                progress = progress,
+            Column(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .padding(20.dp)
-            )
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                LinearProgressIndicator(
+                    progress = progress,
+                    modifier = Modifier
+                        .fillMaxWidth()
+
+                )
+                Text(
+                    text = loadingText,
+                    color = Color.Blue,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 10.dp, bottom = 20.dp)
+                )
+            }
         }
     }
 }
