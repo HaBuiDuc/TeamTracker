@@ -63,9 +63,6 @@ fun SecondSplashScreen(navController: NavController) {
                 Icon(imageVector = Icons.Filled.ArrowForward, contentDescription = "")
             }
 
-
-
-
             Box(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -119,13 +116,6 @@ fun SecondSplashScreen(navController: NavController) {
             )
         }
 
-
-
-
-
-
-
-
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -133,13 +123,6 @@ fun SecondSplashScreen(navController: NavController) {
         ) {
             TabPageIndex(index = 2)
         }
-
-
-
-
-
-
-
 
         Button(
             onClick = {
@@ -157,13 +140,6 @@ fun SecondSplashScreen(navController: NavController) {
                 Text(text = "Prev", color = Color.Black, fontSize = 18.sp)
             }
         }
-
-
-
-
-
-
-
 
         Button(
             onClick = {

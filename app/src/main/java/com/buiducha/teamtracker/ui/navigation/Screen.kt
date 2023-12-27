@@ -21,7 +21,7 @@ sealed class Screen(
     object FirstSplashScreen: Screen("first_splash_screen")
     object SecondSplashScreen: Screen("second_splash_screen")
     object ThirdSplashScreen: Screen("third_splash_screen")
-
+    object StartScreen: Screen("start_screen")
     object DetailWorkspaceScreen: Screen("detail_workspace_screen")
     object EditWorkSpaceScreen: Screen("edit_workspace_screen")
 }

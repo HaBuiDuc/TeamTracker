@@ -70,9 +70,6 @@ fun FirstSplashScreen(navController: NavController){
                 Icon(imageVector = Icons.Filled.ArrowForward, contentDescription = "")
             }
 
-
-
-
             Box(modifier = Modifier
                 .align(Alignment.TopCenter)) {
                 Image(painterResource(id = R.drawable.sls_1_img1),
@@ -96,9 +93,6 @@ fun FirstSplashScreen(navController: NavController){
                         .offset(y = 80.dp))
             }
 
-
-
-
             Text(text = "WELCOME TO TEAMTRACKER",
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
@@ -117,25 +111,11 @@ fun FirstSplashScreen(navController: NavController){
                     .padding(bottom = 180.dp, start = 10.dp, end = 10.dp))
         }
 
-
-
-
-
-
-
-
         Box(modifier = Modifier
             .align(Alignment.BottomCenter)
             .padding(bottom = 80.dp)){
             TabPageIndex(index = 1)
         }
-
-
-
-
-
-
-
 
         Button(onClick = {
             navController.navigate(route = Screen.SecondSplashScreen.route)

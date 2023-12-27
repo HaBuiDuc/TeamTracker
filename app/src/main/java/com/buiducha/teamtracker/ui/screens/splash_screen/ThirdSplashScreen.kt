@@ -101,14 +101,6 @@ fun ThirdSplashScreen(navController: NavController){
                 TabPageIndex(index = 3)
             }
         }
-
-
-
-
-
-
-
-
         Button(onClick = {
             navController.navigate(route = Screen.SecondSplashScreen.route)
         }, modifier = Modifier
@@ -123,23 +115,7 @@ fun ThirdSplashScreen(navController: NavController){
                 Text(text = "Prev", color = Color.Black, fontSize = 18.sp)
             }
         }
-
-
-
-
-
-
-
-
         Button(onClick = {
-
-
-
-
-
-
-
-
         }, modifier = Modifier
             .align(Alignment.BottomEnd)
             .padding(bottom = 30.dp),
