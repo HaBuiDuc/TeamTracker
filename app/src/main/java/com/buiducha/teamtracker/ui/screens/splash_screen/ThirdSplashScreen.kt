@@ -1,5 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.splash_screen
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,43 +17,66 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
+
+
+
+
+@Preview(showSystemUi = true)
+@Composable
+fun tssPreview(){
+    ThirdSplashScreen(navController = rememberNavController())
+}
 @Composable
 fun ThirdSplashScreen(navController: NavController){
     Box(modifier = Modifier
-        .fillMaxSize()
-        .paint(
-            painterResource(id = R.drawable.background_sps),
-            contentScale = ContentScale.FillBounds
-        ))
+        .fillMaxSize())
     {
         Box(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Image(
-                painterResource(id = R.drawable.team_tracker_new_logo),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(300.dp)
-                    .align(Alignment.TopCenter)
-                    .offset(y = 80.dp)
-            )
+            Box(modifier = Modifier
+                .align(Alignment.TopCenter)) {
+                Image(painterResource(id = R.drawable.sls_1_img1),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(400.dp)
+                        .align(Alignment.TopCenter)
+                        .offset(y = 60.dp))
+                Box(
+                    modifier = Modifier
+                        .size(400.dp)
+                        .align(Alignment.TopCenter)
+                        .offset(y = 60.dp)
+                        .background(color = colorResource(id = R.color.transparent_white))
+                )
+                Image(
+                    painterResource(id = R.drawable.splashscreen_img_3),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(300.dp)
+                        .align(Alignment.TopCenter)
+                        .offset(y = 80.dp)
+                )
+            }
+
+
             Text(
                 text = "Bắt đầu ngay",
                 fontWeight = FontWeight.Bold,
-                fontSize = 40.sp,
+                fontSize = 30.sp,
                 color = colorResource(id = R.color.textcl),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -77,8 +101,6 @@ fun ThirdSplashScreen(navController: NavController){
                 TabPageIndex(index = 3)
             }
         }
-
-
         Button(onClick = {
             navController.navigate(route = Screen.SecondSplashScreen.route)
         }, modifier = Modifier
@@ -93,11 +115,7 @@ fun ThirdSplashScreen(navController: NavController){
                 Text(text = "Prev", color = Color.Black, fontSize = 18.sp)
             }
         }
-
-
         Button(onClick = {
-
-
         }, modifier = Modifier
             .align(Alignment.BottomEnd)
             .padding(bottom = 30.dp),

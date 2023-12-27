@@ -10,4 +10,6 @@
     <color name="super_light_blue">#8CADC2</color>
     <color name="blue_2">#457B9D</color>
     <color name="textcl">#05115A</color>
+    <color name="lighter_blue">#B3BAFF</color>
+    <color name="transparent_white">#72FFFFFF</color>
 </resources>
