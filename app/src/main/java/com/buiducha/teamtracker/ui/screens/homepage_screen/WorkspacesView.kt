@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,18 +23,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.data.model.project.Workspace
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import java.util.Locale
 
 @Composable
 fun WorkspacesView(
     workspaceList: List<Workspace>,
-    onMenuToggle: (Workspace) -> Unit
+    onMenuToggle: (Workspace) -> Unit,
+    onSelectWorkspace: (Workspace) -> Unit,
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(24.dp)
@@ -41,43 +47,61 @@ fun WorkspacesView(
         items(workspaceList) { workspace ->
             WorkspaceItem(
                 workspace = workspace,
-                onMenuToggle = onMenuToggle
+                onMenuToggle = onMenuToggle,
+                onSelectWorkspace = onSelectWorkspace,
             )
         }
     }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun WorkspaceItem(
     workspace: Workspace,
+    modifier: Modifier = Modifier,
     onMenuToggle: (Workspace) -> Unit,
-    modifier: Modifier = Modifier
+    onSelectWorkspace: (Workspace) -> Unit,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
-            .clickable { }
+            .clickable {
+                onSelectWorkspace(workspace)
+            }
             .fillMaxWidth()
     ) {
         Row(
-
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .background(
-                        color = Color.LightGray,
-                        shape = RoundedCornerShape(16.dp)
+            if (workspace.avatar == null) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .background(
+                            color = Color.LightGray,
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                        .padding(12.dp)
+                        .size(32.dp)
+                ) {
+                    Text(
+                        text = workspace.name.substring(0, 2).uppercase(Locale.ROOT),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
                     )
-                    .padding(12.dp)
-                    .size(32.dp)
-            ) {
-                Text(
-                    text = workspace.name.substring(0, 2).uppercase(Locale.ROOT),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
+                }
+            } else {
+                GlideImage(
+                    model = workspace.avatar,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10))
+                        .width(44.dp)
+                        .aspectRatio(1f)
                 )
             }
+
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(

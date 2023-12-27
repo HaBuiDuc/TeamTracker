@@ -1,5 +1,7 @@
-package com.buiducha.speedyfood.ui.screens.root_screen
+package com.buiducha.teamtracker.ui.screens.root_screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -22,11 +24,12 @@ import com.buiducha.teamtracker.ui.navigation.MainGraph
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
 import com.buiducha.teamtracker.utils.advancedShadow
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RootScreen(
 ) {
     val navController = rememberNavController()
-
     Scaffold(
         bottomBar = {
             BottomBar(

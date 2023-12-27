@@ -1,6 +1,8 @@
 package com.buiducha.teamtracker.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.buiducha.teamtracker.data.model.project.WorkspaceMember
+import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.ui.states.MemberManagementState
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
@@ -20,6 +22,25 @@ class MemberManagementViewModel(
             isWorkspaceOwner = selectedWorkspace.workspace.value.workspaceOwnerId == firebaseRepository.getCurrentUser()?.uid
         )
         getMembers()
+    }
+
+    fun setSelectedMember(user: UserData) {
+        _memberManagementState.value = _memberManagementState.value.copy(
+            selectedMember = user
+        )
+    }
+
+    fun removeMember() {
+        val workspaceMember = WorkspaceMember(
+            userId = memberManagementState.value.selectedMember.id,
+            workspaceId = selectedWorkspace.workspace.value.id
+        )
+
+        firebaseRepository.removeMemberFromWorkspace(
+            workspaceMember = workspaceMember,
+            onRemoveSuccess = {},
+            onRemoveFailure = {}
+        )
     }
 
     private fun getMembers() {

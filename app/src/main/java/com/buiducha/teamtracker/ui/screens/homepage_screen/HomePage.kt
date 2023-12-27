@@ -51,6 +51,7 @@ fun HomePage(
 ) {
     val homeState by homeViewModel.homeState.collectAsState()
     val currentUserInfo by currentUserInfoViewModel.currentUserInfo.collectAsState()
+    Log.d(TAG, "current user: ${currentUserInfo.id}")
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
             skipHiddenState = false
@@ -60,6 +61,9 @@ fun HomePage(
         mutableStateOf(null)
     }
     val scope = rememberCoroutineScope()
+    var isDialogVisible by remember {
+        mutableStateOf(false)
+    }
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -80,10 +84,17 @@ fun HomePage(
                         }
                     },
                     onEditWorkspace = {
-
+                        navController.navigate(Screen.EditWorkSpaceScreen.route)
+                        scope.launch {
+                            homeState.selectedWorkspace?.let { selectedWorkspaceViewModel.workspaceUpdate(workspace = it) }
+                            scaffoldState.bottomSheetState.hide()
+                        }
                     },
                     onDeleteWorkspace = {
-
+                        scope.launch {
+                            scaffoldState.bottomSheetState.hide()
+                        }
+                        isDialogVisible = true
                     },
                     isWorkspaceOwner = currentUserInfo.id == homeState.selectedWorkspace?.workspaceOwnerId
                 )
@@ -150,6 +161,17 @@ fun HomePage(
                     }
             )
         }
+        if (isDialogVisible) {
+            DeleteWSConfirm(
+                onConfirm = {
+                    isDialogVisible = false
+                    homeViewModel.deleteWorkspace()
+                },
+                onDismiss = {
+                    isDialogVisible = false
+                }
+            )
+        }
         Column(
             modifier = Modifier
                 .padding(
@@ -169,6 +191,12 @@ fun HomePage(
                         currentBottomSheet = BottomSheetScreen.WSManagement
                         scaffoldState.bottomSheetState.expand()
                     }
+                },
+                onSelectWorkspace = { workspace ->
+                    homeViewModel.setSelectedWorkspace(workspace)
+                    selectedWorkspaceViewModel.workspaceUpdate(workspace = workspace)
+                    Log.d(TAG, selectedWorkspaceViewModel.workspace.value.name)
+                    navController.navigate(Screen.DetailWorkspaceScreen.route)
                 }
             )
         }
