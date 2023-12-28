@@ -84,7 +84,7 @@ fun HomePage(
                         }
                     },
                     onEditWorkspace = {
-                        navController.navigate(Screen.EditWorkSpaceScreen.route)
+                        navController.navigate(Screen.EditWorkspaceScreen.route)
                         scope.launch {
                             homeState.selectedWorkspace?.let { selectedWorkspaceViewModel.workspaceUpdate(workspace = it) }
                             scaffoldState.bottomSheetState.hide()

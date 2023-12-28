@@ -3,7 +3,6 @@ package com.buiducha.teamtracker.ui.screens.authentication.login_screens
 import android.app.Activity
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -61,11 +59,14 @@ import com.buiducha.teamtracker.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
 
+
+
 @Preview
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(navController = rememberNavController())
 }
+
 
 @Composable
 fun LoginScreen(
@@ -79,14 +80,17 @@ fun LoginScreen(
         mutableStateOf("")
     }
 
+
     var isPasswordVisible by remember {
         mutableStateOf(false)
     }
+
 
     val activity = LocalContext.current as Activity
     val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
+
 
     Scaffold(
         snackbarHost = {
@@ -105,6 +109,7 @@ fun LoginScreen(
                 contentAlignment = Alignment.TopCenter
             ) {
 
+
                 Image(
                     painterResource(id = R.drawable.team_tracker_new_logo),
                     contentDescription = "",
@@ -113,12 +118,14 @@ fun LoginScreen(
                 )
             }
 
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
+
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -127,6 +134,7 @@ fun LoginScreen(
                     Text(
                         text = "Sign In",
                         fontSize = 30.sp,
+                        color = Blue40,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                         )
@@ -167,6 +175,7 @@ fun LoginScreen(
                                             .clickable {
                                                 isPasswordVisible = !isPasswordVisible
                                             }
+
 
                                     )
                                 }
@@ -252,7 +261,6 @@ fun LoginScreen(
                                 color = Color.Blue
                             )
                         }
-
                     }
                 }
 
@@ -267,5 +275,6 @@ fun LoginScreen(
         }
     }
 }
+
 
 const val TAG = "LoginScreen"

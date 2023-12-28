@@ -7,17 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.buiducha.teamtracker.ui.screens.shared.HorizontalLine
 
-@Preview
 @Composable
-fun SettingsScreenPreview() {
-    SettingsScreen()
-}
-
-@Composable
-fun SettingsScreen(
-) {
+fun SettingsScreen(navController: NavController) {
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -32,7 +26,7 @@ fun SettingsScreen(
                         bottom = 24.dp
                     )
             )
-            SettingList()
+            SettingList(navController)
         }
     }
 }

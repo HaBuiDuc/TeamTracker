@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.buiducha.teamtracker.ui.screens.authentication.add_info_screen.AddUserInfo
 import com.buiducha.teamtracker.ui.screens.authentication.login_screens.LoginScreen
 import com.buiducha.teamtracker.ui.screens.authentication.register_screens.RegisterScreen
+import com.buiducha.teamtracker.ui.screens.splash_screen.AnimatedSplashScreen
 
 @Composable
 fun AuthGraph(
@@ -14,8 +15,11 @@ fun AuthGraph(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.LoginScreen.route
+        startDestination = Screen.StartScreen.route
     ) {
+        composable(route = Screen.StartScreen.route){
+            AnimatedSplashScreen(navController = navHostController)
+        }
         composable(
             route = Screen.LoginScreen.route
         ) {

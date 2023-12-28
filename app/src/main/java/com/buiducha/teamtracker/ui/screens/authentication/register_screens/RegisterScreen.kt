@@ -2,7 +2,6 @@ package com.buiducha.teamtracker.ui.screens.authentication.register_screens
 
 import android.app.Activity
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -42,8 +40,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -62,11 +60,13 @@ import com.buiducha.teamtracker.viewmodel.RegisterViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
 @Preview
 @Composable
 fun RegisterScreenPreview() {
     RegisterScreen(rememberNavController())
 }
+
 
 @Composable
 fun RegisterScreen(
@@ -77,12 +77,15 @@ fun RegisterScreen(
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
 
+
     var isPasswordVisible by remember { mutableStateOf(false) }
     var isConfirmPasswordVisible by remember { mutableStateOf(false) }
+
 
     val isPasswordMatch by remember {
         derivedStateOf { password == confirmPassword }
     }
+
 
     val valueNotEmpty by remember {
         derivedStateOf {
@@ -92,10 +95,12 @@ fun RegisterScreen(
         }
     }
 
+
     val context = LocalContext.current
     val activity = LocalContext.current as Activity
     val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
+
 
     Scaffold(
         snackbarHost = {
@@ -132,6 +137,7 @@ fun RegisterScreen(
                     Text(
                         text = "Sign Up",
                         fontSize = 30.sp,
+                        color = Blue40,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold
                         )
@@ -152,6 +158,7 @@ fun RegisterScreen(
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth(0.8f)
                         )
+
 
                         OutlinedTextField(
                             value = password,
@@ -175,6 +182,7 @@ fun RegisterScreen(
                                 ) {
                                     if (password.isNotEmpty()) {
 
+
                                         Icon(
                                             imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                                             contentDescription = "",
@@ -186,6 +194,7 @@ fun RegisterScreen(
                             },
                             visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
                         )
+
 
                         OutlinedTextField(
                             value = confirmPassword,
@@ -287,7 +296,6 @@ fun RegisterScreen(
 
                     }
                 }
-
                 Image(
                     painterResource(id = R.drawable.login_image),
                     contentDescription = "",
@@ -299,4 +307,3 @@ fun RegisterScreen(
         }
     }
 }
-
