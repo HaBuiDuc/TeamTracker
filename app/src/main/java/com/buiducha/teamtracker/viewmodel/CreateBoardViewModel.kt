@@ -33,7 +33,10 @@ class CreateBoardViewModel(
 
         firebaseRepository.createBoard(
             board = newBoard,
-            onCreateSuccess = onCreateSuccess,
+            onCreateSuccess = {
+                onCreateSuccess()
+                setBoardLabel("")
+            },
             onCreateFailure = onCreateFailure
         )
     }

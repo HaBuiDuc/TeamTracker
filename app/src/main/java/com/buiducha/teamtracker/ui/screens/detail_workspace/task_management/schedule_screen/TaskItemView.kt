@@ -26,11 +26,22 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.project.Task
 import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management._share.BoxTagColor
+
+@Preview
+@Composable
+fun TaskItemPreview() {
+    TaskItemView(
+        task = Task(
+            title = "This is a task"
+        )
+    )
+}
 
 @Composable
 fun TaskItemView(
@@ -44,25 +55,33 @@ fun TaskItemView(
                 elevation = 3.dp,
                 shape = RoundedCornerShape(8.dp)
             )
+            .fillMaxWidth()
 
     ) {
         Column(Modifier.padding(10.dp)) {
-            BoxTagColor(
-                taskTag = 2
-            )
-            Text(text = task.title)
-            Spacer(modifier = Modifier.padding(5.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.RemoveRedEye,
-                    contentDescription = null
+            if (task.tag != "") {
+                BoxTagColor(
+                    taskTag = 2
                 )
-                if (task.startTime != null && task.dueTime != null) {
+            }
+
+            Text(
+                text = task.title,
+                fontSize = 18.sp,
+            )
+
+            if (task.startTime != null && task.dueTime != null) {
+                Spacer(modifier = Modifier.padding(5.dp))
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.RemoveRedEye,
+                        contentDescription = null
+                    )
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -75,39 +94,41 @@ fun TaskItemView(
                         )
                     }
                 }
-            }
-            Spacer(modifier = Modifier.padding(5.dp))
-            Row {
-                Icon(
-                    imageVector = Icons.Filled.Message,
-                    contentDescription = null
-                )
-                Text(
-                    text = "11"
-                )
-            }
-            Spacer(modifier = Modifier.padding(5.dp))
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .background(
-                            color = colorResource(id = R.color.super_light_blue),
-                            shape = CircleShape
-                        )
-                        .padding(12.dp)
-                        .size(22.dp)
+                Spacer(modifier = Modifier.padding(5.dp))
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(
-                        text = "CN",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .background(
+                                color = colorResource(id = R.color.super_light_blue),
+                                shape = CircleShape
+                            )
+                            .padding(12.dp)
+                            .size(22.dp)
+                    ) {
+                        Text(
+                            text = "CN",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
                 }
             }
+
+
+//            Row {
+//                Icon(
+//                    imageVector = Icons.Filled.Message,
+//                    contentDescription = null
+//                )
+//                Text(
+//                    text = "11"
+//                )
+//            }
+
         }
     }
 }
