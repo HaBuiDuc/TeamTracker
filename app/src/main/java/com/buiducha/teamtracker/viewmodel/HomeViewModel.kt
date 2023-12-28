@@ -39,7 +39,7 @@ class HomeViewModel : ViewModel() {
 
     private fun getWorkspace() {
         firebaseRepository.getWorkspaces(
-            onGetWorkspaceSuccess = {workspaces ->
+            onGetWorkspaceSuccess = { workspaces ->
                 _homeState.value = _homeState.value.copy(
                     workspaceList = workspaces
                 )
