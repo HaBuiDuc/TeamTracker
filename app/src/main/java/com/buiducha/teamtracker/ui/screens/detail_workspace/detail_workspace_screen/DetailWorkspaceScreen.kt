@@ -33,12 +33,9 @@ fun DetailWorkspaceScreen(
     selectedWorkspaceViewModel: SelectedWorkspaceViewModel,
     selectedPostViewModel: SelectedPostViewModel
 ) {
-    var  boardViewModel: BoardViewModel = viewModel {
-        BoardViewModel(selectedWorkspaceViewModel)
-    }
-    var scheduleViewModel: ScheduleViewModel = viewModel{
-        ScheduleViewModel(selectedWorkspace = selectedWorkspaceViewModel)
-    }
+//    var  boardViewModel: BoardViewModel = viewModel {
+//        BoardViewModel(selectedWorkspaceViewModel)
+//    }
     val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
@@ -98,9 +95,7 @@ fun DetailWorkspaceScreen(
                     )
                 } else if (page == 1) {
                     ScheduleScreen(
-                        selectedWorkspaceViewModel,
-//                        boardViewModel = boardViewModel,
-                        scheduleViewModel = scheduleViewModel
+                        selectedWorkspaceViewModel = selectedWorkspaceViewModel
                     )
                 }
             }

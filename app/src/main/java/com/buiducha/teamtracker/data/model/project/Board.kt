@@ -6,5 +6,5 @@ data class Board(
     val id: String = UUID.randomUUID().mostSignificantBits.toString(),
     val workspaceId: String = "",
     val label: String = "",
-    val taskList: List<Task> = emptyList()
+    val taskList: List<String> = emptyList()
 )

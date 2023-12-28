@@ -6,25 +6,21 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import com.buiducha.teamtracker.data.model.message.PostMessage
 import com.buiducha.teamtracker.data.model.project.Board
-import com.buiducha.teamtracker.data.model.project.WorkspacePost
+import com.buiducha.teamtracker.data.model.project.Task
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
+import com.buiducha.teamtracker.data.model.project.WorkspacePost
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.storage
 import java.util.UUID
 
@@ -37,6 +33,7 @@ class FirebaseRepository private constructor(context: Context) {
     private val messagesRef = database.getReference("messages")
     private val postsRef = database.getReference("posts")
     private val boardsRef = database.getReference("boards")
+    private val tasksRef = database.getReference("tasks")
     private val storage = com.google.firebase.Firebase.storage
     private var storageRef = storage.reference
 
@@ -456,7 +453,7 @@ class FirebaseRepository private constructor(context: Context) {
 
     fun uploadImageToStorage(uri: Uri, context: Context, imgUrl: MutableState<String>, oldImage: String) {
         val uniqueImageName: UUID? = UUID.randomUUID()
-        var spaceRef: StorageReference = storageRef.child("images/$uniqueImageName.jpg")
+        val spaceRef: StorageReference = storageRef.child("images/$uniqueImageName.jpg")
 
         val byteArray: ByteArray? = context.contentResolver
             .openInputStream(uri)
@@ -464,7 +461,7 @@ class FirebaseRepository private constructor(context: Context) {
 
         byteArray?.let {
 
-            var uploadTask = spaceRef.putBytes(byteArray)
+            val uploadTask = spaceRef.putBytes(byteArray)
             uploadTask.addOnFailureListener {
                 Toast.makeText(context,"upload failed", Toast.LENGTH_SHORT).show()
             }.addOnSuccessListener {task ->
@@ -518,7 +515,46 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
+    fun addTask(
+        task: Task,
+        onAddSuccess: () -> Unit,
+        onAddFailure: () -> Unit
+    ) {
+        tasksRef.push().setValue(task)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "create board success")
+                    onAddSuccess()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "add board failure", e)
+                onAddFailure()
+            }
+    }
 
+    fun getTasks(
+        boardId: String,
+        onGetTaskSuccess: (List<Task>) -> Unit
+    ) {
+        tasksRef.orderByChild("boardId").equalTo(boardId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val taskList = mutableListOf<Task>()
+                    snapshot.children.forEach { shot ->
+                        val task = shot.getValue(Task::class.java)
+                        task?.let {
+                            taskList += it
+                        }
+                    }
+                    onGetTaskSuccess(taskList)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+    }
 
     companion object {
         const val TAG = "FirebaseRepository"

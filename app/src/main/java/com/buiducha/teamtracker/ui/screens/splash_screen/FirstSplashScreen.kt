@@ -45,13 +45,6 @@ fun fssPreview(){
     FirstSplashScreen(navController = rememberNavController())
 }
 
-
-
-
-
-
-
-
 @Composable
 fun FirstSplashScreen(navController: NavController){
     Box(modifier = Modifier
