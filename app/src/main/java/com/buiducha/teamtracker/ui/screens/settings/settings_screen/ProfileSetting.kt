@@ -93,7 +93,7 @@ fun ProfileSetting(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .clip(CircleShape)
-                    .width(44.dp)
+                    .width(120.dp)
                     .aspectRatio(1f)
             )
         }
