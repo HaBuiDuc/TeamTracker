@@ -16,6 +16,7 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -64,6 +65,7 @@ fun HomePage(
     var isDialogVisible by remember {
         mutableStateOf(false)
     }
+    var query: MutableState<String> = remember {mutableStateOf("")}
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -181,10 +183,12 @@ fun HomePage(
                 )
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            HPSearchBar()
+            HPSearchBar(query)
             Spacer(modifier = Modifier.height(24.dp))
             WorkspacesView(
-                workspaceList = homeState.workspaceList,
+                workspaceList = homeState.workspaceList.filter {
+                    it.name.contains(query.value, ignoreCase = true)
+                },
                 onMenuToggle = {workspace ->
                     homeViewModel.setSelectedWorkspace(workspace)
                     scope.launch {

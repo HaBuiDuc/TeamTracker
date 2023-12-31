@@ -49,7 +49,9 @@ import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.screens.shared.HorizontalLine
 import com.buiducha.teamtracker.viewmodel.EditWorkspaceViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 
 @Preview
 @Composable
@@ -84,7 +86,7 @@ fun EditWorkspaceScreen(
     )
 
     val context = LocalContext.current
-
+    var hasUploadedImage by remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
             EditWorkspaceTopBar(
@@ -165,27 +167,25 @@ fun EditWorkspaceScreen(
                 AsyncImage(model = uri,
                     contentDescription = null,
                     modifier = Modifier.size(248.dp))
-                HorizontalLine()
-                Button(onClick = {
-                    uri?.let{
+
+                if (uri != null && !hasUploadedImage){
+                    uri?.let {
                         editWorkspaceViewModel.uploadImage(
-                                uri=it,
-                                context=context,
-                                imgUrl = imgUrl,
-                                oldImageUrl = editWorkspaceViewModel.editWorkspaceState.value.workspace?.avatar.toString()
-                            )
+                            uri = it,
+                            context = context,
+                            imgUrl = imgUrl,
+                            oldImageUrl = editWorkspaceViewModel.editWorkspaceState.value.workspace?.avatar.toString()
+                        )
                     }
-                }){
-                    Text("Upload")
+                    hasUploadedImage = true
                 }
 
                 var isUploadSuccess:String = ""
-                if(imgUrl.value == ""){
-                    isUploadSuccess = ""
-                }else isUploadSuccess = "upload success"
+                if(uri != null && imgUrl.value == ""){
+                    isUploadSuccess = "loading..."
+                }else if (imgUrl.value != "") isUploadSuccess = "upload success"
                 Text(
                     text = isUploadSuccess
-//                    text = uri.toString()
                 )
             }
         }
@@ -198,10 +198,6 @@ private fun EditInputField(
     value: String,
     onValueChange: (String) -> Unit
 ) {
-//    Text(
-//        text = label,
-//        fontSize = 16.sp
-//    )
     TextField(
         value = value,
         onValueChange = {

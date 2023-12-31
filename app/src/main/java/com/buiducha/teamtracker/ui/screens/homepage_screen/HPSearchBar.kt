@@ -9,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,16 +22,17 @@ import com.buiducha.teamtracker.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HPSearchBar(
+    query: MutableState<String>,
     modifier: Modifier = Modifier
 ) {
-    var query by remember {
-        mutableStateOf("")
-    }
+//    var query by remember {
+//        mutableStateOf("")
+//    }
 
     SearchBar(
-        query = query,
+        query = query.value,
         onQueryChange = {
-            query = it
+            query.value = it
         },
         onSearch = {
 
