@@ -52,11 +52,10 @@ class EditWorkspaceViewModel(
 
     fun uploadImage(uri: Uri, context: Context, imgUrl: MutableState<String>, oldImageUrl: String) {
         var oldImage: String = ""
-        if (oldImageUrl.length > 1){
+        if (oldImageUrl.length >= 125){
             oldImage = oldImageUrl.substring(85, 125)
         }
 
-        Toast.makeText(context,oldImage, Toast.LENGTH_SHORT).show()
         firebaseRepository.uploadImageToStorage(uri, context, imgUrl, oldImage)
         _editWorkspaceState.update {
             it.copy(workspace = it.workspace?.copy(avatar = imgUrl.value))

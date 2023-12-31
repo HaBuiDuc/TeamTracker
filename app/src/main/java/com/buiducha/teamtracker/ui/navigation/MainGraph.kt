@@ -59,7 +59,10 @@ fun MainGraph(
         composable(
             route = BottomBarScreen.SettingsScreen.route
         ) {
-            SettingsScreen(navHostController)
+            SettingsScreen(
+                navHostController,
+                currentUserInfoViewModel = currentUserInfoViewModel
+            )
         }
         composable(
             route = Screen.CreateWSScreen.route
