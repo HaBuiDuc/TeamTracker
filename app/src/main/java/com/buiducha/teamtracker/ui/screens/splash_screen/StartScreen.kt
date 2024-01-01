@@ -64,17 +64,18 @@ fun AnimatedSplashScreen(navController: NavHostController){
         }
     }
 
-    StartScreen(alpha = alphaAnim.value, progress = progress)
+    StartScreen(progress = progress)
 }
 
 
 @Composable
-fun StartScreen(alpha: Float, progress: Float) {
+fun StartScreen(progress: Float) {
     var loadingText by remember { mutableStateOf("Loading") }
+    var alpha by remember { mutableStateOf(0f) } // Thêm mutableStateOf cho alpha
 
     LaunchedEffect(key1 = Unit) {
         while (true) {
-            delay(500)  // delay 0.5 second
+            delay(500)
             loadingText = when (loadingText) {
                 "Loading" -> "Loading."
                 "Loading." -> "Loading.."
@@ -83,6 +84,14 @@ fun StartScreen(alpha: Float, progress: Float) {
             }
         }
     }
+
+    LaunchedEffect(key1 = progress) {
+        while (alpha < 1f) {
+            alpha += 0.01f // Tăng giá trị alpha dần dần
+            delay(20L)
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -99,7 +108,7 @@ fun StartScreen(alpha: Float, progress: Float) {
                 modifier = Modifier
                     .size(400.dp)
                     .align(Alignment.Center)
-                    .alpha(alpha = alpha)
+                    .alpha(alpha = alpha) // Sử dụng giá trị alpha ở đây
             )
             Column(
                 modifier = Modifier
@@ -125,7 +134,6 @@ fun StartScreen(alpha: Float, progress: Float) {
         }
     }
 }
-
 //@Preview(showSystemUi = true)
 //@Composable
 //fun xssPreview(){
