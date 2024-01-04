@@ -116,6 +116,7 @@ fun ThirdSplashScreen(navController: NavController){
             }
         }
         Button(onClick = {
+            navController.navigate(route = Screen.LoginScreen.route)
         }, modifier = Modifier
             .align(Alignment.BottomEnd)
             .padding(bottom = 30.dp),

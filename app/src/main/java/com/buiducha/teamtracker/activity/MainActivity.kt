@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.buiducha.teamtracker.ui.navigation.AuthGraph
+import com.buiducha.teamtracker.ui.navigation.MainGraph
+import com.buiducha.teamtracker.ui.navigation.SplashScreenGraph
 import com.buiducha.teamtracker.ui.screens.root_screen.RootScreen
 import com.buiducha.teamtracker.ui.theme.TeamTrackerTheme
 
@@ -21,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RootScreen()
+                    AuthGraph(navHostController = rememberNavController())
                 }
             }
         }
