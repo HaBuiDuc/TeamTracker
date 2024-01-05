@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -74,7 +75,7 @@ fun SearchMemberScreen(
     Scaffold(
         topBar = { TopAppBarSearchMember(query = query, navController = navController) }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding(), start = 20.dp)) {
+        Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding() + 20.dp, start = 20.dp)) {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(24.dp), userScrollEnabled = true) {
                 items(ownerAsList) {
                     MemberItem(member = it, isWorkspaceOwner = true)
@@ -137,37 +138,40 @@ fun TopAppBarSearchMember(query: MutableState<String>,
 @Composable
 fun MemberItem(member: UserData, isWorkspaceOwner: Boolean)
 {
-    var isWorkspaceOwnerText: String = ""
+    var isWorkspaceOwnerText: String = "Member"
     if(isWorkspaceOwner) {isWorkspaceOwnerText = "Owner"}
     Row {
-        if(member.avatarUri == null){
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .background(
-                        color = DarkGreen,
-                        shape = CircleShape
+        Box(modifier = Modifier .padding(end = 10.dp)) {
+            if(member.avatarUri == null){
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .background(
+                            color = DarkGreen,
+                            shape = CircleShape
+                        )
+                        .padding(10.dp)
+                ) {
+                    Text(
+                        text = if(member.fullName.length > 3) member.fullName.substring(0, 2).uppercase() else "",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
                     )
-                    .padding(10.dp)
-            ) {
-                Text(
-                    text = if(member.fullName.length > 3) member.fullName.substring(0, 2).uppercase() else "",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
+                }
+            }
+            else{
+                GlideImage(
+                    model = member.avatarUri,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .width(45.dp)
+                        .aspectRatio(1f)
                 )
             }
         }
-        else{
-            GlideImage(
-                model = member.avatarUri,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .width(45.dp)
-                    .aspectRatio(1f)
-            )
-        }
+
 
         Column {
             Text(text = member.fullName, fontWeight = FontWeight.Bold)
