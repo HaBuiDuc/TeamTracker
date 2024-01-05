@@ -9,53 +9,67 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
+import com.buiducha.teamtracker.utils.startMainActivity
+import com.buiducha.teamtracker.viewmodel.SplashViewModel
 import kotlinx.coroutines.delay
-import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material3.Text
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 
 @Composable
-fun AnimatedSplashScreen(navController: NavHostController){
+fun AnimatedSplashScreen(navController: NavHostController,
+                         splashViewModel: SplashViewModel = viewModel()
+){
     var startAnimation by remember {
         mutableStateOf(false)
     }
     var progress by remember {
-        mutableStateOf(0f)
+        mutableFloatStateOf(0f)
     }
-    var alphaAnim = animateFloatAsState(
-        targetValue = if(startAnimation) 1f else 0f,
-        animationSpec = tween(
-            durationMillis = 4000
-        )
-    )
 
-    LaunchedEffect(key1 = true) {
-        startAnimation = true
-        delay(2200)
-        navController.popBackStack()
-        navController.navigate(Screen.LoginScreen.route)
-    }
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = true,  block = {
+        splashViewModel.checkAuthState(
+            onLogged = {
+                splashViewModel.onLoginSuccess(
+                    onUserExists = {
+                        startMainActivity(context = context)
+                    },
+                    onUserNotExists = {
+                        navController.navigate(Screen.AddInfoScreen.route)
+                    }
+                )
+            },
+            onNotLogged = {
+                startAnimation = true
+                navController.popBackStack()
+                navController.navigate(Screen.LoginScreen.route)
+            }
+        )
+    })
     // Animate the progress of the loading bar
     LaunchedEffect(key1 = startAnimation) {
         while (progress < 1f) {
@@ -64,7 +78,7 @@ fun AnimatedSplashScreen(navController: NavHostController){
         }
     }
 
-    StartScreen(alpha = alphaAnim.value, progress = progress)
+    StartScreen(alpha = 1f, progress = progress)
 }
 
 
@@ -125,9 +139,3 @@ fun StartScreen(alpha: Float, progress: Float) {
         }
     }
 }
-
-//@Preview(showSystemUi = true)
-//@Composable
-//fun xssPreview(){
-//    StartScreen (alpha = 1f)
-//}
