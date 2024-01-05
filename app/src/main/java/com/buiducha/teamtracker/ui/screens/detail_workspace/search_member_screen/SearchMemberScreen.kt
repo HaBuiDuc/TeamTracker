@@ -74,13 +74,13 @@ fun SearchMemberScreen(
     Scaffold(
         topBar = { TopAppBarSearchMember(query = query, navController = navController) }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding())) {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(24.dp)) {
-                items(filteredMemberList) { member ->
-                    MemberItem(member = member, isWorkspaceOwner = false)
-                }
+        Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding(), start = 20.dp)) {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(24.dp), userScrollEnabled = true) {
                 items(ownerAsList) {
                     MemberItem(member = it, isWorkspaceOwner = true)
+                }
+                items(filteredMemberList) { member ->
+                    MemberItem(member = member, isWorkspaceOwner = false)
                 }
             }
         }
