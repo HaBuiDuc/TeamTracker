@@ -17,6 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.buiducha.teamtracker.ui.navigation.Screen
 
 @Preview(showSystemUi = true)
 @Composable
@@ -26,8 +28,9 @@ fun DetailProjectTopBarPreview(){
 @Composable
 fun DetailWorkspaceTopBar(
     modifier: Modifier = Modifier,
-    workspaceName : String,
-    onPopBack: () -> Unit
+    workspaceName: String,
+    onPopBack: () -> Unit,
+    navController: NavController
 ){
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -57,7 +60,7 @@ fun DetailWorkspaceTopBar(
         }
         IconButton(
             onClick = {
-
+                navController.navigate(Screen.SearchMemberScreen.route)
             }
         ) {
             Icon(

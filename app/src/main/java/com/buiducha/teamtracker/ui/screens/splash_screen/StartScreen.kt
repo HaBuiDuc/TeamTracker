@@ -45,28 +45,17 @@ import com.buiducha.teamtracker.viewmodel.SplashViewModel
 import kotlinx.coroutines.delay
 
 @Composable
-fun AnimatedSplashScreen(navController: NavHostController,
-                         splashViewModel: SplashViewModel = viewModel()
-){
-    var startAnimation by remember {
-        mutableStateOf(false)
-    }
-    var progress by remember {
-        mutableFloatStateOf(0f)
-    }
-
+fun AnimatedSplashScreen(navController: NavHostController, splashViewModel: SplashViewModel = viewModel()) {
+    var startAnimation by remember { mutableStateOf(false) }
+    var progress by remember { mutableFloatStateOf(0f) }
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = true,  block = {
+    LaunchedEffect(key1 = true, block = {
         splashViewModel.checkAuthState(
             onLogged = {
                 splashViewModel.onLoginSuccess(
-                    onUserExists = {
-                        startMainActivity(context = context)
-                    },
-                    onUserNotExists = {
-                        navController.navigate(Screen.AddInfoScreen.route)
-                    }
+                    onUserExists = { startMainActivity(context = context) },
+                    onUserNotExists = { navController.navigate(Screen.AddInfoScreen.route) }
                 )
             },
             onNotLogged = {
@@ -76,7 +65,7 @@ fun AnimatedSplashScreen(navController: NavHostController,
             }
         )
     })
-    // Animate the progress of the loading bar
+
     LaunchedEffect(key1 = startAnimation) {
         while (progress < 1f) {
             progress += 0.01f
@@ -87,11 +76,9 @@ fun AnimatedSplashScreen(navController: NavHostController,
     StartScreen(alpha = 1f, progress = progress)
 }
 
-
 @Composable
 fun StartScreen(alpha: Float, progress: Float) {
     var loadingText by remember { mutableStateOf("Loading") }
-
     val infiniteTransition = rememberInfiniteTransition(label = "")
     val scale by infiniteTransition.animateFloat(
         initialValue = 0f,
