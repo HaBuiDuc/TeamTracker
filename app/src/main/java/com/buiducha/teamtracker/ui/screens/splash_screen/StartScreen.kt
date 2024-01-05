@@ -1,6 +1,11 @@
 package com.buiducha.teamtracker.ui.screens.splash_screen
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -86,6 +92,16 @@ fun AnimatedSplashScreen(navController: NavHostController,
 fun StartScreen(alpha: Float, progress: Float) {
     var loadingText by remember { mutableStateOf("Loading") }
 
+    val infiniteTransition = rememberInfiniteTransition(label = "")
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 2500, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ), label = ""
+    )
+
     LaunchedEffect(key1 = Unit) {
         while (true) {
             delay(500)  // delay 0.5 second
@@ -100,13 +116,13 @@ fun StartScreen(alpha: Float, progress: Float) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-    )
-    {
+    ) {
         Box(
             modifier = Modifier
                 .background(color = colorResource(id = R.color.white))
                 .fillMaxSize()
         ) {
+
             Image(
                 painterResource(id = R.drawable.teamtracker2),
                 contentDescription = "",
@@ -114,6 +130,7 @@ fun StartScreen(alpha: Float, progress: Float) {
                     .size(400.dp)
                     .align(Alignment.Center)
                     .alpha(alpha = alpha)
+                    .graphicsLayer(scaleX = scale, scaleY = scale) // Apply scale animation here
             )
             Column(
                 modifier = Modifier
