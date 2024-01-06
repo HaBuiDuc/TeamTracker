@@ -57,26 +57,32 @@ fun SearchMemberScreen(
 ) {
     val memberManagementState by memberManagementViewModel.memberManagementState.collectAsState()
     var query: MutableState<String> = remember { mutableStateOf("") }
-
-
     var memberList: MutableList<UserData> = memberManagementState.memberList
 
-//    memberList.add(memberManagementState.workspaceOwner)
     val filteredMemberList: MutableList<UserData> = memberList.filter {
         it.fullName.contains(query.value, ignoreCase = true)
                 || it.email.contains(query.value, ignoreCase = true)
     }.toMutableList()
 
-    val ownerAsList: MutableList<UserData> = mutableListOf(memberManagementState.workspaceOwner)
-    ownerAsList.filter {
+    var ownerAsList: MutableList<UserData> = mutableListOf(memberManagementState.workspaceOwner)
+    ownerAsList = ownerAsList.filter {
         it.fullName.contains(query.value, ignoreCase = true)
                 || it.email.contains(query.value, ignoreCase = true)
     }.toMutableList()
+
     Scaffold(
         topBar = { TopAppBarSearchMember(query = query, navController = navController) }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding() + 20.dp, start = 20.dp)) {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(24.dp), userScrollEnabled = true) {
+        Column(
+            modifier = Modifier.padding(
+                top = paddingValues.calculateTopPadding() + 20.dp,
+                start = 20.dp
+            )
+        ) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+                userScrollEnabled = true
+            ) {
                 items(ownerAsList) {
                     MemberItem(member = it, isWorkspaceOwner = true)
                 }
