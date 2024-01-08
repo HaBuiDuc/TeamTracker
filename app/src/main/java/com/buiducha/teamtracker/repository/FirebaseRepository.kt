@@ -556,6 +556,28 @@ class FirebaseRepository private constructor(context: Context) {
             })
     }
 
+    fun updateTask(
+        task: Task
+    ) {
+        tasksRef.orderByChild("id").equalTo(task.id)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { shot ->
+                        shot.ref.child("name").setValue(workspace.name)
+                        shot.ref.child("describe").setValue(workspace.describe)
+                        if (uri != null) {
+                            shot.ref.child("avatar").setValue(workspace.avatar)
+                        }
+                    }
+                    onUpdateSuccess()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    onUpdateFailure()
+                }
+            })
+    }
+
     companion object {
         const val TAG = "FirebaseRepository"
         private var INSTANCE: FirebaseRepository? = null

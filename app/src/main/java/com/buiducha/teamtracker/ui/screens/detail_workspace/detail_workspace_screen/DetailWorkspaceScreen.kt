@@ -15,13 +15,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen.PostsScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen.ScheduleScreen
-import com.buiducha.teamtracker.viewmodel.BoardViewModel
-import com.buiducha.teamtracker.viewmodel.CreateBoardViewModel
-import com.buiducha.teamtracker.viewmodel.ScheduleViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.launch
@@ -95,7 +91,8 @@ fun DetailWorkspaceScreen(
                     )
                 } else if (page == 1) {
                     ScheduleScreen(
-                        selectedWorkspaceViewModel = selectedWorkspaceViewModel
+                        selectedWorkspaceViewModel = selectedWorkspaceViewModel,
+                        navController = navController
                     )
                 }
             }

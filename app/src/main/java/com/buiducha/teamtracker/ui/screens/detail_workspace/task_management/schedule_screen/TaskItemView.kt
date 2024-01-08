@@ -1,6 +1,7 @@
 package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,7 +14,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -40,12 +40,13 @@ fun TaskItemPreview() {
         task = Task(
             title = "This is a task"
         )
-    )
+    ) {}
 }
 
 @Composable
 fun TaskItemView(
-    task: Task
+    task: Task,
+    onTaskPressed: () -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
@@ -56,10 +57,13 @@ fun TaskItemView(
                 shape = RoundedCornerShape(8.dp)
             )
             .fillMaxWidth()
+            .clickable {
+                onTaskPressed()
+            }
 
     ) {
         Column(Modifier.padding(10.dp)) {
-            if (task.tag != "") {
+            if (task.tag != 0) {
                 BoxTagColor(
                     taskTag = 2
                 )
@@ -70,7 +74,7 @@ fun TaskItemView(
                 fontSize = 18.sp,
             )
 
-            if (task.startTime != null && task.dueTime != null) {
+            if (task.startDate != null && task.dueDate != null) {
                 Spacer(modifier = Modifier.padding(5.dp))
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
