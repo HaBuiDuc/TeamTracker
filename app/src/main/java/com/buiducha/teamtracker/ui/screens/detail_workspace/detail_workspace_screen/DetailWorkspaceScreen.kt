@@ -39,7 +39,8 @@ fun DetailWorkspaceScreen(
                 workspaceName = selectedWorkspaceViewModel.workspace.collectAsState().value.name,
                 onPopBack = {
                     navController.popBackStack()
-                }
+                },
+                navController = navController
             )
         }
     ) { paddingValues ->

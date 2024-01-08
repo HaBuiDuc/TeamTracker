@@ -27,4 +27,5 @@ sealed class Screen(
     object EditTaskScreen: Screen("edit_task_screen")
     object IntroduceScreen: Screen("introduce_screen")
     object PrivacyPolicyScreen: Screen("privacy_policy_screen")
+    object SearchMemberScreen: Screen("search_member_screen")
 }

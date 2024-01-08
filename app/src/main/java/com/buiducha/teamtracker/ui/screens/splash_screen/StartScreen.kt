@@ -1,6 +1,11 @@
 package com.buiducha.teamtracker.ui.screens.splash_screen
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,54 +14,58 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
+import com.buiducha.teamtracker.utils.startMainActivity
+import com.buiducha.teamtracker.viewmodel.SplashViewModel
 import kotlinx.coroutines.delay
-import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material3.Text
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 
 @Composable
-fun AnimatedSplashScreen(navController: NavHostController){
-    var startAnimation by remember {
-        mutableStateOf(false)
-    }
-    var progress by remember {
-        mutableStateOf(0f)
-    }
-    var alphaAnim = animateFloatAsState(
-        targetValue = if(startAnimation) 1f else 0f,
-        animationSpec = tween(
-            durationMillis = 4000
-        )
-    )
+fun AnimatedSplashScreen(navController: NavHostController, splashViewModel: SplashViewModel = viewModel()) {
+    var startAnimation by remember { mutableStateOf(false) }
+    var progress by remember { mutableFloatStateOf(0f) }
+    val context = LocalContext.current
 
-    LaunchedEffect(key1 = true) {
-        startAnimation = true
-        delay(2200)
-        navController.popBackStack()
-        navController.navigate(Screen.LoginScreen.route)
-    }
-    // Animate the progress of the loading bar
+    LaunchedEffect(key1 = true, block = {
+        splashViewModel.checkAuthState(
+            onLogged = {
+                splashViewModel.onLoginSuccess(
+                    onUserExists = { startMainActivity(context = context) },
+                    onUserNotExists = { navController.navigate(Screen.AddInfoScreen.route) }
+                )
+            },
+            onNotLogged = {
+                startAnimation = true
+                navController.popBackStack()
+                navController.navigate(Screen.LoginScreen.route)
+            }
+        )
+    })
+
     LaunchedEffect(key1 = startAnimation) {
         while (progress < 1f) {
             progress += 0.01f
@@ -64,13 +73,21 @@ fun AnimatedSplashScreen(navController: NavHostController){
         }
     }
 
-    StartScreen(alpha = alphaAnim.value, progress = progress)
+    StartScreen(alpha = 1f, progress = progress)
 }
-
 
 @Composable
 fun StartScreen(alpha: Float, progress: Float) {
     var loadingText by remember { mutableStateOf("Loading") }
+    val infiniteTransition = rememberInfiniteTransition(label = "")
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 2500, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ), label = ""
+    )
 
     LaunchedEffect(key1 = Unit) {
         while (true) {
@@ -86,13 +103,13 @@ fun StartScreen(alpha: Float, progress: Float) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-    )
-    {
+    ) {
         Box(
             modifier = Modifier
                 .background(color = colorResource(id = R.color.white))
                 .fillMaxSize()
         ) {
+
             Image(
                 painterResource(id = R.drawable.teamtracker2),
                 contentDescription = "",
@@ -100,6 +117,7 @@ fun StartScreen(alpha: Float, progress: Float) {
                     .size(400.dp)
                     .align(Alignment.Center)
                     .alpha(alpha = alpha)
+                    .graphicsLayer(scaleX = scale, scaleY = scale) // Apply scale animation here
             )
             Column(
                 modifier = Modifier
@@ -125,9 +143,3 @@ fun StartScreen(alpha: Float, progress: Float) {
         }
     }
 }
-
-//@Preview(showSystemUi = true)
-//@Composable
-//fun xssPreview(){
-//    StartScreen (alpha = 1f)
-//}

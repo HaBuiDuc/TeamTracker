@@ -559,24 +559,66 @@ class FirebaseRepository private constructor(context: Context) {
     fun updateTask(
         task: Task
     ) {
-        tasksRef.orderByChild("id").equalTo(task.id)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+//        tasksRef.orderByChild("id").equalTo(task.id)
+//            .addListenerForSingleValueEvent(object : ValueEventListener {
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    snapshot.children.forEach { shot ->
+//                        shot.ref.child("name").setValue(workspace.name)
+//                        shot.ref.child("describe").setValue(workspace.describe)
+//                        if (uri != null) {
+//                            shot.ref.child("avatar").setValue(workspace.avatar)
+//                        }
+//                    }
+//                    onUpdateSuccess()
+//                }
+//
+//                override fun onCancelled(error: DatabaseError) {
+//                    onUpdateFailure()
+//                }
+//            })
+    }
+
+    fun updateUserAvatar(
+        avatarUri: MutableState<String>
+    ){
+        usersRef.orderByChild("id").equalTo(getCurrentUser()?.uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach { shot ->
-                        shot.ref.child("name").setValue(workspace.name)
-                        shot.ref.child("describe").setValue(workspace.describe)
-                        if (uri != null) {
-                            shot.ref.child("avatar").setValue(workspace.avatar)
-                        }
+                            shot.ref.child("avatarUri").setValue(avatarUri.value)
                     }
-                    onUpdateSuccess()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    onUpdateFailure()
+
                 }
             })
     }
+
+//    fun updateWorkspace(
+//        uri: Uri?,
+//        workspace: Workspace,
+//        onUpdateSuccess: () -> Unit,
+//        onUpdateFailure: () -> Unit
+//    ) {
+//        workspacesRef.orderByChild("id").equalTo(workspace.id)
+//            .addListenerForSingleValueEvent(object : ValueEventListener {
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    snapshot.children.forEach { shot ->
+//                        shot.ref.child("name").setValue(workspace.name)
+//                        shot.ref.child("describe").setValue(workspace.describe)
+//                        if (uri != null) {
+//                            shot.ref.child("avatar").setValue(workspace.avatar)
+//                        }
+//                    }
+//                    onUpdateSuccess()
+//                }
+//
+//                override fun onCancelled(error: DatabaseError) {
+//                    onUpdateFailure()
+//                }
+//            })
+//    }
 
     companion object {
         const val TAG = "FirebaseRepository"
