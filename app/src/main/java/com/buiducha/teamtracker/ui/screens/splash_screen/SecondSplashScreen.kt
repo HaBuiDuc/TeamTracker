@@ -32,8 +32,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
-
-
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 
 
 @Preview(showSystemUi = true)
@@ -41,6 +41,7 @@ import com.buiducha.teamtracker.ui.navigation.Screen
 fun sssPreview(){
     SecondSplashScreen(navController = rememberNavController())
 }
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun SecondSplashScreen(navController: NavController) {
     Box(
@@ -67,28 +68,11 @@ fun SecondSplashScreen(navController: NavController) {
                 modifier = Modifier
                     .align(Alignment.TopCenter)
             ) {
-                Image(
-                    painterResource(id = R.drawable.sls_2_img1),
+                GlideImage(model = "https://digifile.co/wp-content/uploads/2020/03/L1.gif",
                     contentDescription = "",
                     modifier = Modifier
                         .size(400.dp)
-                        .align(Alignment.TopCenter)
-                        .offset(y = 80.dp)
-                )
-                Box(
-                    modifier = Modifier
-                        .size(400.dp)
-                        .align(Alignment.TopCenter)
-                        .offset(y = 80.dp)
-                        .background(color = colorResource(id = R.color.transparent_white))
-                )
-                Image(
-                    painterResource(id = R.drawable.splashscreen_img_2), contentDescription = "",
-                    modifier = Modifier
-                        .size(280.dp)
-                        .align(Alignment.TopCenter)
-                        .offset(y = 80.dp)
-                )
+                        .align(Alignment.TopCenter))
             }
 
 
