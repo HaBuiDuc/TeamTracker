@@ -12,12 +12,8 @@ import com.buiducha.teamtracker.ui.screens.detail_workspace.chat_screen.ChatScre
 import com.buiducha.teamtracker.ui.screens.detail_workspace.create_post_screen.CreatePostScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.detail_workspace_screen.DetailWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen.PostsScreen
-<<<<<<< HEAD
-import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.edit_task_screen.EditTaskScreen
-||||||| bcc2568
-=======
 import com.buiducha.teamtracker.ui.screens.detail_workspace.search_member_screen.SearchMemberScreen
->>>>>>> 655f5e3a32749514936712ddec0a577b161772ef
+import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.edit_task_screen.EditTaskScreen
 import com.buiducha.teamtracker.ui.screens.edit_workspace.EditWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
@@ -54,7 +50,7 @@ fun MainGraph(
             )
         }
         composable(
-            route = BottomBarScreen.CalendarScreen.route
+            route = BottomBarScreen.MessageScreen.route
         ) {
         }
         composable(
@@ -151,21 +147,24 @@ fun MainGraph(
         ){
             PrivacyPolicyScreen(navController = navHostController)
         }
-<<<<<<< HEAD
 
         composable(
-            route = Screen.EditTaskScreen.route
-        ) {
-            EditTaskScreen(navController = navHostController)
+            "${Screen.EditTaskScreen.route}/{taskId}"
+//            route = Screen.EditTaskScreen.route
+        ) {navBackStackEntry ->
+            val taskId = navBackStackEntry.arguments?.getString("taskId")
+            if (taskId != null) {
+                EditTaskScreen(
+                    navController = navHostController,
+                    taskId = taskId
+                )
+            }
         }
-||||||| bcc2568
-=======
 
         composable(
             route = Screen.SearchMemberScreen.route
         ){
             SearchMemberScreen(selectedWorkspaceViewModel = selectedWorkspaceViewModel, navController = navHostController)
         }
->>>>>>> 655f5e3a32749514936712ddec0a577b161772ef
     }
 }

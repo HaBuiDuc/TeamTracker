@@ -9,6 +9,7 @@ import androidx.compose.runtime.MutableState
 import com.buiducha.teamtracker.data.model.message.PostMessage
 import com.buiducha.teamtracker.data.model.project.Board
 import com.buiducha.teamtracker.data.model.project.Task
+import com.buiducha.teamtracker.data.model.project.TaskMember
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.data.model.project.WorkspacePost
@@ -34,6 +35,7 @@ class FirebaseRepository private constructor(context: Context) {
     private val postsRef = database.getReference("posts")
     private val boardsRef = database.getReference("boards")
     private val tasksRef = database.getReference("tasks")
+    private val taskMemberRef = database.getReference("task_member")
     private val storage = com.google.firebase.Firebase.storage
     private var storageRef = storage.reference
 
@@ -392,7 +394,7 @@ class FirebaseRepository private constructor(context: Context) {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-
+                    onGetPostsFailure()
                 }
             })
     }
@@ -533,6 +535,24 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
+    fun getTask(
+        taskId: String,
+        onGetDataSuccess: (Task) -> Unit
+    ) {
+        tasksRef.orderByChild("id").equalTo(taskId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { shot ->
+                    val data = shot.getValue(Task::class.java)
+                    data?.let(onGetDataSuccess)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
     fun getTasks(
         boardId: String,
         onGetTaskSuccess: (List<Task>) -> Unit
@@ -557,30 +577,97 @@ class FirebaseRepository private constructor(context: Context) {
     }
 
     fun updateTask(
-        task: Task
+        task: Task,
+        onUpdateSuccess: () -> Unit,
+        onUpdateFailure: () -> Unit
     ) {
-//        tasksRef.orderByChild("id").equalTo(task.id)
-//            .addListenerForSingleValueEvent(object : ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    snapshot.children.forEach { shot ->
-//                        shot.ref.child("name").setValue(workspace.name)
-//                        shot.ref.child("describe").setValue(workspace.describe)
-//                        if (uri != null) {
-//                            shot.ref.child("avatar").setValue(workspace.avatar)
-//                        }
-//                    }
-//                    onUpdateSuccess()
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {
-//                    onUpdateFailure()
-//                }
-//            })
+        tasksRef.orderByChild("id").equalTo(task.id)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { shot ->
+                        shot.ref.child("description").setValue(task.description)
+                        shot.ref.child("title").setValue(task.title)
+                        if (task.startDate != null) {
+                            shot.ref.child("startDate").setValue(task.startDate)
+                        }
+                        if (task.dueDate != null) {
+                            shot.ref.child("dueDate").setValue(task.dueDate)
+                        }
+                    }
+                    onUpdateSuccess()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    onUpdateFailure()
+                }
+            })
+    }
+
+    fun getTaskMember(
+        taskId: String,
+        onGetMemberSuccess: (MutableList<UserData>) -> Unit,
+        onGetMemberFailure: () -> Unit
+    ) {
+        taskMemberRef.orderByChild("taskId").equalTo(taskId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val members = mutableListOf<String>()
+                    snapshot.children.forEach { shot ->
+                        val memberId = shot.child("userId").getValue(String::class.java)
+                        if (memberId != null) {
+                            members.add(memberId)
+                        }
+                    }
+
+                    usersRef.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val dataList = mutableListOf<UserData>()
+                            snapshot.children.forEach { shot ->
+                                val data = shot.getValue(UserData::class.java)
+                                data?.let { member ->
+                                    if (members.contains(member.id)) {
+                                        dataList += member
+                                    }
+                                }
+                                Log.d(TAG, "onDataChange: $data")
+                            }
+                            onGetMemberSuccess(dataList)
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            onGetMemberFailure()
+                        }
+                    })
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
+    }
+
+    fun addMemberToTask(
+        taskMember: TaskMember,
+        onAddSuccess: () -> Unit,
+        onAddFailure: () -> Unit
+    ) {
+        taskMemberRef.push().setValue(taskMember)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d(TAG, "add member to task success")
+                    onAddSuccess()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "add member to task failure", e)
+                onAddFailure()
+            }
     }
 
     fun updateUserAvatar(
         avatarUri: MutableState<String>
-    ){
+    ) {
         usersRef.orderByChild("id").equalTo(getCurrentUser()?.uid)
             .addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {

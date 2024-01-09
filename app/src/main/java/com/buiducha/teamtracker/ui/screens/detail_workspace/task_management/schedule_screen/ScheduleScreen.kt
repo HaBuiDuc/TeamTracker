@@ -80,8 +80,8 @@ fun ScheduleScreen(
                     BoardScreen(
 //                        board = scheduleState.boardList[page],
                         boardViewModel = boardViewModel,
-                        onTaskEdit = {
-                            navController.navigate(Screen.EditTaskScreen.route)
+                        onTaskEdit = {taskId ->
+                            navController.navigate("${Screen.EditTaskScreen.route}/${taskId}")
                         }
                     )
                 }

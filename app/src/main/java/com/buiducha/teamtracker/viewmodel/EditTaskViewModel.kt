@@ -9,22 +9,61 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class EditTaskViewModel(
-    private val task: Task
+    private val taskId: String
 ) : ViewModel() {
     private val firebaseRepository = FirebaseRepository.get()
+    private lateinit var taskData: Task
     private val _editTaskState = MutableStateFlow(EditTaskState())
     val editTaskState: StateFlow<EditTaskState> = _editTaskState.asStateFlow()
 
-    fun updateTask() {
+    init {
+        initValue()
     }
 
-    private fun getValue() {
-        _editTaskState.value = _editTaskState.value.copy(
-            title = task.title,
-            description = task.description,
-            tag = task.tag,
-            startDate = task.startDate,
-            dueDate = task.dueDate
+    fun updateTask(
+        onUpdateSuccess: () -> Unit,
+        onUpdateFailure: () -> Unit
+    ) {
+        val newTask = taskData.copy(
+            title = editTaskState.value.title,
+            description = editTaskState.value.description,
+            tag = editTaskState.value.tag,
+            startDate = editTaskState.value.startDate,
+            dueDate = editTaskState.value.dueDate
+        )
+
+        firebaseRepository.updateTask(
+            task = newTask,
+            onUpdateSuccess = onUpdateSuccess,
+            onUpdateFailure = onUpdateFailure
+        )
+    }
+
+    private fun initValue() {
+        firebaseRepository.getTask(
+            taskId = taskId,
+            onGetDataSuccess = {task ->
+                taskData = task
+                _editTaskState.value = _editTaskState.value.copy(
+                    title = task.title,
+                    description = task.description,
+                    tag = task.tag,
+                    startDate = task.startDate,
+                    dueDate = task.dueDate
+                )
+            }
+        )
+
+        firebaseRepository.getTaskMember(
+            taskId = taskId,
+            onGetMemberSuccess = {memberList ->
+                _editTaskState.value = _editTaskState.value.copy(
+                    memberList = memberList
+                )
+            },
+            onGetMemberFailure = {
+
+            }
         )
     }
 

@@ -3,10 +3,12 @@ package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.edi
 import android.view.textservice.SpellCheckerSession.SpellCheckerSessionParams
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,11 +16,16 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DriveFileRenameOutline
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material3.DatePicker
@@ -44,9 +51,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -55,8 +66,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.project.Task
+import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.ui.screens.shared.HorizontalLine
 import com.buiducha.teamtracker.viewmodel.EditTaskViewModel
+import com.buiducha.teamtracker.viewmodel.MemberManagementViewModel
+import com.bumptech.glide.Glide
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -68,18 +84,17 @@ import java.util.Locale
 @Preview
 @Composable
 fun EditTaskPreview() {
-    EditTaskScreen(navController = rememberNavController())
+//    EditTaskScreen(navController = rememberNavController())
 }
 
 @Composable
 fun EditTaskScreen(
     navController: NavController,
-    editTaskViewModel: EditTaskViewModel = viewModel { EditTaskViewModel(Task()) }
+    taskId: String,
+    editTaskViewModel: EditTaskViewModel = viewModel { EditTaskViewModel(taskId) }
 ) {
     val editTaskState by editTaskViewModel.editTaskState.collectAsState()
 
-    //state quản lý mở/đóng các picker và dropdown menu
-    val expanded = remember { mutableStateOf(false) }
     var isShowPicker by remember {
         mutableStateOf(false)
     }
@@ -94,7 +109,14 @@ fun EditTaskScreen(
                     navController.popBackStack()
                 },
                 onEditSubmit = {
+                    editTaskViewModel.updateTask(
+                        onUpdateSuccess = {
+                            navController.popBackStack()
+                        },
+                        onUpdateFailure = {
 
+                        }
+                    )
                 }
             )
         }
@@ -138,7 +160,6 @@ fun EditTaskScreen(
                 )
             }
 
-// Nhập tên task
             TextField(
                 value = editTaskState.title,
                 modifier = Modifier.fillMaxWidth(),
@@ -203,52 +224,78 @@ fun EditTaskScreen(
 //=======================================================================
 // Thêm thành viên
             Spacer(modifier = Modifier.padding(5.dp))
-            Text(text = "Responsible member")
-            Row(
-                Modifier
-                    .height(60.dp)
-                    .background(color = Color.LightGray)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "",
-                    modifier = Modifier.padding(15.dp)
-                )
-                //danh sách các thành viên tham gia nhiệm vụ
-                //===============
-                Row {
-
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .background(
-                                color = colorResource(id = R.color.super_light_blue),
-                                shape = CircleShape
-                            )
-                            .padding(12.dp)
-                            .size(28.dp)
-                    ) {
-                        Text(
-                            text = "CN",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
+            Column {
+                var isExpand by remember {
+                    mutableStateOf(false)
                 }
-                //==================
-
-                IconButton(
-                    onClick = { /*TODO*/ },
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            isExpand = !isExpand
+                        }
                 ) {
+                    Text(text = "Responsible member")
                     Icon(
-                        imageVector = Icons.Filled.Add,
-                        contentDescription = "",
-                        tint = Color.Blue
+                        imageVector = if (isExpand) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                        contentDescription = null
                     )
                 }
+                if (isExpand) {
+                    LazyColumn {
+                        items(editTaskState.memberList) {member ->
+                            MemberView(member = member)
+                        }
+                    }
+                }
             }
+
+//            Row(
+//                Modifier
+//                    .height(60.dp)
+//                    .background(color = Color.LightGray)
+//                    .fillMaxWidth(),
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Default.Person,
+//                    contentDescription = "",
+//                    modifier = Modifier.padding(15.dp)
+//                )
+//                //danh sách các thành viên tham gia nhiệm vụ
+//                //===============
+//                Row {
+//
+//                    Box(
+//                        contentAlignment = Alignment.Center,
+//                        modifier = Modifier
+//                            .background(
+//                                color = colorResource(id = R.color.super_light_blue),
+//                                shape = CircleShape
+//                            )
+//                            .padding(12.dp)
+//                            .size(28.dp)
+//                    ) {
+//                        Text(
+//                            text = "CN",
+//                            fontSize = 16.sp,
+//                            fontWeight = FontWeight.SemiBold
+//                        )
+//                    }
+//                }
+//                //==================
+//
+//                IconButton(
+//                    onClick = { /*TODO*/ },
+//                ) {
+//                    Icon(
+//                        imageVector = Icons.Filled.Add,
+//                        contentDescription = "",
+//                        tint = Color.Blue
+//                    )
+//                }
+//            }
 
 //=======================================================================
 // Chọn thời gian bắt đầu, kết thúc
@@ -407,9 +454,6 @@ fun DropDownMenuTag(
     expanded: MutableState<Boolean>,
     taskTag: MutableState<Int>
 ) {
-
-//    var expanded = expanded
-//    var taskTag = taskTag
     DropdownMenu(
         expanded = expanded.value,
         onDismissRequest = { expanded.value = true }
@@ -516,5 +560,33 @@ fun DropDownMenuTag(
                 }
             )
         )
+    }
+}
+
+@OptIn(ExperimentalGlideComposeApi::class)
+@Composable
+fun MemberView(
+    member: UserData
+) {
+    Row {
+       if (member.avatarUri != null) {
+           GlideImage(
+               model = member.avatarUri,
+               contentDescription = null,
+               contentScale = ContentScale.Crop,
+               modifier = Modifier
+                   .clip(RoundedCornerShape(10))
+                   .width(44.dp)
+                   .aspectRatio(1f)
+           )
+       } else {
+           Box(
+               contentAlignment = Alignment.Center,
+               modifier = Modifier
+                   .background(Color.Blue)
+           ) {
+               Text(text = member.fullName.substring(0, 2).uppercase(Locale.ROOT))
+           }
+       }
     }
 }

@@ -44,7 +44,7 @@ fun BoardScreen(
 //    board: Board,
 //    boardViewModel: BoardViewModel = viewModel { BoardViewModel(board) },
     boardViewModel: BoardViewModel,
-    onTaskEdit: () -> Unit
+    onTaskEdit: (String) -> Unit
 ) {
     Log.d("This is a log", "BoardScreen: ")
     val boardState by boardViewModel.boardState.collectAsState()
@@ -87,7 +87,9 @@ fun BoardScreen(
                 boardState.taskList.forEach { task ->
                     TaskItemView(
                         task = task,
-                        onTaskPressed = onTaskEdit
+                        onTaskPressed = {
+                            onTaskEdit(task.id)
+                        }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
