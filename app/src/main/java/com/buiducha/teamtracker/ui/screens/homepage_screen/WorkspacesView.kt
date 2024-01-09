@@ -79,7 +79,7 @@ private fun WorkspaceItem(
                     modifier = Modifier
                         .background(
                             color = Color.LightGray,
-                            shape = RoundedCornerShape(16.dp)
+                            shape = RoundedCornerShape(10.dp)
                         )
                         .padding(12.dp)
                         .size(32.dp)
@@ -97,7 +97,7 @@ private fun WorkspaceItem(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .clip(RoundedCornerShape(10))
-                        .width(44.dp)
+                        .width(54.dp)
                         .aspectRatio(1f)
                 )
             }

@@ -16,7 +16,7 @@ import com.buiducha.teamtracker.ui.screens.detail_workspace.search_member_screen
 import com.buiducha.teamtracker.ui.screens.edit_workspace.EditWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
-import com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen.MemberManagementScreen
+import com.buiducha.teamtracker.ui.screens.member_management.member_management_screen.MemberManagementScreen
 import com.buiducha.teamtracker.ui.screens.settings.introduce_screen.IntroduceScreen
 import com.buiducha.teamtracker.ui.screens.settings.privacy_policy_screen.PrivacyPolicyScreen
 import com.buiducha.teamtracker.ui.screens.settings.settings_screen.SettingsScreen
