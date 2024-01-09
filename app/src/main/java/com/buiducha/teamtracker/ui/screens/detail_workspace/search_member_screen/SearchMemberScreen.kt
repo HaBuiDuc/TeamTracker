@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -56,22 +55,29 @@ fun SearchMemberScreen(
     navController: NavController
 ) {
     val memberManagementState by memberManagementViewModel.memberManagementState.collectAsState()
-    var query: MutableState<String> = remember { mutableStateOf("") }
-    var memberList: MutableList<UserData> = memberManagementState.memberList
+    val query: MutableState<String> = remember { mutableStateOf("") }
+    val memberList: MutableList<UserData> = memberManagementState.memberList
 
     val filteredMemberList: MutableList<UserData> = memberList.filter {
-        it.fullName.contains(query.value, ignoreCase = true)
-                || it.email.contains(query.value, ignoreCase = true)
+        it.fullName.contains(query.value,
+            ignoreCase = true)
+                || it.email.contains(query.value,
+            ignoreCase = true)
     }.toMutableList()
 
     var ownerAsList: MutableList<UserData> = mutableListOf(memberManagementState.workspaceOwner)
     ownerAsList = ownerAsList.filter {
-        it.fullName.contains(query.value, ignoreCase = true)
-                || it.email.contains(query.value, ignoreCase = true)
+        it.fullName.contains(query.value,
+            ignoreCase = true)
+                ||
+                it.email.contains(query.value,
+            ignoreCase = true)
     }.toMutableList()
 
     Scaffold(
-        topBar = { TopAppBarSearchMember(query = query, navController = navController) }
+        topBar = { TopAppBarSearchMember(
+            query = query,
+            navController = navController) }
     ) { paddingValues ->
         Column(
             modifier = Modifier.padding(
@@ -101,16 +107,6 @@ fun TopAppBarSearchMember(query: MutableState<String>,
                           navController: NavController
 ){
     Row {
-        IconButton(
-            onClick = {
-                navController.popBackStack()
-            }
-        ) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = null
-            )
-        }
         SearchBar(
             query = query.value,
             onQueryChange = {
@@ -126,15 +122,28 @@ fun TopAppBarSearchMember(query: MutableState<String>,
             placeholder = {
                 Text(text = stringResource(id = R.string.enter_member_email))
             },
+            leadingIcon = {
+                IconButton(
+                    onClick = {
+                        navController.popBackStack()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = null
+                    )
+                }
+            },
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Outlined.Search,
                     contentDescription = null
                 )
             },
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(10.dp),
             modifier = modifier
                 .fillMaxWidth()
+                .padding(horizontal = 10.dp)
         ) {}
     }
 
@@ -144,7 +153,7 @@ fun TopAppBarSearchMember(query: MutableState<String>,
 @Composable
 fun MemberItem(member: UserData, isWorkspaceOwner: Boolean)
 {
-    var isWorkspaceOwnerText: String = "Member"
+    var isWorkspaceOwnerText = "Member"
     if(isWorkspaceOwner) {isWorkspaceOwnerText = "Owner"}
     Row {
         Box(modifier = Modifier .padding(end = 10.dp)) {
