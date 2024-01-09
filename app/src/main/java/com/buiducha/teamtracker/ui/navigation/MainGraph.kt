@@ -13,6 +13,7 @@ import com.buiducha.teamtracker.ui.screens.detail_workspace.create_post_screen.C
 import com.buiducha.teamtracker.ui.screens.detail_workspace.detail_workspace_screen.DetailWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen.PostsScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.search_member_screen.SearchMemberScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.edit_task_screen.EditTaskScreen
 import com.buiducha.teamtracker.ui.screens.edit_workspace.EditWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
@@ -49,7 +50,7 @@ fun MainGraph(
             )
         }
         composable(
-            route = BottomBarScreen.CalendarScreen.route
+            route = BottomBarScreen.MessageScreen.route
         ) {
         }
         composable(
@@ -145,6 +146,19 @@ fun MainGraph(
             route = Screen.PrivacyPolicyScreen.route
         ){
             PrivacyPolicyScreen(navController = navHostController)
+        }
+
+        composable(
+            "${Screen.EditTaskScreen.route}/{taskId}"
+//            route = Screen.EditTaskScreen.route
+        ) {navBackStackEntry ->
+            val taskId = navBackStackEntry.arguments?.getString("taskId")
+            if (taskId != null) {
+                EditTaskScreen(
+                    navController = navHostController,
+                    taskId = taskId
+                )
+            }
         }
 
         composable(

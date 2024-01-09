@@ -35,15 +35,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.buiducha.teamtracker.data.model.project.Board
+import androidx.navigation.NavController
+import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.viewmodel.BoardViewModel
 
 @Composable
 fun BoardScreen(
 //    board: Board,
 //    boardViewModel: BoardViewModel = viewModel { BoardViewModel(board) },
-    boardViewModel: BoardViewModel
+    boardViewModel: BoardViewModel,
+    onTaskEdit: (String) -> Unit
 ) {
     Log.d("This is a log", "BoardScreen: ")
     val boardState by boardViewModel.boardState.collectAsState()
@@ -84,7 +85,12 @@ fun BoardScreen(
                 }
 
                 boardState.taskList.forEach { task ->
-                    TaskItemView(task = task)
+                    TaskItemView(
+                        task = task,
+                        onTaskPressed = {
+                            onTaskEdit(task.id)
+                        }
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
 

@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.create_task_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.edit_task_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -13,12 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
-@Preview(showSystemUi = true)
 @Composable
-fun CreateTaskTopBar(){
+fun EditTaskTopBar(
+    onEditSubmit: () -> Unit,
+    onPopBack: () -> Unit
+){
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -30,7 +31,7 @@ fun CreateTaskTopBar(){
         ) {
             IconButton(
                 onClick = {
-
+                    onPopBack()
                 }
             ) {
                 Icon(
@@ -46,7 +47,7 @@ fun CreateTaskTopBar(){
         }
         IconButton(
             onClick = {
-
+                onEditSubmit()
             }
         ) {
             Icon(
