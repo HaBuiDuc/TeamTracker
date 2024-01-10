@@ -2,14 +2,17 @@ package com.buiducha.teamtracker.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.data.model.project.Task
+import com.buiducha.teamtracker.data.model.project.TaskMember
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.ui.states.EditTaskState
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class EditTaskViewModel(
-    private val taskId: String
+    private val taskId: String,
+    private val selectedWorkspace: SelectedWorkspaceViewModel
 ) : ViewModel() {
     private val firebaseRepository = FirebaseRepository.get()
     private lateinit var taskData: Task
@@ -42,7 +45,7 @@ class EditTaskViewModel(
     private fun initValue() {
         firebaseRepository.getTask(
             taskId = taskId,
-            onGetDataSuccess = {task ->
+            onGetDataSuccess = { task ->
                 taskData = task
                 _editTaskState.value = _editTaskState.value.copy(
                     title = task.title,
@@ -56,20 +59,66 @@ class EditTaskViewModel(
 
         firebaseRepository.getTaskMember(
             taskId = taskId,
-            onGetMemberSuccess = {memberList ->
+            onGetMemberSuccess = { memberList ->
                 _editTaskState.value = _editTaskState.value.copy(
-                    memberList = memberList
+                    joinedMemberList = memberList
+                )
+                firebaseRepository.getWorkspaceMember(
+                    workspaceId = selectedWorkspace.workspace.value.id,
+                    onGetMemberSuccess = { userList ->
+                        userList.removeIf { user -> memberList.contains(user) }
+                        _editTaskState.value = _editTaskState.value.copy(
+                            remainMemberList = userList
+                        )
+                    },
+                    onGetMemberFailure = {}
                 )
             },
             onGetMemberFailure = {
 
             }
         )
+
+
     }
 
     fun getTaskValue() {
         _editTaskState.value = _editTaskState.value.copy(
 
+        )
+    }
+
+    fun onAddMember() {
+        _editTaskState.value.selectedUser.forEach { userId ->
+            val taskMember = TaskMember(
+                taskId = taskId,
+                userId = userId
+            )
+            firebaseRepository.addMemberToTask(
+                taskMember = taskMember,
+                onAddSuccess = {},
+                onAddFailure = {}
+            )
+        }
+    }
+
+    fun onSelectMember(memberId: String) {
+//        if (editTaskState.value.selectedUser.contains(memberId)) {
+//            val newList = editTaskState.value.selectedUser - memberId
+//            _editTaskState.value = _editTaskState.value.copy(
+//                selectedUser = newList
+//            )
+//        } else {
+//            val newList = editTaskState.value.selectedUser + memberId
+//            _editTaskState.value = _editTaskState.value.copy(
+//                selectedUser = newList
+//            )
+//        }
+        val newList = if (editTaskState.value.selectedUser.contains(memberId))
+            editTaskState.value.selectedUser - memberId else
+            editTaskState.value.selectedUser + memberId
+        _editTaskState.value = _editTaskState.value.copy(
+            selectedUser = newList
         )
     }
 
