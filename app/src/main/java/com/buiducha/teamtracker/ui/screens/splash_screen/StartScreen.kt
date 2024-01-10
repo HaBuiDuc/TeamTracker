@@ -1,5 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.splash_screen
 
+import android.util.Log
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -53,12 +54,14 @@ fun AnimatedSplashScreen(navController: NavHostController, splashViewModel: Spla
     LaunchedEffect(key1 = true, block = {
         splashViewModel.checkAuthState(
             onLogged = {
+                Log.d(TAG, "logged")
                 splashViewModel.onLoginSuccess(
                     onUserExists = { startMainActivity(context = context) },
                     onUserNotExists = { navController.navigate(Screen.AddInfoScreen.route) }
                 )
             },
             onNotLogged = {
+                Log.d(TAG, "not logged")
                 startAnimation = true
                 navController.popBackStack()
                 navController.navigate(Screen.LoginScreen.route)
@@ -143,3 +146,5 @@ fun StartScreen(alpha: Float, progress: Float) {
         }
     }
 }
+
+const val TAG = "StartScreen"

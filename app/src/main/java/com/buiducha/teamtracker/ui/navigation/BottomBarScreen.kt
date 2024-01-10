@@ -1,7 +1,6 @@
 package com.buiducha.teamtracker.ui.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.Notifications
@@ -28,9 +27,9 @@ sealed class BottomBarScreen(
         title = "Settings",
         icon = Icons.Default.Settings
     )
-    object MessageScreen: BottomBarScreen(
-        route = "message_screen",
-        title = "Message",
+    object ChatScreen: BottomBarScreen(
+        route = "chat_screen",
+        title = "Chat",
         icon = Icons.Default.Message
     )
 }

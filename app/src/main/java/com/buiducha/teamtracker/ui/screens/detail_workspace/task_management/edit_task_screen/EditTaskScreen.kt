@@ -1,6 +1,5 @@
 package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.edit_task_screen
 
-import android.view.textservice.SpellCheckerSession.SpellCheckerSessionParams
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -22,26 +20,22 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.DriveFileRenameOutline
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -55,31 +49,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
-import com.buiducha.teamtracker.data.model.project.Task
 import com.buiducha.teamtracker.data.model.user.UserData
+import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen.AddMemberToTaskDialog
 import com.buiducha.teamtracker.ui.screens.shared.HorizontalLine
 import com.buiducha.teamtracker.viewmodel.EditTaskViewModel
-import com.buiducha.teamtracker.viewmodel.MemberManagementViewModel
-import com.bumptech.glide.Glide
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
-//Có 3 composable: CreateTaskScreen, TaskDateRangePicker và DropDownMenuTag
-// TaskDateRangePicker: chọn ngày tháng bắt đầu và kết thúc
-// DropDownMenuTag: Chọn tag
 
 @Preview
 @Composable
@@ -91,7 +77,13 @@ fun EditTaskPreview() {
 fun EditTaskScreen(
     navController: NavController,
     taskId: String,
-    editTaskViewModel: EditTaskViewModel = viewModel { EditTaskViewModel(taskId) }
+    selectedWorkspaceViewModel: SelectedWorkspaceViewModel,
+    editTaskViewModel: EditTaskViewModel = viewModel {
+        EditTaskViewModel(
+            taskId = taskId,
+            selectedWorkspace = selectedWorkspaceViewModel
+        )
+    }
 ) {
     val editTaskState by editTaskViewModel.editTaskState.collectAsState()
 
@@ -99,6 +91,9 @@ fun EditTaskScreen(
         mutableStateOf(false)
     }
     var dateSelected by remember {
+        mutableStateOf(false)
+    }
+    var isShowMemberDialog by remember {
         mutableStateOf(false)
     }
 
@@ -119,15 +114,43 @@ fun EditTaskScreen(
                     )
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    isShowMemberDialog = true
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.PersonAdd,
+                    contentDescription = null
+                )
+            }
         }
     ) { paddingValues ->
+        if (isShowMemberDialog) {
+            AddMemberToTaskDialog(
+                memberList = editTaskState.remainMemberList,
+                onDismissRequest = {
+                    isShowMemberDialog = false
+                },
+                selectedMember = editTaskState.selectedUser,
+                onConfirm = {
+                    editTaskViewModel.onAddMember()
+                },
+                onCheckChange = {
+                    editTaskViewModel.onSelectMember(it)
+                }
+            )
+        }
+
         if (isShowPicker) {
             TaskDatePicker(
                 date = if (dateSelected) editTaskState.startDate else editTaskState.dueDate,
                 onDismissRequest = {
                     isShowPicker = false
                 },
-                onConfirm = {time ->
+                onConfirm = { time ->
                     if (!dateSelected) {
                         editTaskViewModel.setStartDate(time)
                     } else {
@@ -236,7 +259,11 @@ fun EditTaskScreen(
                             isExpand = !isExpand
                         }
                 ) {
-                    Text(text = "Responsible member")
+                    Text(
+                        text = "Responsible member",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium
+                    )
                     Icon(
                         imageVector = if (isExpand) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                         contentDescription = null
@@ -244,7 +271,7 @@ fun EditTaskScreen(
                 }
                 if (isExpand) {
                     LazyColumn {
-                        items(editTaskState.memberList) {member ->
+                        items(editTaskState.joinedMemberList) { member ->
                             MemberView(member = member)
                         }
                     }
@@ -568,25 +595,37 @@ fun DropDownMenuTag(
 fun MemberView(
     member: UserData
 ) {
-    Row {
-       if (member.avatarUri != null) {
-           GlideImage(
-               model = member.avatarUri,
-               contentDescription = null,
-               contentScale = ContentScale.Crop,
-               modifier = Modifier
-                   .clip(RoundedCornerShape(10))
-                   .width(44.dp)
-                   .aspectRatio(1f)
-           )
-       } else {
-           Box(
-               contentAlignment = Alignment.Center,
-               modifier = Modifier
-                   .background(Color.Blue)
-           ) {
-               Text(text = member.fullName.substring(0, 2).uppercase(Locale.ROOT))
-           }
-       }
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (member.avatarUri != null) {
+            GlideImage(
+                model = member.avatarUri,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(10))
+                    .width(44.dp)
+                    .aspectRatio(1f)
+            )
+        } else {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .background(
+                        color = Color.Blue,
+                        shape = CircleShape
+                    )
+                    .padding(10.dp)
+            ) {
+                Text(text = member.fullName.substring(0, 2).uppercase(Locale.ROOT))
+            }
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = member.fullName,
+            fontWeight = FontWeight.Medium,
+            fontSize = 18.sp
+        )
     }
 }

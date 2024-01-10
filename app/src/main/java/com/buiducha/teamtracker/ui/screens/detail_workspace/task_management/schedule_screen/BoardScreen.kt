@@ -81,7 +81,6 @@ fun BoardScreen(
                             contentDescription = null
                         )
                     }
-
                 }
 
                 boardState.taskList.forEach { task ->

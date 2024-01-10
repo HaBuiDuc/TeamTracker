@@ -50,7 +50,7 @@ fun MainGraph(
             )
         }
         composable(
-            route = BottomBarScreen.MessageScreen.route
+            route = BottomBarScreen.ChatScreen.route
         ) {
         }
         composable(
@@ -156,7 +156,8 @@ fun MainGraph(
             if (taskId != null) {
                 EditTaskScreen(
                     navController = navHostController,
-                    taskId = taskId
+                    taskId = taskId,
+                    selectedWorkspaceViewModel = selectedWorkspaceViewModel
                 )
             }
         }

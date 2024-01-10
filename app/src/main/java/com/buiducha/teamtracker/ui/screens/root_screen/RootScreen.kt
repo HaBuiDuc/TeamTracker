@@ -83,7 +83,7 @@ private fun BottomBar(
 ) {
     val screens = listOf(
         BottomBarScreen.HomeScreen,
-        BottomBarScreen.MessageScreen,
+        BottomBarScreen.ChatScreen,
         BottomBarScreen.ActivityScreen,
         BottomBarScreen.SettingsScreen
     )
