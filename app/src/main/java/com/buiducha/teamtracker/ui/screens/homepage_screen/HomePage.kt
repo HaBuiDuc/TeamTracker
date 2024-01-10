@@ -25,15 +25,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.ui.navigation.Screen
+import com.buiducha.teamtracker.utils.FcmNotificationsSender
 import com.buiducha.teamtracker.viewmodel.HomeViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 
 @Preview
@@ -58,6 +61,7 @@ fun HomePage(
             skipHiddenState = false
         )
     )
+    val context = LocalContext.current
     var currentBottomSheet: BottomSheetScreen? by remember{
         mutableStateOf(null)
     }
@@ -66,6 +70,26 @@ fun HomePage(
         mutableStateOf(false)
     }
     var query: MutableState<String> = remember {mutableStateOf("")}
+
+    FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+            val token = task.result
+            Log.d("TAG", "Token: $token")
+
+
+        } else {
+            Log.d("TAG", "Không thể lấy mã đăng ký: ${task.exception}")
+        }
+    }
+
+    var sender = FcmNotificationsSender(
+        userFcmToken = "eELENfUIREGGZw0cDaux3Z:APA91bEC9UX9OIifGIbmiL2bI3_OXx4SNly3txBUmabf1TuIcxkA6FIaxvlrpVRsKMCsckTAZYbEpzs-YQxDrgBFvDGCjf5ZTGaarJ6XZZ5cKADGUpzZckANrsvabWkZa7Yem8RJDeKP",
+        title = "title",
+        body = "body body",
+        context = context
+    )
+
+    sender.SendNotifications()
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
