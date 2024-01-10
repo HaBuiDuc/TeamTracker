@@ -24,6 +24,7 @@ sealed class Screen(
     object StartScreen: Screen("start_screen")
     object DetailWorkspaceScreen: Screen("detail_workspace_screen")
     object EditWorkspaceScreen: Screen("edit_workspace_screen")
+    object EditTaskScreen: Screen("edit_task_screen")
     object IntroduceScreen: Screen("introduce_screen")
     object PrivacyPolicyScreen: Screen("privacy_policy_screen")
     object SearchMemberScreen: Screen("search_member_screen")

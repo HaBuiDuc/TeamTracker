@@ -24,7 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
+import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.viewmodel.BoardViewModel
 import com.buiducha.teamtracker.viewmodel.ScheduleViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
@@ -33,7 +35,8 @@ import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceView
 @Composable
 fun ScheduleScreen(
     selectedWorkspaceViewModel: SelectedWorkspaceViewModel,
-    scheduleViewModel: ScheduleViewModel = viewModel { ScheduleViewModel(selectedWorkspaceViewModel) }
+    scheduleViewModel: ScheduleViewModel = viewModel { ScheduleViewModel(selectedWorkspaceViewModel) },
+    navController: NavController
 ) {
     val scheduleState by scheduleViewModel.scheduleState.collectAsState()
 
@@ -76,7 +79,10 @@ fun ScheduleScreen(
                     val boardViewModel =  BoardViewModel(scheduleState.boardList[page])
                     BoardScreen(
 //                        board = scheduleState.boardList[page],
-                        boardViewModel = boardViewModel
+                        boardViewModel = boardViewModel,
+                        onTaskEdit = {taskId ->
+                            navController.navigate("${Screen.EditTaskScreen.route}/${taskId}")
+                        }
                     )
                 }
             }

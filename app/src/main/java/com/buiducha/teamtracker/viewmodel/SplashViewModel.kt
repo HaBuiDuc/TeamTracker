@@ -30,7 +30,7 @@ class SplashViewModel: ViewModel() {
         onNotLogged: () -> Unit
     ) {
         viewModelScope.launch {
-            delay(2000)
+//            delay(1000)
             if (fireBaseRepository.getCurrentUser() != null) {
                 onLogged()
             } else {

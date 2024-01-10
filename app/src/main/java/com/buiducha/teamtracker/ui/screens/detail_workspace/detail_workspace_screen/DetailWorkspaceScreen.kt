@@ -92,7 +92,8 @@ fun DetailWorkspaceScreen(
                     )
                 } else if (page == 1) {
                     ScheduleScreen(
-                        selectedWorkspaceViewModel = selectedWorkspaceViewModel
+                        selectedWorkspaceViewModel = selectedWorkspaceViewModel,
+                        navController = navController
                     )
                 }
             }
