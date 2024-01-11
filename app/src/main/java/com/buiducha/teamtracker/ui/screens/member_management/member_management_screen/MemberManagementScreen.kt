@@ -187,11 +187,8 @@ fun MemberManagementScreen(
                             }
                         )
                     }
-
                 }
             }
-
         }
     }
-
 }
