@@ -55,7 +55,7 @@ import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.ui.theme.Blue40
 import com.buiducha.teamtracker.utils.startMainActivity
-import com.buiducha.teamtracker.viewmodel.LoginViewModel
+import com.buiducha.teamtracker.viewmodel.auth_viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
 

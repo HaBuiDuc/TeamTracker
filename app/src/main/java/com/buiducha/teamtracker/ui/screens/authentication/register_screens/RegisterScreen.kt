@@ -41,7 +41,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -56,7 +55,7 @@ import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.ui.theme.Blue40
-import com.buiducha.teamtracker.viewmodel.RegisterViewModel
+import com.buiducha.teamtracker.viewmodel.auth_viewmodel.RegisterViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -94,7 +93,6 @@ fun RegisterScreen(
                     && confirmPassword.isNotEmpty()
         }
     }
-
 
     val context = LocalContext.current
     val activity = LocalContext.current as Activity

@@ -21,7 +21,10 @@ import com.buiducha.teamtracker.data.model.setting.Settings
 import com.buiducha.teamtracker.ui.navigation.Screen
 
 @Composable
-fun SettingList(navController: NavController) {
+fun SettingList(
+    navController: NavController,
+    onLogout: () -> Unit
+) {
     Column {
         Settings.values().forEach { setting ->
             SettingItem(settingItem = setting, navController)
@@ -37,11 +40,22 @@ fun SettingItem(
 ) {
     Row(
         modifier = Modifier.clickable {
-            if(settingItem.settingName == R.string.introduce){
-                navController.navigate(Screen.IntroduceScreen.route)
-            }
-            if(settingItem.settingName == R.string.privacy_policy){
-                navController.navigate(Screen.PrivacyPolicyScreen.route)
+//            if(settingItem.settingName == R.string.introduce){
+//                navController.navigate(Screen.IntroduceScreen.route)
+//            }
+//            if(settingItem.settingName == R.string.privacy_policy){
+//                navController.navigate(Screen.PrivacyPolicyScreen.route)
+//            }
+            when(settingItem.settingName) {
+                R.string.introduce -> {
+                    navController.navigate(Screen.IntroduceScreen.route)
+                }
+                R.string.privacy_policy -> {
+                    navController.navigate(Screen.PrivacyPolicyScreen.route)
+                }
+                R.string.log_out -> {
+
+                }
             }
         }
     ) {

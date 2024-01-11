@@ -27,8 +27,8 @@ sealed class BottomBarScreen(
         title = "Settings",
         icon = Icons.Default.Settings
     )
-    object ChatScreen: BottomBarScreen(
-        route = "chat_screen",
+    object ChannelsScreen: BottomBarScreen(
+        route = "channels_screen",
         title = "Chat",
         icon = Icons.Default.Message
     )

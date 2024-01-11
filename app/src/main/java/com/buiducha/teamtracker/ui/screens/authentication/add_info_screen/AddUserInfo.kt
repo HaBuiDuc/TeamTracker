@@ -50,7 +50,7 @@ import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
 import com.buiducha.teamtracker.utils.startMainActivity
-import com.buiducha.teamtracker.viewmodel.AddInfoViewModel
+import com.buiducha.teamtracker.viewmodel.auth_viewmodel.AddInfoViewModel
 import kotlinx.coroutines.launch
 
 @Preview

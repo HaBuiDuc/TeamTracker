@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_workspace.chat_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.post_chat_screen
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -41,8 +40,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.user.UserData
+import com.buiducha.teamtracker.ui.screens.shared.MemberItem
 import com.buiducha.teamtracker.ui.theme.DarkGreen
-import com.buiducha.teamtracker.viewmodel.MemberManagementViewModel
+import com.buiducha.teamtracker.viewmodel.workspace_viewmodel.MemberManagementViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -134,48 +134,48 @@ fun TopAppBarSearchMember(query: MutableState<String>,
 
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
-@Composable
-fun MemberItem(member: UserData, isWorkspaceOwner: Boolean)
-{
-    var isWorkspaceOwnerText: String = "Member"
-    if(isWorkspaceOwner) {isWorkspaceOwnerText = "Owner"}
-    Row {
-        Box(modifier = Modifier .padding(end = 10.dp)) {
-            if(member.avatarUri == null){
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .background(
-                            color = DarkGreen,
-                            shape = CircleShape
-                        )
-                        .padding(10.dp)
-                ) {
-                    Text(
-                        text = if(member.fullName.length > 3) member.fullName.substring(0, 2).uppercase() else "",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-            }
-            else{
-                GlideImage(
-                    model = member.avatarUri,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .width(45.dp)
-                        .aspectRatio(1f)
-                )
-            }
-        }
-
-
-        Column {
-            Text(text = member.fullName, fontWeight = FontWeight.Bold)
-            Text(text = isWorkspaceOwnerText)
-        }
-    }
-}
+//@OptIn(ExperimentalGlideComposeApi::class)
+//@Composable
+//fun MemberItem(member: UserData, isWorkspaceOwner: Boolean)
+//{
+//    var isWorkspaceOwnerText: String = "Member"
+//    if(isWorkspaceOwner) {isWorkspaceOwnerText = "Owner"}
+//    Row {
+//        Box(modifier = Modifier .padding(end = 10.dp)) {
+//            if(member.avatarUri == null){
+//                Box(
+//                    contentAlignment = Alignment.Center,
+//                    modifier = Modifier
+//                        .background(
+//                            color = DarkGreen,
+//                            shape = CircleShape
+//                        )
+//                        .padding(10.dp)
+//                ) {
+//                    Text(
+//                        text = if(member.fullName.length > 3) member.fullName.substring(0, 2).uppercase() else "",
+//                        fontSize = 18.sp,
+//                        fontWeight = FontWeight.SemiBold
+//                    )
+//                }
+//            }
+//            else{
+//                GlideImage(
+//                    model = member.avatarUri,
+//                    contentDescription = null,
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier
+//                        .clip(CircleShape)
+//                        .width(45.dp)
+//                        .aspectRatio(1f)
+//                )
+//            }
+//        }
+//
+//
+//        Column {
+//            Text(text = member.fullName, fontWeight = FontWeight.Bold)
+//            Text(text = isWorkspaceOwnerText)
+//        }
+//    }
+//}

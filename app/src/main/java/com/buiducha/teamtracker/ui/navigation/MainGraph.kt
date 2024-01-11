@@ -7,8 +7,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.buiducha.teamtracker.ui.screens.chat_screen_group.chat_screen.ChatScreen
+import com.buiducha.teamtracker.ui.screens.chat_screen_group.channel_screen.ChannelsScreen
+import com.buiducha.teamtracker.ui.screens.chat_screen_group.user_search_screen.UserSearchScreen
 import com.buiducha.teamtracker.ui.screens.create_workspace_screen.CreateWorkspaceScreen
-import com.buiducha.teamtracker.ui.screens.detail_workspace.chat_screen.ChatScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.post_chat_screen.PostChatScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.create_post_screen.CreatePostScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.detail_workspace_screen.DetailWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen.PostsScreen
@@ -50,8 +53,32 @@ fun MainGraph(
             )
         }
         composable(
-            route = BottomBarScreen.ChatScreen.route
+            route = BottomBarScreen.ChannelsScreen.route
         ) {
+            ChannelsScreen(
+                navController = navHostController,
+                currentUserInfoViewModel = currentUserInfoViewModel
+            )
+        }
+        composable(
+            route = "${Screen.ChatScreen.route}/{channelId}"
+        ) {navBackStackEntry ->
+            val channelId = navBackStackEntry.arguments?.getString("channelId")
+            if (channelId != null) {
+                ChatScreen(
+                    channelId = channelId,
+                    navController = navHostController
+                )
+            }
+        }
+        composable(
+            route = Screen.UserSearchScreen.route
+        ) {
+            UserSearchScreen(
+                navController = navHostController,
+                userInfoViewModel = userInfoViewModel,
+                currentUserInfoViewModel = currentUserInfoViewModel
+            )
         }
         composable(
             route = BottomBarScreen.ActivityScreen.route
@@ -111,9 +138,9 @@ fun MainGraph(
         }
 
         composable(
-            route = Screen.ChatScreen.route
+            route = Screen.PostChatScreen.route
         ) {
-            ChatScreen(
+            PostChatScreen(
                 navController = navHostController,
                 selectedPostViewModel = selectedPostViewModel
             )

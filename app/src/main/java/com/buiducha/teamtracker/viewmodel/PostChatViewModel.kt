@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class ChatViewModel(
+class PostChatViewModel(
     private val selectedPostViewModel: SelectedPostViewModel
 ) : ViewModel() {
     private val firebaseRepository = FirebaseRepository.get()

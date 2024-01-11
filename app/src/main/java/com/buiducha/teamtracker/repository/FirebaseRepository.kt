@@ -375,6 +375,10 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
+    fun userLogout() {
+        auth.signOut()
+    }
+
     fun getPosts(
         workspaceId: String,
         onGetPostsSuccess: (MutableList<WorkspacePost>) -> Unit,
