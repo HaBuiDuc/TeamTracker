@@ -1,5 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.chat_screen_group.channel_screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -15,6 +17,7 @@ import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.repository.StreamRepository
 import com.buiducha.teamtracker.ui.navigation.Screen
+import com.buiducha.teamtracker.ui.theme.LightGray
 import com.buiducha.teamtracker.viewmodel.chat_viewmodel.ChannelViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
@@ -39,9 +42,15 @@ fun ChannelsScreen(
                 )
             },
             modifier = Modifier
+                .background(
+                    color = LightGray
+                )
         ) { paddingValues ->
             Column(
                 modifier = Modifier
+                    .background(
+                        color = LightGray
+                    )
                     .padding(paddingValues)
             ) {
                 ChannelSearchBar {

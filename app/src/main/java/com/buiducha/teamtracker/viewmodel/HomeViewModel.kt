@@ -1,6 +1,8 @@
 package com.buiducha.teamtracker.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.repository.FirebaseRepository
@@ -11,9 +13,10 @@ import io.getstream.chat.android.models.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val currentUserInfoViewModel: CurrentUserInfoViewModel
+    currentUserInfoViewModel: CurrentUserInfoViewModel
 ) : ViewModel() {
     private val firebaseRepository = FirebaseRepository.get()
     private val streamRepository = StreamRepository.get()
@@ -22,11 +25,18 @@ class HomeViewModel(
 
     init {
         getWorkspace()
-        val user = User(
-            id = firebaseRepository.getCurrentUser()?.uid!!,
-            name = currentUserInfoViewModel.currentUserInfo.value.fullName
-        )
-        streamRepository.initUser(user)
+        viewModelScope.launch {
+            currentUserInfoViewModel.currentUserInfo.collect {
+                val name = currentUserInfoViewModel.currentUserInfo.value.fullName
+                if (name.isNotEmpty()) {
+                    val user = User(
+                        id = firebaseRepository.getCurrentUser()?.uid!!,
+                        name = name
+                    )
+                    streamRepository.initUser(user)
+                }
+            }
+        }
     }
 
     fun deleteWorkspace() {
@@ -65,5 +75,9 @@ class HomeViewModel(
         _homeState.value = _homeState.value.copy(
             selectedWorkspace = workspace
         )
+    }
+
+    companion object {
+        const val TAG = "HomeViewModel"
     }
 }

@@ -15,3 +15,5 @@ val PrimaryColor = Color(0xFF457B9D)
 
 val DarkGreen = Color(0xFF7bc871)
 val GrayTransparent = Color(0x80BEBEBE)
+val LightGray = Color(0xFFf7f7f8)
+val ShadeGray = Color(0xFFebedf4)

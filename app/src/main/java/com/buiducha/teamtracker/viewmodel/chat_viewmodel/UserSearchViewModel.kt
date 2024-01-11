@@ -30,10 +30,14 @@ class UserSearchViewModel(
         Log.d(TAG, newList.toString())
     }
 
-    fun createChannel(memberId: String) {
+    fun createChannel(
+        memberId: String,
+        onCreateSuccess: (String) -> Unit
+    ) {
         val memberList = listOf(memberId, currentUserInfo.currentUserInfo.value.id)
         streamRepository.createChannel(
-            memberList = memberList
+            memberList = memberList,
+            onCreateSuccess = onCreateSuccess
         )
         Log.d(TAG, "createChannel: ")
     }

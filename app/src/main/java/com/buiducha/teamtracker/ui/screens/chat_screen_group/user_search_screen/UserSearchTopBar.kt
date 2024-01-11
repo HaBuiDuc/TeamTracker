@@ -23,6 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.buiducha.teamtracker.ui.theme.ShadeGray
 
 @Composable
 fun UserSearchTopBar(
@@ -36,7 +37,7 @@ fun UserSearchTopBar(
         modifier = modifier
             .clip(RoundedCornerShape(6))
             .background(
-                color = Color.LightGray
+                color = ShadeGray
             )
             .fillMaxWidth()
             .padding(horizontal = 8.dp)

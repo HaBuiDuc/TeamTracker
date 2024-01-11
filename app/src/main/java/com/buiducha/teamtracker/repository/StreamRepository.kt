@@ -6,6 +6,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
+import io.getstream.chat.android.core.internal.exhaustive
 import io.getstream.chat.android.models.User
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
@@ -24,7 +25,8 @@ class StreamRepository private constructor(context: Context){
 
     fun createChannel(
         memberList: List<String>,
-        channelName: String? = null
+        channelName: String? = null,
+        onCreateSuccess: (String) -> Unit
     ) {
 
         client.createChannel(
@@ -36,7 +38,10 @@ class StreamRepository private constructor(context: Context){
             )
         ).enqueue { result ->
             if (result.isSuccess) {
-                Log.d(TAG, "channel create successfully")
+                val value = result.getOrNull()
+                value?.let {
+                    onCreateSuccess(it.cid)
+                }
             } else {
                 Log.d(TAG, "channel create failure")
             }
@@ -46,6 +51,7 @@ class StreamRepository private constructor(context: Context){
     fun initUser(
        user: User
     ) {
+        Log.d(TAG, "initUser: $user")
         tokenGenerate(user.id)?.let {
             client.connectUser(
                 user = user,
