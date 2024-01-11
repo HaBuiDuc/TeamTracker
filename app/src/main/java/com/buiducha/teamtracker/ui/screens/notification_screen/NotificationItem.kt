@@ -16,36 +16,38 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
-import com.buiducha.teamtracker.ui.screens.notification_screen.demo_data.users
 
 import androidx.compose.ui.Alignment.Companion.CenterVertically
+import com.buiducha.teamtracker.data.model.Notification
 
 @Composable
-fun notificationItem(notification: com.buiducha.teamtracker.ui.screens.notification_screen.demo_data.Notification){
+fun notificationItem(notification: Notification?){
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(5.dp)
     ) {
-        val user = users.find { it.username == notification.username }
-        if (user != null) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "Avatar",
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(shape = CircleShape),
-                contentScale = ContentScale.Crop,
-            )
-            Column(modifier = Modifier
-                .padding(start = 16.dp)
-                .align(CenterVertically)) {
-                Row {
-                    Text(text = user.username + " ")
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_background),
+            contentDescription = "Avatar",
+            modifier = Modifier
+                .size(48.dp)
+                .clip(shape = CircleShape),
+            contentScale = ContentScale.Crop,
+        )
+        Column(modifier = Modifier
+            .padding(start = 16.dp)
+            .align(CenterVertically)) {
+            Row {
+                if (notification != null) {
                     Text(text = notification.content)
                 }
+            }
 
 
+
+
+            if (notification != null) {
                 Text(text = notification.time, fontSize = 12.sp)
             }
         }

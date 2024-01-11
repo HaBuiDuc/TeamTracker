@@ -6,6 +6,7 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
+import com.buiducha.teamtracker.data.model.Notification
 import com.buiducha.teamtracker.data.model.message.PostMessage
 import com.buiducha.teamtracker.data.model.project.Board
 import com.buiducha.teamtracker.data.model.project.Task
@@ -36,6 +37,7 @@ class FirebaseRepository private constructor(context: Context) {
     private val boardsRef = database.getReference("boards")
     private val tasksRef = database.getReference("tasks")
     private val taskMemberRef = database.getReference("task_member")
+    private val notificationRef = database.getReference("notification")
     private val storage = com.google.firebase.Firebase.storage
     private var storageRef = storage.reference
 
@@ -706,6 +708,43 @@ class FirebaseRepository private constructor(context: Context) {
 //                }
 //            })
 //    }
+//Notification
+fun getNotifications(
+    onGetNotificationSuccess:(MutableList<Notification>)-> Unit
+){
+    notificationRef.orderByChild("receiverId").equalTo(getCurrentUser()?.uid)
+        .addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val notificationList = mutableListOf<Notification>()
+                snapshot.children.forEach {
+                        shot ->
+                    val notification = shot.getValue(Notification::class.java)
+                    notification?.let {
+                        notificationList += it
+                    }
+                }
+                onGetNotificationSuccess(notificationList)
+            }
+
+
+            override fun onCancelled(error: DatabaseError) {
+
+
+            }
+        })
+    getCurrentUser()?.let { Log.d("loguserId", "usrid: " + it.uid) }
+}
+
+
+    fun createNotification(notification: Notification) {
+        notificationRef.push().setValue(notification)
+            .addOnCompleteListener{
+                Log.d(TAG, "create notification success")
+            }
+            .addOnFailureListener{
+                Log.e(TAG, "create notification failure")
+            }
+    }
 
     companion object {
         const val TAG = "FirebaseRepository"

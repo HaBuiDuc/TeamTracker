@@ -18,9 +18,12 @@ import com.buiducha.teamtracker.ui.screens.edit_workspace.EditWorkspaceScreen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
 import com.buiducha.teamtracker.ui.screens.member_management.member_management_screen.MemberManagementScreen
+import com.buiducha.teamtracker.ui.screens.notification_screen.NotificationScreen
 import com.buiducha.teamtracker.ui.screens.settings.introduce_screen.IntroduceScreen
 import com.buiducha.teamtracker.ui.screens.settings.privacy_policy_screen.PrivacyPolicyScreen
 import com.buiducha.teamtracker.ui.screens.settings.settings_screen.SettingsScreen
+import com.buiducha.teamtracker.viewmodel.CreateNotificationViewModel
+import com.buiducha.teamtracker.viewmodel.NotificationViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
@@ -35,6 +38,8 @@ fun MainGraph(
     val selectedWorkspaceViewModel: SelectedWorkspaceViewModel = viewModel()
     val currentUserInfoViewModel: CurrentUserInfoViewModel = viewModel()
     val selectedPostViewModel: SelectedPostViewModel = viewModel()
+    val notificationViewModel: NotificationViewModel = viewModel()
+    val createNotificationViewModel: CreateNotificationViewModel = viewModel()
 
     NavHost(
         navController = navHostController,
@@ -79,15 +84,6 @@ fun MainGraph(
             MemberManagementScreen(
                 selectedWorkspaceViewModel = selectedWorkspaceViewModel,
                 navController = navHostController
-            )
-        }
-        composable(
-            route = Screen.AddMemberScreen.route
-        ) {
-            AddMemberScreen(
-                navController = navHostController,
-                userInfoViewModel = userInfoViewModel,
-                selectedWorkspaceViewModel = selectedWorkspaceViewModel
             )
         }
 
@@ -167,5 +163,21 @@ fun MainGraph(
         ){
             SearchMemberScreen(selectedWorkspaceViewModel = selectedWorkspaceViewModel, navController = navHostController)
         }
+        composable(
+            route = Screen.AddMemberScreen.route
+        ) {
+            AddMemberScreen(
+                navController = navHostController,
+                userInfoViewModel = userInfoViewModel,
+                selectedWorkspaceViewModel = selectedWorkspaceViewModel,
+                createNotificationViewModel = createNotificationViewModel
+            )
+        }
+        composable(
+            route = Screen.NotificationScreen.route
+        ){
+            NotificationScreen(notificationViewModel = notificationViewModel,navHostController)
+        }
+
     }
 }
