@@ -3,6 +3,7 @@ package com.buiducha.teamtracker.ui.navigation
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -28,15 +29,17 @@ import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewMo
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.UserInfoViewModel
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainGraph(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    currentUserInfoViewModel: CurrentUserInfoViewModel
 ) {
     val userInfoViewModel: UserInfoViewModel = viewModel()
     val selectedWorkspaceViewModel: SelectedWorkspaceViewModel = viewModel()
-    val currentUserInfoViewModel: CurrentUserInfoViewModel = viewModel()
+//    val currentUserInfoViewModel: CurrentUserInfoViewModel = viewModel()
     val selectedPostViewModel: SelectedPostViewModel = viewModel()
 
     NavHost(
