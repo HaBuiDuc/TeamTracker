@@ -1,6 +1,7 @@
 package com.buiducha.teamtracker.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +15,7 @@ import com.buiducha.teamtracker.ui.navigation.MainGraph
 import com.buiducha.teamtracker.ui.navigation.SplashScreenGraph
 import com.buiducha.teamtracker.ui.screens.root_screen.RootScreen
 import com.buiducha.teamtracker.ui.theme.TeamTrackerTheme
+import com.buiducha.teamtracker.utils.CreateNotificationService
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("NewApi")
@@ -29,5 +31,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        val intent = Intent(this, CreateNotificationService::class.java)
+        startService(intent)
     }
 }
