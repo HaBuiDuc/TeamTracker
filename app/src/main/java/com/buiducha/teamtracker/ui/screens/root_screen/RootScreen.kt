@@ -23,11 +23,13 @@ import com.buiducha.teamtracker.ui.navigation.BottomBarScreen
 import com.buiducha.teamtracker.ui.navigation.MainGraph
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
 import com.buiducha.teamtracker.utils.advancedShadow
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RootScreen(
+    currentUserInfoViewModel: CurrentUserInfoViewModel
 ) {
     val navController = rememberNavController()
     Scaffold(
@@ -43,6 +45,7 @@ fun RootScreen(
         ) {
             MainGraph(
                 navHostController = navController,
+                currentUserInfoViewModel = currentUserInfoViewModel
             )
         }
     }

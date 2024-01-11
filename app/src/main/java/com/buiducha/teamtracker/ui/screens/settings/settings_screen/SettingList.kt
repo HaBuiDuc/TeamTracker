@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -40,13 +41,9 @@ fun SettingItem(
     onLogout: () -> Unit
 ) {
     Row(
-        modifier = Modifier.clickable {
-//            if(settingItem.settingName == R.string.introduce){
-//                navController.navigate(Screen.IntroduceScreen.route)
-//            }
-//            if(settingItem.settingName == R.string.privacy_policy){
-//                navController.navigate(Screen.PrivacyPolicyScreen.route)
-//            }
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
             when(settingItem.settingName) {
                 R.string.introduce -> {
                     navController.navigate(Screen.IntroduceScreen.route)

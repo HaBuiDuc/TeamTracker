@@ -25,18 +25,6 @@ class HomeViewModel(
 
     init {
         getWorkspace()
-        viewModelScope.launch {
-            currentUserInfoViewModel.currentUserInfo.collect {
-                val name = currentUserInfoViewModel.currentUserInfo.value.fullName
-                if (name.isNotEmpty()) {
-                    val user = User(
-                        id = firebaseRepository.getCurrentUser()?.uid!!,
-                        name = name
-                    )
-                    streamRepository.initUser(user)
-                }
-            }
-        }
     }
 
     fun deleteWorkspace() {

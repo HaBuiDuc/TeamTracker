@@ -29,7 +29,7 @@ import io.getstream.chat.android.models.InitializationState
 fun ChannelsScreen(
     navController: NavController,
     currentUserInfoViewModel: CurrentUserInfoViewModel,
-    channelViewModel: ChannelViewModel = viewModel()
+    channelViewModel: ChannelViewModel = viewModel { ChannelViewModel(currentUserInfoViewModel) }
 ) {
     val clientInitialisationState by channelViewModel.clientInitState().collectAsState()
     val currentUserInfo by currentUserInfoViewModel.currentUserInfo.collectAsState()
@@ -68,7 +68,6 @@ fun ChannelsScreen(
                             },
                             onBackPressed = { }
                         )
-
                     }
 
                     InitializationState.INITIALIZING -> {
@@ -77,12 +76,12 @@ fun ChannelsScreen(
 
                     InitializationState.NOT_INITIALIZED -> {
                         Text(text = "Not initialized...")
+                        channelViewModel.userInit()
                     }
 
                     else -> {}
                 }
             }
         }
-
     }
 }

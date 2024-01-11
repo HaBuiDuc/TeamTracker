@@ -76,6 +76,8 @@ dependencies {
     implementation ("androidx.compose.material3:material3-window-size-class:1.1.2")
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
     implementation ("androidx.compose.material:material:1.1.0")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     implementation("com.google.firebase:firebase-analytics")
