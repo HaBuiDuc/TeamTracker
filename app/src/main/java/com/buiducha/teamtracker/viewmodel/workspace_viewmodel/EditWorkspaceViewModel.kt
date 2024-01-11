@@ -1,23 +1,17 @@
-package com.buiducha.teamtracker.viewmodel
+package com.buiducha.teamtracker.viewmodel.workspace_viewmodel
 
 import android.content.Context
 import android.net.Uri
-import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.ui.states.EditWorkspaceState
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
-import com.google.firebase.Firebase
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.storage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.tasks.await
-import java.util.UUID
 
 class EditWorkspaceViewModel(
     private val selectedWorkspace: SelectedWorkspaceViewModel

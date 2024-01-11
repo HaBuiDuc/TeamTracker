@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.theme.PurpleGrey80
-import com.buiducha.teamtracker.viewmodel.CreateWorkspaceViewModel
+import com.buiducha.teamtracker.viewmodel.workspace_viewmodel.CreateWorkspaceViewModel
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)

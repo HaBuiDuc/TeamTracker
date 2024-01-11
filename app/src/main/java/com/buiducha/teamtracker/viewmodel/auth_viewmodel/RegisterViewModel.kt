@@ -1,12 +1,8 @@
-package com.buiducha.teamtracker.viewmodel
+package com.buiducha.teamtracker.viewmodel.auth_viewmodel
 
 import android.app.Activity
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.repository.FirebaseRepository
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class RegisterViewModel : ViewModel() {
     private val fireBaseRepository = FirebaseRepository.get()

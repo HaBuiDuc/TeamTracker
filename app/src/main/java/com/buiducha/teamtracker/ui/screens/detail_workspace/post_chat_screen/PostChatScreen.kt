@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.detail_workspace.chat_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.post_chat_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.data.model.user.UserData
-import com.buiducha.teamtracker.viewmodel.ChatViewModel
+import com.buiducha.teamtracker.viewmodel.PostChatViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 
 @Preview(showSystemUi = true)
@@ -25,11 +25,11 @@ fun ChatInPostPrev() {
 }
 
 @Composable
-fun ChatScreen(
+fun PostChatScreen(
     navController: NavController,
     selectedPostViewModel: SelectedPostViewModel,
-    chatViewModel: ChatViewModel = viewModel {
-        ChatViewModel(selectedPostViewModel)
+    chatViewModel: PostChatViewModel = viewModel {
+        PostChatViewModel(selectedPostViewModel)
     },
 ) {
     val chatState by chatViewModel.chatState.collectAsState()

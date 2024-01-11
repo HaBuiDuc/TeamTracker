@@ -88,4 +88,9 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.4.0")
 
+    // Stream SDK
+    implementation("io.getstream:stream-chat-android-compose:6.0.8")
+    implementation("io.getstream:stream-chat-android-offline:6.0.8")
+    implementation ("com.auth0:java-jwt:3.18.1")
+
 }
