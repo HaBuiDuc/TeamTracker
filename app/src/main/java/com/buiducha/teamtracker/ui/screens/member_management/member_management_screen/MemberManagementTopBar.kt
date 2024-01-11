@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen
+package com.buiducha.teamtracker.ui.screens.member_management.member_management_screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.buiducha.teamtracker.ui.navigation.Screen
 
 @Preview
 @Composable
@@ -29,7 +31,8 @@ fun MemberManagementTopBarPreview() {
 fun MemberManagementTopBar(
     onMenuHide: () -> Unit,
     modifier: Modifier = Modifier,
-    onPopBack: () -> Unit
+    onPopBack: () -> Unit,
+    navController: NavController
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -64,7 +67,7 @@ fun MemberManagementTopBar(
         }
         IconButton(
             onClick = {
-
+                navController.navigate(Screen.SearchMemberScreen.route)
             }
         ) {
             Icon(

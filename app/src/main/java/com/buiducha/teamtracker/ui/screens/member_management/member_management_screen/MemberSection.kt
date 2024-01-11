@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen
+package com.buiducha.teamtracker.ui.screens.member_management.member_management_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

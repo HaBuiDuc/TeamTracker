@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.member_management.memeber_management_screen
+package com.buiducha.teamtracker.ui.screens.member_management.member_management_screen
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -77,7 +77,8 @@ fun MemberManagementScreen(
                     scope.launch {
                         scaffoldState.bottomSheetState.hide()
                     }
-                }
+                },
+                navController = navController
             )
         },
         sheetContent = {

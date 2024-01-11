@@ -56,27 +56,40 @@ fun SearchMemberScreen(
     navController: NavController
 ) {
     val memberManagementState by memberManagementViewModel.memberManagementState.collectAsState()
-    var query: MutableState<String> = remember { mutableStateOf("") }
+    val query: MutableState<String> = remember { mutableStateOf("") }
+    val memberList: MutableList<UserData> = memberManagementState.memberList
 
-
-    var memberList: MutableList<UserData> = memberManagementState.memberList
-
-//    memberList.add(memberManagementState.workspaceOwner)
     val filteredMemberList: MutableList<UserData> = memberList.filter {
-        it.fullName.contains(query.value, ignoreCase = true)
-                || it.email.contains(query.value, ignoreCase = true)
+        it.fullName.contains(query.value,
+            ignoreCase = true)
+                || it.email.contains(query.value,
+            ignoreCase = true)
     }.toMutableList()
 
-    val ownerAsList: MutableList<UserData> = mutableListOf(memberManagementState.workspaceOwner)
-    ownerAsList.filter {
-        it.fullName.contains(query.value, ignoreCase = true)
-                || it.email.contains(query.value, ignoreCase = true)
+    var ownerAsList: MutableList<UserData> = mutableListOf(memberManagementState.workspaceOwner)
+    ownerAsList = ownerAsList.filter {
+        it.fullName.contains(query.value,
+            ignoreCase = true)
+                ||
+                it.email.contains(query.value,
+            ignoreCase = true)
     }.toMutableList()
+
     Scaffold(
-        topBar = { TopAppBarSearchMember(query = query, navController = navController) }
+        topBar = { TopAppBarSearchMember(
+            query = query,
+            navController = navController) }
     ) { paddingValues ->
-        Column(modifier = Modifier.padding(top = paddingValues.calculateTopPadding() + 20.dp, start = 20.dp)) {
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(24.dp), userScrollEnabled = true) {
+        Column(
+            modifier = Modifier.padding(
+                top = paddingValues.calculateTopPadding() + 20.dp,
+                start = 20.dp
+            )
+        ) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+                userScrollEnabled = true
+            ) {
                 items(ownerAsList) {
                     MemberItem(member = it, isWorkspaceOwner = true)
                 }
@@ -95,16 +108,6 @@ fun TopAppBarSearchMember(query: MutableState<String>,
                           navController: NavController
 ){
     Row {
-        IconButton(
-            onClick = {
-                navController.popBackStack()
-            }
-        ) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = null
-            )
-        }
         SearchBar(
             query = query.value,
             onQueryChange = {
@@ -120,20 +123,34 @@ fun TopAppBarSearchMember(query: MutableState<String>,
             placeholder = {
                 Text(text = stringResource(id = R.string.enter_member_email))
             },
+            leadingIcon = {
+                IconButton(
+                    onClick = {
+                        navController.popBackStack()
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = null
+                    )
+                }
+            },
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Outlined.Search,
                     contentDescription = null
                 )
             },
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(10.dp),
             modifier = modifier
                 .fillMaxWidth()
+                .padding(horizontal = 10.dp)
         ) {}
     }
 
 }
 
+<<<<<<< HEAD
 //@OptIn(ExperimentalGlideComposeApi::class)
 //@Composable
 //fun MemberItem(member: UserData, isWorkspaceOwner: Boolean)
@@ -179,3 +196,96 @@ fun TopAppBarSearchMember(query: MutableState<String>,
 //        }
 //    }
 //}
+||||||| bc84769
+@OptIn(ExperimentalGlideComposeApi::class)
+@Composable
+fun MemberItem(member: UserData, isWorkspaceOwner: Boolean)
+{
+    var isWorkspaceOwnerText: String = "Member"
+    if(isWorkspaceOwner) {isWorkspaceOwnerText = "Owner"}
+    Row {
+        Box(modifier = Modifier .padding(end = 10.dp)) {
+            if(member.avatarUri == null){
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .background(
+                            color = DarkGreen,
+                            shape = CircleShape
+                        )
+                        .padding(10.dp)
+                ) {
+                    Text(
+                        text = if(member.fullName.length > 3) member.fullName.substring(0, 2).uppercase() else "",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+            else{
+                GlideImage(
+                    model = member.avatarUri,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .width(45.dp)
+                        .aspectRatio(1f)
+                )
+            }
+        }
+
+
+        Column {
+            Text(text = member.fullName, fontWeight = FontWeight.Bold)
+            Text(text = isWorkspaceOwnerText)
+        }
+    }
+}
+=======
+@OptIn(ExperimentalGlideComposeApi::class)
+@Composable
+fun MemberItem(member: UserData, isWorkspaceOwner: Boolean)
+{
+    var isWorkspaceOwnerText = "Member"
+    if(isWorkspaceOwner) {isWorkspaceOwnerText = "Owner"}
+    Row {
+        Box(modifier = Modifier .padding(end = 10.dp)) {
+            if(member.avatarUri == null){
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .background(
+                            color = DarkGreen,
+                            shape = CircleShape
+                        )
+                        .padding(10.dp)
+                ) {
+                    Text(
+                        text = if(member.fullName.length > 3) member.fullName.substring(0, 2).uppercase() else "",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+            else{
+                GlideImage(
+                    model = member.avatarUri,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .width(45.dp)
+                        .aspectRatio(1f)
+                )
+            }
+        }
+
+
+        Column {
+            Text(text = member.fullName, fontWeight = FontWeight.Bold)
+            Text(text = isWorkspaceOwnerText)
+        }
+    }
+}
+>>>>>>> 9e27d5c4af008bf4adbca08a3cb7cb823bbde0ff
