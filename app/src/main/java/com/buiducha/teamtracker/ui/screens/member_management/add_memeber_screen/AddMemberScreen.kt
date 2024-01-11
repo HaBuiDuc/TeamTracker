@@ -35,7 +35,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.ui.screens.shared.HorizontalLine
 import com.buiducha.teamtracker.ui.screens.shared.MemberItem
-import com.buiducha.teamtracker.viewmodel.AddMemberViewModel
+import com.buiducha.teamtracker.viewmodel.workspace_viewmodel.AddMemberViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.UserInfoViewModel
 

@@ -39,7 +39,7 @@ import androidx.navigation.NavController
 import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.ui.screens.homepage_screen.TAG
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
-import com.buiducha.teamtracker.viewmodel.MemberManagementViewModel
+import com.buiducha.teamtracker.viewmodel.workspace_viewmodel.MemberManagementViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.launch
 
@@ -187,11 +187,8 @@ fun MemberManagementScreen(
                             }
                         )
                     }
-
                 }
             }
-
         }
     }
-
 }

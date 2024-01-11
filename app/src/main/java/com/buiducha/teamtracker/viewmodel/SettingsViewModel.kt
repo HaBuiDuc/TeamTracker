@@ -22,4 +22,8 @@ class SettingsViewModel: ViewModel() {
     fun updateUserAvatar(imgUrl: MutableState<String>){
         firebaseRepository.updateUserAvatar(imgUrl)
     }
+
+    fun logout() {
+        firebaseRepository.userLogout()
+    }
 }

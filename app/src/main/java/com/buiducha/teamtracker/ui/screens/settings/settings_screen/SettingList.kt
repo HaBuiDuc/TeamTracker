@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,10 +22,13 @@ import com.buiducha.teamtracker.data.model.setting.Settings
 import com.buiducha.teamtracker.ui.navigation.Screen
 
 @Composable
-fun SettingList(navController: NavController) {
+fun SettingList(
+    navController: NavController,
+    onLogout: () -> Unit
+) {
     Column {
         Settings.values().forEach { setting ->
-            SettingItem(settingItem = setting, navController)
+            SettingItem(settingItem = setting, navController, onLogout)
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
@@ -33,15 +37,23 @@ fun SettingList(navController: NavController) {
 @Composable
 fun SettingItem(
     settingItem: Settings,
-    navController: NavController
+    navController: NavController,
+    onLogout: () -> Unit
 ) {
     Row(
-        modifier = Modifier.clickable {
-            if(settingItem.settingName == R.string.introduce){
-                navController.navigate(Screen.IntroduceScreen.route)
-            }
-            if(settingItem.settingName == R.string.privacy_policy){
-                navController.navigate(Screen.PrivacyPolicyScreen.route)
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable {
+            when(settingItem.settingName) {
+                R.string.introduce -> {
+                    navController.navigate(Screen.IntroduceScreen.route)
+                }
+                R.string.privacy_policy -> {
+                    navController.navigate(Screen.PrivacyPolicyScreen.route)
+                }
+                R.string.log_out -> {
+                    onLogout()
+                }
             }
         }
     ) {

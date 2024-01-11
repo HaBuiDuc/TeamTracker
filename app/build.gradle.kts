@@ -78,6 +78,8 @@ dependencies {
     implementation ("androidx.compose.material3:material3-window-size-class:1.1.2")
     implementation ("androidx.compose.material:material-icons-extended:1.5.4")
     implementation ("androidx.compose.material:material:1.1.0")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     implementation("com.google.firebase:firebase-analytics")
@@ -90,8 +92,13 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.4.0")
     // notification permission
-    implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-analytics")
+
+    // Stream SDK
+    implementation("io.getstream:stream-chat-android-compose:6.0.8")
+    implementation("io.getstream:stream-chat-android-offline:6.0.8")
+    implementation ("com.auth0:java-jwt:3.18.1")
 
 }

@@ -69,7 +69,7 @@ fun PostsScreen(
                         user = postState.userList.find { user -> user.id == post.userId } ?: UserData(),
                         onViewMessage = {
                             selectedPostViewModel.postUpdate(post)
-                            navController.navigate(Screen.ChatScreen.route)
+                            navController.navigate(Screen.PostChatScreen.route)
                         }
                     )
                 }

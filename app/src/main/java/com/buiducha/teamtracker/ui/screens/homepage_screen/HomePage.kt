@@ -51,7 +51,7 @@ fun HomePage(
     navController: NavController,
     currentUserInfoViewModel: CurrentUserInfoViewModel,
     selectedWorkspaceViewModel: SelectedWorkspaceViewModel,
-    homeViewModel: HomeViewModel = viewModel(),
+    homeViewModel: HomeViewModel = viewModel { HomeViewModel(currentUserInfoViewModel) },
 ) {
     val homeState by homeViewModel.homeState.collectAsState()
     val currentUserInfo by currentUserInfoViewModel.currentUserInfo.collectAsState()
@@ -61,15 +61,16 @@ fun HomePage(
             skipHiddenState = false
         )
     )
+
     val context = LocalContext.current
-    var currentBottomSheet: BottomSheetScreen? by remember{
+    var currentBottomSheet: BottomSheetScreen? by remember {
         mutableStateOf(null)
     }
     val scope = rememberCoroutineScope()
     var isDialogVisible by remember {
         mutableStateOf(false)
     }
-    var query: MutableState<String> = remember {mutableStateOf("")}
+    var query: MutableState<String> = remember { mutableStateOf("") }
 
     FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
         if (task.isSuccessful) {
@@ -99,7 +100,11 @@ fun HomePage(
                     onMemberManager = {
                         navController.navigate(Screen.MemberManagementScreen.route)
                         scope.launch {
-                            homeState.selectedWorkspace?.let { selectedWorkspaceViewModel.workspaceUpdate(workspace = it) }
+                            homeState.selectedWorkspace?.let {
+                                selectedWorkspaceViewModel.workspaceUpdate(
+                                    workspace = it
+                                )
+                            }
                             scaffoldState.bottomSheetState.hide()
                         }
                     },
@@ -112,7 +117,11 @@ fun HomePage(
                     onEditWorkspace = {
                         navController.navigate(Screen.EditWorkspaceScreen.route)
                         scope.launch {
-                            homeState.selectedWorkspace?.let { selectedWorkspaceViewModel.workspaceUpdate(workspace = it) }
+                            homeState.selectedWorkspace?.let {
+                                selectedWorkspaceViewModel.workspaceUpdate(
+                                    workspace = it
+                                )
+                            }
                             scaffoldState.bottomSheetState.hide()
                         }
                     },
@@ -169,7 +178,7 @@ fun HomePage(
             )
         },
     ) {
-        if(scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
+        if (scaffoldState.bottomSheetState.currentValue == SheetValue.Expanded) {
             //Create a Box with transparent color
             Log.d(TAG, "HomePage: true")
             Box(
@@ -213,7 +222,7 @@ fun HomePage(
                 workspaceList = homeState.workspaceList.filter {
                     it.name.contains(query.value, ignoreCase = true)
                 },
-                onMenuToggle = {workspace ->
+                onMenuToggle = { workspace ->
                     homeViewModel.setSelectedWorkspace(workspace)
                     scope.launch {
                         currentBottomSheet = BottomSheetScreen.WSManagement

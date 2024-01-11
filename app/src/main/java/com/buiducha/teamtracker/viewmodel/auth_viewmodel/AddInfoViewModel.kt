@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.viewmodel
+package com.buiducha.teamtracker.viewmodel.auth_viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.data.model.user.UserData

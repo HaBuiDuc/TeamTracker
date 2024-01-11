@@ -28,17 +28,17 @@ import com.buiducha.teamtracker.ui.navigation.MainGraph
 import com.buiducha.teamtracker.ui.screens.shared.FirebaseMessagingNotificationPermissionDialog
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
 import com.buiducha.teamtracker.utils.advancedShadow
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.ktx.messaging
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 
 @OptIn(ExperimentalPermissionsApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RootScreen(
+    currentUserInfoViewModel: CurrentUserInfoViewModel
 ) {
     val navController = rememberNavController()
     val showNotificationDialog = remember { mutableStateOf(false) }
@@ -56,7 +56,7 @@ fun RootScreen(
         if (notificationPermissionState.status.isGranted ||
             Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
         ) {
-            Firebase.messaging.subscribeToTopic("Tutorial")
+
         } else showNotificationDialog.value = true
     }
     Scaffold(
@@ -72,6 +72,7 @@ fun RootScreen(
         ) {
             MainGraph(
                 navHostController = navController,
+                currentUserInfoViewModel = currentUserInfoViewModel
             )
         }
     }
@@ -83,7 +84,7 @@ private fun BottomBar(
 ) {
     val screens = listOf(
         BottomBarScreen.HomeScreen,
-        BottomBarScreen.ChatScreen,
+        BottomBarScreen.ChannelsScreen,
         BottomBarScreen.ActivityScreen,
         BottomBarScreen.SettingsScreen
     )
