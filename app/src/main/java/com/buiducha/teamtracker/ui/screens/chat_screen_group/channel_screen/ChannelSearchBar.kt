@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.buiducha.teamtracker.ui.theme.ShadeGray
 
 @Composable
 fun ChannelSearchBar(
@@ -26,7 +27,7 @@ fun ChannelSearchBar(
             .padding(8.dp)
             .fillMaxWidth()
             .background(
-                color = Color.LightGray,
+                color = ShadeGray,
                 shape = RoundedCornerShape(6)
             )
             .clickable { onSearchToggle() }

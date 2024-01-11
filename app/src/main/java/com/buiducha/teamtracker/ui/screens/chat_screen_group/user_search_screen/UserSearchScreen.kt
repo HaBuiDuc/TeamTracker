@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.ui.screens.shared.MemberItem
 import com.buiducha.teamtracker.viewmodel.chat_viewmodel.UserSearchViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
@@ -57,7 +58,13 @@ fun UserSearchScreen(
                     MemberItem(
                         member = user,
                         onItemPressed = {
-                            userSearchViewModel.createChannel(user.id)
+                            userSearchViewModel.createChannel(
+                                memberId = user.id,
+                                onCreateSuccess = {
+                                    val route = "${Screen.ChatScreen.route}/${it}"
+                                    navController.navigate(route)
+                                }
+                            )
                         }
                     )
                 }

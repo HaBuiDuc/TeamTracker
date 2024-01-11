@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.user.UserData
+import com.buiducha.teamtracker.ui.theme.LightGray
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 
@@ -47,6 +48,9 @@ fun ChannelsTopBar(
         modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
+            .background(
+                color = LightGray
+            )
 //            .clickable(
 //                indication = null,
 //                interactionSource = remember { MutableInteractionSource() }

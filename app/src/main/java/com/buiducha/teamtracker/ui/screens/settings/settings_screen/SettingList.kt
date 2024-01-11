@@ -27,7 +27,7 @@ fun SettingList(
 ) {
     Column {
         Settings.values().forEach { setting ->
-            SettingItem(settingItem = setting, navController)
+            SettingItem(settingItem = setting, navController, onLogout)
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
@@ -36,7 +36,8 @@ fun SettingList(
 @Composable
 fun SettingItem(
     settingItem: Settings,
-    navController: NavController
+    navController: NavController,
+    onLogout: () -> Unit
 ) {
     Row(
         modifier = Modifier.clickable {
@@ -54,7 +55,7 @@ fun SettingItem(
                     navController.navigate(Screen.PrivacyPolicyScreen.route)
                 }
                 R.string.log_out -> {
-
+                    onLogout()
                 }
             }
         }
