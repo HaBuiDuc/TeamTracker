@@ -41,7 +41,6 @@ class FirebaseRepository private constructor(context: Context) {
     private val storage = com.google.firebase.Firebase.storage
     private var storageRef = storage.reference
 
-
     fun removeMemberFromWorkspace(
         workspaceMember: WorkspaceMember,
         onRemoveSuccess: () -> Unit,
@@ -57,11 +56,12 @@ class FirebaseRepository private constructor(context: Context) {
                             shot.ref.removeValue()
                         }
                     }
+                    onRemoveSuccess()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    onRemoveFailure()
                 }
-
             })
     }
 
@@ -290,7 +290,7 @@ class FirebaseRepository private constructor(context: Context) {
     ) {
         Log.d(TAG, "getUserInfo: $userId")
         usersRef.orderByChild("id").equalTo(userId)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+            .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach { user ->
                         val data = user.getValue(UserData::class.java)
