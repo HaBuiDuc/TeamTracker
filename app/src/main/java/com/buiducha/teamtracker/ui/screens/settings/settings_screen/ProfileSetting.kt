@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -60,6 +59,29 @@ fun ProfileSetting(
     )
 
     val context = LocalContext.current
+
+
+    var hasUploadedImage by remember { mutableStateOf(false) }
+    if (uri != null && !hasUploadedImage){
+        uri?.let {
+            settingsViewModel.uploadImage(
+                uri = it,
+                context = context,
+                imgUrl = imgUrl,
+                oldImageUrl = currentUserInfoViewModel
+                    .currentUserInfo.value.avatarUri
+                    .toString()
+            )
+        }
+        hasUploadedImage = true
+    }
+
+    if (hasUploadedImage && uri != null){
+        settingsViewModel.updateUserAvatar(imgUrl)
+        Thread.sleep(2000)
+        currentUserInfoViewModel.updateUserInfo()
+        Thread.sleep(1000)
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -110,24 +132,5 @@ fun ProfileSetting(
                     )
                 }
         )
-
-        var hasUploadedImage by remember { mutableStateOf(false) }
-        if (uri != null && !hasUploadedImage){
-            uri?.let {
-                settingsViewModel.uploadImage(
-                    uri = it,
-                    context = context,
-                    imgUrl = imgUrl,
-                    oldImageUrl = currentUserInfoViewModel
-                        .currentUserInfo.value.avatarUri
-                        .toString()
-                )
-            }
-            hasUploadedImage = true
-        }
-
-        if (hasUploadedImage && uri != null){
-            settingsViewModel.updateUserAvatar(imgUrl)
-        }
     }
 }
