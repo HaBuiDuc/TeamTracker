@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.repository.FirebaseRepository
+import com.buiducha.teamtracker.repository.StreamRepository
 import com.buiducha.teamtracker.ui.states.MemberManagementState
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,6 +15,7 @@ class MemberManagementViewModel(
     private val selectedWorkspace: SelectedWorkspaceViewModel
 ) : ViewModel() {
     private val firebaseRepository = FirebaseRepository.get()
+    private val streamRepository = StreamRepository.get()
     private val _memberManagementState = MutableStateFlow(MemberManagementState())
     val memberManagementState: StateFlow<MemberManagementState> = _memberManagementState.asStateFlow()
 
@@ -38,7 +40,23 @@ class MemberManagementViewModel(
 
         firebaseRepository.removeMemberFromWorkspace(
             workspaceMember = workspaceMember,
-            onRemoveSuccess = {},
+            onRemoveSuccess = {
+                // remove member from post channel
+                firebaseRepository.getPosts(
+                    workspaceId = workspaceMember.workspaceId,
+                    onGetPostsSuccess = {dataList ->
+                        dataList.forEach { data ->
+                            streamRepository.removeMemberFromChannel(
+                                channelId = data.id,
+                                memberId = workspaceMember.userId
+                            )
+                        }
+                    },
+                    onGetPostsFailure = {
+
+                    }
+                )
+            },
             onRemoveFailure = {}
         )
     }
