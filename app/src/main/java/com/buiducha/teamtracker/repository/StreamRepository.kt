@@ -5,21 +5,60 @@ import android.util.Log
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.getstream.chat.android.client.ChatClient
+import io.getstream.chat.android.client.api.models.QueryChannelsRequest
 import io.getstream.chat.android.client.logger.ChatLogLevel
+import io.getstream.chat.android.models.Channel
+import io.getstream.chat.android.models.Filters
+import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.models.User
+import io.getstream.chat.android.models.querysort.QuerySortByField
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
 
-class StreamRepository private constructor(context: Context){
+class StreamRepository private constructor(context: Context) {
     private val offlinePluginFactory = StreamOfflinePluginFactory(appContext = context)
-    private val statePluginFactory = StreamStatePluginFactory(config = StatePluginConfig(), appContext = context)
+    private val statePluginFactory =
+        StreamStatePluginFactory(config = StatePluginConfig(), appContext = context)
 
     // 2 - Set up the client for API calls and with the plugin for offline storage
     val client = ChatClient.Builder("xfs7hhzdgxnk", context)
         .withPlugins(offlinePluginFactory, statePluginFactory)
         .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
         .build()
+
+    fun removeMemberFromChannel(
+        channelId: String,
+        memberId: String
+    ) {
+        val channelClient = client.channel("team", channelId)
+
+        channelClient.removeMembers(listOf(memberId)).enqueue { result ->
+            if (result.isSuccess) {
+//                val channel: Channel = result.data()
+                Log.d(TAG, "remove member successfully")
+            } else {
+                // Handle result.error()
+                Log.d(TAG, "remove member failure")
+            }
+        }
+    }
+
+    fun addMemberToChannel(
+        channelId: String,
+        memberId: String
+    ) {
+        val channelClient = client.channel("team", channelId)
+
+        channelClient.addMembers(listOf(memberId), Message()).enqueue { result ->
+            if (result.isSuccess) {
+                Log.d(TAG, "add member success")
+                val channel: Channel? = result.getOrNull()
+            } else {
+                Log.e(TAG, "failed to add member")
+            }
+        }
+    }
 
     fun createChannel(
         memberList: List<String>,
@@ -70,19 +109,21 @@ class StreamRepository private constructor(context: Context){
         }
     }
 
+    fun getCurrentUser() = client.getCurrentUser()
+
     fun initUser(
-       user: User
+        user: User
     ) {
         Log.d(TAG, "initUser: $user")
         tokenGenerate(user.id)?.let {
             client.connectUser(
                 user = user,
                 token = it
-            ).enqueue {result ->
+            ).enqueue { result ->
                 if (result.isSuccess) {
                     Log.d(TAG, "user init successfully")
                 } else if (result.isFailure) {
-                    Log.e(TAG, "user init failure", )
+                    Log.e(TAG, "user init failure")
                 }
             }
         }

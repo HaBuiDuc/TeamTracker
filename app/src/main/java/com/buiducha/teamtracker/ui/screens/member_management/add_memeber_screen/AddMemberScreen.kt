@@ -171,8 +171,6 @@ fun AddMemberScreen(
                             )
                     )
                 }
-
-
             }
         }
     }
