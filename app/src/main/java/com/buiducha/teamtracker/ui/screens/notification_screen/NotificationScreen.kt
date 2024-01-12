@@ -8,25 +8,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.buiducha.teamtracker.ui.screens.notification_screen.demo_data.Notification
-import com.buiducha.teamtracker.ui.screens.notification_screen.demo_data.notificationList
+import androidx.navigation.NavController
+import com.buiducha.teamtracker.viewmodel.NotificationViewModel
 
-@Preview
-@Composable
-fun NotificationPreview() {
-    NotificationTab()
-}
-@Composable
-fun NotificationTab() {
 
+
+
+@Composable
+fun NotificationScreen(
+    notificationViewModel: NotificationViewModel,
+    navController: NavController
+) {
+    val notificationState by notificationViewModel.notificationState.collectAsState()
     Column {
-        SearchBar()
+        SearchBar(navController = navController)
         val checkedState = remember { mutableStateOf(false) }
         Row() {
             Switch(
@@ -36,7 +38,7 @@ fun NotificationTab() {
                 onCheckedChange = { isChecked -> checkedState.value = isChecked }
             )
             Text(
-                text = "Chỉ chưa đọc",
+                text = "Unread Only",
                 modifier = Modifier
                     .padding(start = 8.dp)
                     .fillMaxWidth()
@@ -48,10 +50,12 @@ fun NotificationTab() {
                 .padding(top = 10.dp)
                 .fillMaxSize()
         ) {
-            notificationList.forEach { notification ->
+            notificationState.notificationList.forEach { notification ->
                 if (checkedState.value) {
-                    if (notification.isRead) {
-                        notificationItem(notification)
+                    if (notification != null) {
+                        if (notification.isRead) {
+                            notificationItem(notification)
+                        }
                     }
                 } else {
                     notificationItem(notification)

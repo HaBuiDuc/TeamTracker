@@ -1,6 +1,7 @@
 package com.buiducha.teamtracker.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +18,7 @@ import com.buiducha.teamtracker.ui.theme.TeamTrackerTheme
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import io.getstream.chat.android.models.User
 import kotlinx.coroutines.launch
+import com.buiducha.teamtracker.utils.CreateNotificationService
 
 class MainActivity : ComponentActivity() {
     private val firebaseRepository = FirebaseRepository.get()
@@ -49,5 +51,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        val intent = Intent(this, CreateNotificationService::class.java)
+        startService(intent)
     }
 }

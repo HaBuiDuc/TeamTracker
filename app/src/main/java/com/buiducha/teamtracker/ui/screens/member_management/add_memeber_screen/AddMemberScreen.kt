@@ -1,5 +1,7 @@
 package com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,10 +37,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.ui.screens.shared.HorizontalLine
 import com.buiducha.teamtracker.ui.screens.shared.MemberItem
-import com.buiducha.teamtracker.viewmodel.workspace_viewmodel.AddMemberViewModel
+import com.buiducha.teamtracker.viewmodel.CreateNotificationViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.UserInfoViewModel
+import com.buiducha.teamtracker.viewmodel.workspace_viewmodel.AddMemberViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AddMemberScreen(
@@ -51,6 +55,7 @@ fun AddMemberScreen(
             selectedWorkspaceViewModel = selectedWorkspaceViewModel
         )
     },
+    createNotificationViewModel: CreateNotificationViewModel
 ) {
     val addMemberState by addMemberViewModel.addMemberState.collectAsState()
     Scaffold(
@@ -139,9 +144,12 @@ fun AddMemberScreen(
                     )
                 }
 
+
             }
 
+
             HorizontalLine()
+
 
             LazyColumn(
                 modifier = Modifier
@@ -152,6 +160,10 @@ fun AddMemberScreen(
                         member = userData,
                         onItemPressed = {
                             addMemberViewModel.addSelectedMember(userData)
+                            createNotificationViewModel.setReceiverId(userData.id)
+                            createNotificationViewModel.setContent("You have been added to workspace " +
+                                    selectedWorkspaceViewModel.workspace.value.name)
+                            createNotificationViewModel.createNotification()
                         },
                         modifier = Modifier
                             .padding(
@@ -159,6 +171,7 @@ fun AddMemberScreen(
                             )
                     )
                 }
+
 
             }
         }

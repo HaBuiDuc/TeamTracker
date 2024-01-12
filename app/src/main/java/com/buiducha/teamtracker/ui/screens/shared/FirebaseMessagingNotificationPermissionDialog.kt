@@ -29,7 +29,7 @@ fun FirebaseMessagingNotificationPermissionDialog(
             text = { Text(text = "Please allow this app to send you a notification") },
             icon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.team_tracker_new_logo2),
+                    painter = painterResource(id = R.drawable.teamtracker2),
                     contentDescription = null
                 )
             },

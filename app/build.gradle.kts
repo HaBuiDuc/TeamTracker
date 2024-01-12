@@ -91,14 +91,12 @@ dependencies {
     implementation ("com.github.bumptech.glide:compose:1.0.0-beta01")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
-    // notification permission
-    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
-    implementation("com.google.firebase:firebase-messaging")
-    implementation("com.google.firebase:firebase-analytics")
 
     // Stream SDK
     implementation("io.getstream:stream-chat-android-compose:6.0.8")
     implementation("io.getstream:stream-chat-android-offline:6.0.8")
     implementation ("com.auth0:java-jwt:3.18.1")
+
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
 }

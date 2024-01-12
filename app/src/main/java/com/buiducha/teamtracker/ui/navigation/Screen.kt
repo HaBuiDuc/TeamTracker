@@ -30,4 +30,5 @@ sealed class Screen(
     object IntroduceScreen: Screen("introduce_screen")
     object PrivacyPolicyScreen: Screen("privacy_policy_screen")
     object SearchMemberScreen: Screen("search_member_screen")
+    object NotificationScreen: Screen("notification_screen")
 }
