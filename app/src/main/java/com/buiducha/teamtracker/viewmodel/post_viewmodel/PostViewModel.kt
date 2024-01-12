@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.viewmodel
+package com.buiducha.teamtracker.viewmodel.post_viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -58,7 +58,6 @@ class PostViewModel(
 
             }
         )
-
     }
 
     companion object {

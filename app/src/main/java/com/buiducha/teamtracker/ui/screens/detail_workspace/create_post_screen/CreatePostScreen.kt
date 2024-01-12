@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
-import com.buiducha.teamtracker.viewmodel.CreatePostViewModel
+import com.buiducha.teamtracker.viewmodel.post_viewmodel.CreatePostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.launch
 

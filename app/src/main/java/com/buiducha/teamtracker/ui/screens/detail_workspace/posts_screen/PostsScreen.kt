@@ -22,7 +22,7 @@ import androidx.navigation.NavController
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
-import com.buiducha.teamtracker.viewmodel.PostViewModel
+import com.buiducha.teamtracker.viewmodel.post_viewmodel.PostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 
@@ -69,7 +69,9 @@ fun PostsScreen(
                         user = postState.userList.find { user -> user.id == post.userId } ?: UserData(),
                         onViewMessage = {
                             selectedPostViewModel.postUpdate(post)
-                            navController.navigate(Screen.PostChatScreen.route)
+//                            navController.navigate(Screen.PostChatScreen.route)
+                            val route = "${Screen.ChatScreen.route}/team:${post.id}"
+                            navController.navigate(route)
                         }
                     )
                 }

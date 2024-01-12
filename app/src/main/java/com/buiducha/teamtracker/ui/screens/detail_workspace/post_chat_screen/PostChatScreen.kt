@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.data.model.user.UserData
-import com.buiducha.teamtracker.viewmodel.PostChatViewModel
+import com.buiducha.teamtracker.viewmodel.post_viewmodel.PostChatViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 
 @Preview(showSystemUi = true)

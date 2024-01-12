@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.viewmodel
+package com.buiducha.teamtracker.viewmodel.post_viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

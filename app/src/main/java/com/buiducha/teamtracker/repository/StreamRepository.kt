@@ -23,7 +23,6 @@ class StreamRepository private constructor(context: Context){
 
     fun createChannel(
         memberList: List<String>,
-        channelName: String? = null,
         onCreateSuccess: (String) -> Unit
     ) {
 
@@ -32,7 +31,6 @@ class StreamRepository private constructor(context: Context){
             channelType = "messaging",
             memberIds = memberList,
             extraData = mapOf(
-//                "name" to (channelName?:"${memberList[0]}-${memberList[1]}")
             )
         ).enqueue { result ->
             if (result.isSuccess) {
@@ -42,6 +40,32 @@ class StreamRepository private constructor(context: Context){
                 }
             } else {
                 Log.d(TAG, "channel create failure")
+            }
+        }
+    }
+
+    fun createTeamChannel(
+        channelId: String,
+        channelName: String,
+        memberList: List<String>,
+        onCreateSuccess: (String) -> Unit
+    ) {
+        client.createChannel(
+            channelId = channelId,
+            channelType = "team",
+            memberIds = memberList,
+            extraData = mapOf(
+                "name" to channelName
+            )
+        ).enqueue { result ->
+            if (result.isSuccess) {
+                Log.d(TAG, "team channel create successfully")
+                val value = result.getOrNull()
+                value?.let {
+                    onCreateSuccess(it.cid)
+                }
+            } else {
+                Log.d(TAG, "team channel create failure")
             }
         }
     }

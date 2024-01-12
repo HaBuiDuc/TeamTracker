@@ -9,19 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
-import com.buiducha.teamtracker.repository.StreamRepository
 import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.ui.theme.LightGray
 import com.buiducha.teamtracker.viewmodel.chat_viewmodel.ChannelViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
-import io.getstream.chat.android.compose.ui.channels.list.ChannelList
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.models.InitializationState
 
