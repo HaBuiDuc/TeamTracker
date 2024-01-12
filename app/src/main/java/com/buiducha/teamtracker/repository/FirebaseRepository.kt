@@ -83,6 +83,32 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
+    fun getWorkspaceMemberId(
+        workspaceId: String,
+        onGetMemberSuccess: (MutableList<String>) -> Unit,
+        onGetMemberFailure: () -> Unit
+    ) {
+        workspaceMemberRef.orderByChild("workspaceId").equalTo(workspaceId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val members = mutableListOf<String>()
+                    snapshot.children.forEach { shot ->
+                        val memberId = shot.child("userId").getValue(String::class.java)
+                        if (memberId != null) {
+                            members.add(memberId)
+                        }
+                    }
+
+                    onGetMemberSuccess(members)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    onGetMemberFailure()
+                }
+
+            })
+    }
+
     fun getWorkspaceMember(
         workspaceId: String,
         onGetMemberSuccess: (MutableList<UserData>) -> Unit,
