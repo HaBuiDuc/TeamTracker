@@ -3,18 +3,17 @@ package com.buiducha.teamtracker.ui.navigation
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.buiducha.teamtracker.ui.screens.chat_screen_group.chat_screen.ChatScreen
 import com.buiducha.teamtracker.ui.screens.chat_screen_group.channel_screen.ChannelsScreen
+import com.buiducha.teamtracker.ui.screens.chat_screen_group.chat_screen.ChatScreen
 import com.buiducha.teamtracker.ui.screens.chat_screen_group.user_search_screen.UserSearchScreen
 import com.buiducha.teamtracker.ui.screens.create_workspace_screen.CreateWorkspaceScreen
-import com.buiducha.teamtracker.ui.screens.detail_workspace.post_chat_screen.PostChatScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.create_post_screen.CreatePostScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.detail_workspace_screen.DetailWorkspaceScreen
+import com.buiducha.teamtracker.ui.screens.detail_workspace.post_chat_screen.PostChatScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen.PostsScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.search_member_screen.SearchMemberScreen
 import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.edit_task_screen.EditTaskScreen
@@ -32,7 +31,6 @@ import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewMo
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.UserInfoViewModel
-import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -183,7 +181,8 @@ fun MainGraph(
                 EditTaskScreen(
                     navController = navHostController,
                     taskId = taskId,
-                    selectedWorkspaceViewModel = selectedWorkspaceViewModel
+                    selectedWorkspaceViewModel = selectedWorkspaceViewModel,
+                    createNotificationViewModel = createNotificationViewModel
                 )
             }
         }
