@@ -1,5 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.root_screen
 
+import android.Manifest
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
@@ -11,7 +12,10 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -21,17 +25,40 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.ui.navigation.BottomBarScreen
 import com.buiducha.teamtracker.ui.navigation.MainGraph
+import com.buiducha.teamtracker.ui.screens.shared.FirebaseMessagingNotificationPermissionDialog
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
 import com.buiducha.teamtracker.utils.advancedShadow
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
 
+@OptIn(ExperimentalPermissionsApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RootScreen(
     currentUserInfoViewModel: CurrentUserInfoViewModel
 ) {
     val navController = rememberNavController()
+    val showNotificationDialog = remember { mutableStateOf(false) }
+
+    // Android 13 Api 33 - runtime notification permission has been added
+    val notificationPermissionState = rememberPermissionState(
+        permission = Manifest.permission.POST_NOTIFICATIONS
+    )
+    if (showNotificationDialog.value) FirebaseMessagingNotificationPermissionDialog(
+        showNotificationDialog = showNotificationDialog,
+        notificationPermissionState = notificationPermissionState
+    )
+
+    LaunchedEffect(key1=Unit){
+        if (notificationPermissionState.status.isGranted ||
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU
+        ) {
+
+        } else showNotificationDialog.value = true
+    }
     Scaffold(
         bottomBar = {
             BottomBar(

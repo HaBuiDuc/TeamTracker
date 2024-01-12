@@ -1,5 +1,6 @@
 package com.buiducha.teamtracker.ui.screens.homepage_screen
 
+import android.Manifest
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +17,7 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,15 +27,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.ui.navigation.Screen
+import com.buiducha.teamtracker.ui.screens.shared.FirebaseMessagingNotificationPermissionDialog
+import com.buiducha.teamtracker.utils.FcmNotificationsSender
 import com.buiducha.teamtracker.viewmodel.HomeViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.launch
 
 @Preview
@@ -42,7 +51,7 @@ fun HomePagePreview() {
 //    HomePage(rememberNavController())
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun HomePage(
     navController: NavController,
@@ -58,6 +67,8 @@ fun HomePage(
             skipHiddenState = false
         )
     )
+
+    val context = LocalContext.current
     var currentBottomSheet: BottomSheetScreen? by remember {
         mutableStateOf(null)
     }
@@ -66,6 +77,52 @@ fun HomePage(
         mutableStateOf(false)
     }
     var query: MutableState<String> = remember { mutableStateOf("") }
+
+    FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+            val token = task.result
+            Log.d("TAG", "Token: $token")
+
+
+        } else {
+            Log.d("TAG", "Không thể lấy mã đăng ký: ${task.exception}")
+        }
+    }
+
+    var sender = FcmNotificationsSender(
+        userFcmToken = "eELENfUIREGGZw0cDaux3Z:APA91bEC9UX9OIifGIbmiL2bI3_OXx4SNly3txBUmabf1TuIcxkA6FIaxvlrpVRsKMCsckTAZYbEpzs-YQxDrgBFvDGCjf5ZTGaarJ6XZZ5cKADGUpzZckANrsvabWkZa7Yem8RJDeKP",
+        title = "title",
+        body = "body body",
+        context = context
+    )
+
+    sender.SendNotifications()
+    val showNotificationDialog = remember { mutableStateOf(false) }
+
+
+// Android 13 Api 33 - runtime notification permission has been added
+    val notificationPermissionState = rememberPermissionState(
+        permission = Manifest.permission.POST_NOTIFICATIONS
+    )
+
+
+    if (showNotificationDialog.value) {
+        // Hiển thị dialog yêu cầu quyền thông báo
+        FirebaseMessagingNotificationPermissionDialog(
+            showNotificationDialog = showNotificationDialog,
+            notificationPermissionState = notificationPermissionState
+        )
+    }
+
+
+    LaunchedEffect(key1 = Unit) {
+        if (notificationPermissionState.status.isGranted) {
+
+
+        } else {
+            showNotificationDialog.value = true
+        }
+    }
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,

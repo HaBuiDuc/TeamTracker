@@ -20,15 +20,18 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBar() {
+fun SearchBar(navController: NavController) {
     Column {
         val searchText = remember { mutableStateOf("")}
         Row() {
             IconButton(
-                onClick = {},
+                onClick = {
+                          navController.popBackStack()
+                },
                 content = {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,

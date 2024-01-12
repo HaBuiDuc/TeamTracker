@@ -1,19 +1,15 @@
 package com.buiducha.teamtracker.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.repository.StreamRepository
 import com.buiducha.teamtracker.ui.states.HomeState
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
-import io.getstream.chat.android.models.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 class HomeViewModel(
     currentUserInfoViewModel: CurrentUserInfoViewModel

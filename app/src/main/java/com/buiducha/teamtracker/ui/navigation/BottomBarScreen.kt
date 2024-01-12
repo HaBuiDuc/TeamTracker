@@ -18,7 +18,7 @@ sealed class BottomBarScreen(
         icon = Icons.Default.Home
     )
     object ActivityScreen: BottomBarScreen(
-        route = "activity_screen",
+        route = Screen.NotificationScreen.route,
         title = "Activity",
         icon = Icons.Default.Notifications
     )

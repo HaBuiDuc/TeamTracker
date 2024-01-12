@@ -1,7 +1,5 @@
 package com.buiducha.teamtracker.data.model.user
 
-import java.util.UUID
-
 data class UserData(
     val id: String = "",
     val fullName: String = "",
@@ -10,5 +8,6 @@ data class UserData(
     val location: String = "",
     val company: String? = null,
     val dateOfBirth: String = "",
-    val email: String = ""
+    val email: String = "",
+    val notiToken: String? = null
 )

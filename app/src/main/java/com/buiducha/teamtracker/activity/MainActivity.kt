@@ -1,6 +1,7 @@
 package com.buiducha.teamtracker.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,18 +11,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.repository.StreamRepository
-import com.buiducha.teamtracker.ui.navigation.AuthGraph
-import com.buiducha.teamtracker.ui.navigation.MainGraph
-import com.buiducha.teamtracker.ui.navigation.SplashScreenGraph
 import com.buiducha.teamtracker.ui.screens.root_screen.RootScreen
 import com.buiducha.teamtracker.ui.theme.TeamTrackerTheme
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import io.getstream.chat.android.models.User
 import kotlinx.coroutines.launch
+import com.buiducha.teamtracker.utils.CreateNotificationService
 
 class MainActivity : ComponentActivity() {
     private val firebaseRepository = FirebaseRepository.get()
@@ -54,5 +51,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        val intent = Intent(this, CreateNotificationService::class.java)
+        startService(intent)
     }
 }
