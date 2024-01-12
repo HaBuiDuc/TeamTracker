@@ -20,9 +20,14 @@ class UserSearchViewModel(
     private val streamRepository = StreamRepository.get()
     private val _userSearchState = MutableStateFlow(UserSearchState())
     val userSearchState: StateFlow<UserSearchState> = _userSearchState.asStateFlow()
+    val userList = userInfo.userInfo.value as MutableList
+
+    init {
+        userList.removeIf {it.id == currentUserInfo.currentUserInfo.value.id}
+    }
 
     fun setQuery(query: String) {
-        val newList = if (query.isNotEmpty()) userInfo.userInfo.value.filter { user -> user.email.contains(query) } else emptyList()
+        val newList = if (query.isNotEmpty()) userList.filter { user -> user.email.contains(query) } else emptyList()
         _userSearchState.value = _userSearchState.value.copy(
             resultList = newList,
             query = query
