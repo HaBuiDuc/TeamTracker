@@ -59,7 +59,8 @@ class AddInfoViewModel : ViewModel() {
             location = addInfoState.value.location,
             company = addInfoState.value.company,
             dateOfBirth = addInfoState.value.dateOfBirth,
-            email = fireBaseRepository.getCurrentUser()?.email!!
+            email = fireBaseRepository.getCurrentUser()?.email!!,
+            gender = addInfoState.value.gender
         )
 
         fireBaseRepository.addUserInfo(

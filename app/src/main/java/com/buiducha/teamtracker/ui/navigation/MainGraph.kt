@@ -22,6 +22,7 @@ import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
 import com.buiducha.teamtracker.ui.screens.member_management.member_management_screen.MemberManagementScreen
 import com.buiducha.teamtracker.ui.screens.notification_screen.NotificationScreen
+import com.buiducha.teamtracker.ui.screens.settings.edit_profile_screen.EditProfileScreen
 import com.buiducha.teamtracker.ui.screens.settings.introduce_screen.IntroduceScreen
 import com.buiducha.teamtracker.ui.screens.settings.privacy_policy_screen.PrivacyPolicyScreen
 import com.buiducha.teamtracker.ui.screens.settings.settings_screen.SettingsScreen
@@ -40,7 +41,6 @@ fun MainGraph(
 ) {
     val userInfoViewModel: UserInfoViewModel = viewModel()
     val selectedWorkspaceViewModel: SelectedWorkspaceViewModel = viewModel()
-//    val currentUserInfoViewModel: CurrentUserInfoViewModel = viewModel()
     val selectedPostViewModel: SelectedPostViewModel = viewModel()
     val notificationViewModel: NotificationViewModel = viewModel()
     val createNotificationViewModel: CreateNotificationViewModel = viewModel()
@@ -97,6 +97,13 @@ fun MainGraph(
             SettingsScreen(
                 navHostController,
                 currentUserInfoViewModel = currentUserInfoViewModel
+            )
+        }
+        composable(
+            route = Screen.EditProfileScreen.route
+        ) {
+            EditProfileScreen(
+                navController = navHostController
             )
         }
         composable(

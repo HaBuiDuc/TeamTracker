@@ -9,5 +9,6 @@ data class UserData(
     val company: String? = null,
     val dateOfBirth: Long? = null,
     val email: String = "",
+    val gender: Boolean = true,
     val notiToken: String? = null
 )

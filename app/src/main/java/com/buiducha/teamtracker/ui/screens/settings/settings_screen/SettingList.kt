@@ -54,6 +54,9 @@ fun SettingItem(
                 R.string.log_out -> {
                     onLogout()
                 }
+                R.string.edit_profile -> {
+                    navController.navigate(Screen.EditProfileScreen.route)
+                }
             }
         }
     ) {
