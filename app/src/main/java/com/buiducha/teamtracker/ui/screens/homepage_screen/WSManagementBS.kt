@@ -13,6 +13,7 @@ fun WSManagementBS(
     onLeaveWorkspace: () -> Unit,
     onEditWorkspace: () -> Unit,
     onDeleteWorkspace: () -> Unit,
+    onQrCodeGenerate: () -> Unit,
     isWorkspaceOwner: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -47,5 +48,9 @@ fun WSManagementBS(
                 onOptionSelected = onDeleteWorkspace
             )
         }
+        ManagementItem(
+            setting = ManagementValue.ScanQrCode,
+            onOptionSelected = onQrCodeGenerate
+        )
     }
 }

@@ -99,4 +99,21 @@ dependencies {
 
     implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
+    // qr code
+    implementation ("com.google.zxing:core:3.5.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.1.0")
+    implementation ("com.google.android.gms:play-services-code-scanner:16.1.0")
+    val camerax_version = "1.0.2"
+    implementation ("androidx.camera:camera-core:${camerax_version}")
+    implementation ("androidx.camera:camera-camera2:${camerax_version}")
+    implementation ("androidx.camera:camera-lifecycle:${camerax_version}")
+    implementation ("androidx.camera:camera-view:1.0.0-alpha29")
+
+    //Barcode
+    implementation ("com.google.mlkit:barcode-scanning:17.2.0")
+
+    //Camera Permission
+    implementation ("com.google.accompanist:accompanist-permissions:0.19.0")
+
+
 }

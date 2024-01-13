@@ -22,6 +22,8 @@ import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
 import com.buiducha.teamtracker.ui.screens.member_management.member_management_screen.MemberManagementScreen
 import com.buiducha.teamtracker.ui.screens.notification_screen.NotificationScreen
+import com.buiducha.teamtracker.ui.screens.scan_qr_code.QRScanScreen
+import com.buiducha.teamtracker.ui.screens.scan_qr_code.QRScreen
 import com.buiducha.teamtracker.ui.screens.settings.change_password_screen.ChangePasswordScreen
 import com.buiducha.teamtracker.ui.screens.settings.edit_profile_screen.EditProfileScreen
 import com.buiducha.teamtracker.ui.screens.settings.introduce_screen.IntroduceScreen
@@ -220,6 +222,20 @@ fun MainGraph(
             route = Screen.ChangePasswordScreen.route
         ) {
             ChangePasswordScreen(navController = navHostController)
+        }
+
+        composable(
+            route = Screen.QRScreen.route
+        ) {
+            QRScreen(
+                selectedWorkspaceViewModel = selectedWorkspaceViewModel,
+                navController = navHostController
+            )
+        }
+        composable(
+            route = Screen.QRScanScreen.route
+        ) {
+            QRScanScreen()
         }
 
     }
