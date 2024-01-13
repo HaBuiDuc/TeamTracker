@@ -4,7 +4,9 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.GroupRemove
@@ -60,5 +62,18 @@ enum class ManagementValue(
     RemoveUser(
         icon = Icons.Default.Close,
         label = R.string.remove_user
+    ),
+
+    Delete(
+        icon = Icons.Default.DeleteOutline,
+        label = R.string.delete
+    ),
+    Copy(
+        icon = Icons.Default.ContentCopy,
+        label = R.string.copy
+    ),
+    AddTask(
+        icon = Icons.Default.Add,
+        label = R.string.add_task
     )
 }

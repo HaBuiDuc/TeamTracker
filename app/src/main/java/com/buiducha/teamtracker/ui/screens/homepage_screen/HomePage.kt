@@ -34,7 +34,6 @@ import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.viewmodel.HomeViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import kotlinx.coroutines.launch
 
 @Preview
@@ -43,7 +42,7 @@ fun HomePagePreview() {
 //    HomePage(rememberNavController())
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(
     navController: NavController,
@@ -67,7 +66,13 @@ fun HomePage(
     var isDialogVisible by remember {
         mutableStateOf(false)
     }
-    var query: MutableState<String> = remember { mutableStateOf("") }
+    val query: MutableState<String> = remember { mutableStateOf("") }
+
+
+
+
+
+
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,

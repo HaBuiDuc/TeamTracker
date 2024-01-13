@@ -1,4 +1,4 @@
-package com.buiducha.teamtracker.ui.screens.member_management.member_management_screen
+package com.buiducha.teamtracker.ui.screens.detail_workspace.posts_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -9,8 +9,9 @@ import com.buiducha.teamtracker.data.model.settings.ManagementValue
 import com.buiducha.teamtracker.ui.screens.homepage_screen.ManagementItem
 
 @Composable
-fun MemberManagementBS(
-    onRemoveUser: () -> Unit,
+fun PostManagementBS(
+    onDeletePost: () -> Unit,
+    onCopyPost: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -20,8 +21,12 @@ fun MemberManagementBS(
             )
     ) {
         ManagementItem(
-            setting = ManagementValue.RemoveUser,
-            onOptionSelected = onRemoveUser
+            setting = ManagementValue.Delete,
+            onOptionSelected = onDeletePost
+        )
+        ManagementItem(
+            setting = ManagementValue.Copy,
+            onOptionSelected = onCopyPost
         )
     }
 }
