@@ -18,7 +18,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun EditTaskTopBar(
     onEditSubmit: () -> Unit,
-    onPopBack: () -> Unit
+    onPopBack: () -> Unit,
+    taskName: String
 ){
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -40,7 +41,7 @@ fun EditTaskTopBar(
                 )
             }
             Text(
-                text = "Thẻ 1",
+                text = taskName,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold
             )

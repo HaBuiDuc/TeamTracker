@@ -9,7 +9,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -35,8 +39,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.buiducha.teamtracker.ui.navigation.Screen
 import com.buiducha.teamtracker.viewmodel.BoardViewModel
 
 @Composable
@@ -62,6 +64,7 @@ fun BoardScreen(
             colors = CardDefaults.cardColors(),
             modifier = Modifier
                 .padding(5.dp)
+                .heightIn(max = 500.dp)
         ) {
             Column(Modifier.padding(10.dp)) {
                 Row(
@@ -83,16 +86,27 @@ fun BoardScreen(
                         )
                     }
                 }
-
-                boardState.taskList.forEach { task ->
-                    TaskItemView(
+                LazyColumn(state = rememberLazyListState()){
+                    items(boardState.taskList)
+                    { task ->
+                        TaskItemView(
                         task = task,
                         onTaskPressed = {
                             onTaskEdit(task.id)
                         }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
+//                boardState.taskList.forEach { task ->
+//                    TaskItemView(
+//                        task = task,
+//                        onTaskPressed = {
+//                            onTaskEdit(task.id)
+//                        }
+//                    )
+//                    Spacer(modifier = Modifier.height(8.dp))
+//                }
 
                 if (isAddTask) {
                     TextField(

@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.ThumbUpOffAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -24,7 +23,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +36,10 @@ import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.project.WorkspacePost
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.utils.convertDate
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PostItem(
     post: WorkspacePost,
@@ -73,21 +78,46 @@ fun PostItem(
                     .fillMaxWidth()
             ) {
                 Row {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .background(
-                                color = colorResource(id = R.color.super_light_blue),
-                                shape = CircleShape
-                            )
-                            .padding(12.dp)
-                            .size(28.dp)
-                    ) {
-                        Text(
-                            text = user.fullName.substring(0, 2).uppercase(),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
+//                    Box(
+//                        contentAlignment = Alignment.Center,
+//                        modifier = Modifier
+//                            .background(
+//                                color = colorResource(id = R.color.super_light_blue),
+//                                shape = CircleShape
+//                            )
+//                            .padding(12.dp)
+//                            .size(28.dp)
+//                    ) {
+//                        Text(
+//                            text = user.fullName.substring(0, 2).uppercase(),
+//                            fontSize = 16.sp,
+//                            fontWeight = FontWeight.SemiBold
+//                        )
+//                    }
+                    if (user.avatarUri != null) {
+                        GlideImage(
+                            model = user.avatarUri,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .size(45.dp)
                         )
+                    } else {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .background(Color.Green)
+                                .padding(10.dp)
+                                .size(23.dp)
+                        ) {
+                            Text(
+                                text = if (user.fullName.length > 3) user.fullName.substring(0, 2).uppercase() else "",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
                     }
                     Column(
                         verticalArrangement = Arrangement.Top,
@@ -105,7 +135,8 @@ fun PostItem(
                             modifier = Modifier
                                 .padding(5.dp),
                             fontStyle = FontStyle.Italic,
-                            text = convertDate(post.timestamp!!)
+                            text = convertDate(post.timestamp!!),
+                            fontSize = 12.sp
                         )
                     }
                 }
@@ -128,33 +159,33 @@ fun PostItem(
             ) {
                 Text(
                     text = post.title,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = post.content,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Normal
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Light
                 )
             }
 
-            Row {
-                IconButton(onClick = {
-
-                }) {
-                    Icon(
-                        imageVector = Icons.Filled.ThumbUpOffAlt,
-                        contentDescription = ""
-                    )
-                }
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically),
-                    fontStyle = FontStyle.Italic,
-                    text = "${post.likesCount} likes"
-                )
-            }
+//            Row {
+//                IconButton(onClick = {
+//
+//                }) {
+//                    Icon(
+//                        imageVector = Icons.Filled.ThumbUpOffAlt,
+//                        contentDescription = ""
+//                    )
+//                }
+//                Text(
+//                    modifier = Modifier
+//                        .align(Alignment.CenterVertically),
+//                    fontStyle = FontStyle.Italic,
+//                    text = "${post.likesCount} likes"
+//                )
+//            }
 
             Text(
                 text = "View all message",
