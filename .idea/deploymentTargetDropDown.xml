@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
-    <value>
-      <entry key="EditTaskPreview">
-        <State />
-      </entry>
-      <entry key="EditTaskScreen">
-        <State />
-      </entry>
-      <entry key="EditTaskScreen (1)">
-        <State />
-      </entry>
-      <entry key="TaskItemPreview">
-        <State />
-      </entry>
-      <entry key="app">
-        <State />
-      </entry>
-      <entry key="fssPreview">
-        <State />
-      </entry>
-    </value>
+    <runningDeviceTargetSelectedWithDropDown>
+      <Target>
+        <type value="RUNNING_DEVICE_TARGET" />
+        <deviceKey>
+          <Key>
+            <type value="SERIAL_NUMBER" />
+            <value value="R9HRC0A0D9R" />
+          </Key>
+        </deviceKey>
+      </Target>
+    </runningDeviceTargetSelectedWithDropDown>
+    <timeTargetWasSelectedWithDropDown value="2024-01-13T17:17:28.208405800Z" />
   </component>
 </project>

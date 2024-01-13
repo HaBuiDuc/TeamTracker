@@ -1,23 +1,18 @@
 package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -27,12 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.project.Task
 import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management._share.BoxTagColor
 import java.text.SimpleDateFormat
@@ -79,6 +72,12 @@ fun TaskItemView(
             Text(
                 text = task.title,
                 fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = task.description,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Light
             )
 
             if (task.startDate != null || task.dueDate != null) {
@@ -89,15 +88,9 @@ fun TaskItemView(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    Icon(
-                        imageVector = Icons.Filled.RemoveRedEye,
-                        contentDescription = null
-                    )
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-
-
                         if (task.startDate != null && task.dueDate != null) {
                             val dateFormat = SimpleDateFormat("dd/MM/yyyy")
                             val startDate = Date(task.startDate)
@@ -108,7 +101,12 @@ fun TaskItemView(
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = "${dateFormat.format(startDate)} - ${dateFormat.format(dueDate)}"
+                                text = "${dateFormat.format(startDate)} - ${
+                                    dateFormat.format(
+                                        dueDate
+                                    )
+                                }",
+                                fontSize = 13.sp
                             )
                         } else if (task.startDate != null) {
                             val dateFormat = SimpleDateFormat("MMM dd, yyyy")

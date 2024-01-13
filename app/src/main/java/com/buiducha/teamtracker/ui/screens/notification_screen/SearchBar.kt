@@ -2,7 +2,6 @@ package com.buiducha.teamtracker.ui.screens.notification_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -13,6 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -59,9 +59,13 @@ fun SearchBar(navController: NavController,
                         contentDescription = "Tìm kiếm"
                     )
                 },
+                colors = TextFieldDefaults.textFieldColors(
+                    focusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                ),
                 modifier = Modifier
                     .weight(1F)
-                    .height(50.dp)
                     .padding(all = 0.dp)
             )
         }
