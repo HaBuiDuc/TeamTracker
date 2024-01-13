@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.DriveFileRenameOutline
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material.icons.outlined.ColorLens
 import androidx.compose.material3.DatePicker
@@ -34,6 +35,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -51,6 +53,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,6 +64,7 @@ import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen.AddMemberToTaskDialog
 import com.buiducha.teamtracker.ui.screens.shared.HorizontalLine
+import com.buiducha.teamtracker.ui.theme.PrimaryColor
 import com.buiducha.teamtracker.viewmodel.CreateNotificationViewModel
 import com.buiducha.teamtracker.viewmodel.EditTaskViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
@@ -124,7 +128,9 @@ fun EditTaskScreen(
             FloatingActionButton(
                 onClick = {
                     isShowMemberDialog = true
-                }
+                },
+                containerColor = PrimaryColor,
+                shape = CircleShape
             ) {
                 Icon(
                     imageVector = Icons.Default.PersonAdd,
@@ -143,12 +149,12 @@ fun EditTaskScreen(
                 onConfirm = {
                     editTaskViewModel.onAddMember()
                     editTaskViewModel.editTaskState
-                        .value.selectedUser.forEach{ userId ->
+                        .value.selectedUser.forEach { userId ->
                             createNotificationViewModel.setContent("You have been added to task " + editTaskState.title)
                             createNotificationViewModel.setReceiverId(userId)
                             createNotificationViewModel.setTime()
                             createNotificationViewModel.createNotification()
-                    }
+                        }
                 },
                 onCheckChange = {
                     editTaskViewModel.onSelectMember(it)
@@ -257,7 +263,6 @@ fun EditTaskScreen(
 //            }
 
 //=======================================================================
-// Thêm thành viên
             Spacer(modifier = Modifier.padding(5.dp))
             Column {
                 var isExpand by remember {
@@ -284,81 +289,17 @@ fun EditTaskScreen(
                 if (isExpand) {
                     LazyColumn {
                         items(editTaskState.joinedMemberList) { member ->
-                            MemberView(member = member)
+                            MemberView(
+                                member = member,
+                                onDeleteMember = {
+                                    editTaskViewModel.removeMember(it)
+                                }
+                            )
                         }
                     }
                 }
             }
 
-//            Row(
-//                Modifier
-//                    .height(60.dp)
-//                    .background(color = Color.LightGray)
-//                    .fillMaxWidth(),
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                Icon(
-//                    imageVector = Icons.Default.Person,
-//                    contentDescription = "",
-//                    modifier = Modifier.padding(15.dp)
-//                )
-//                //danh sách các thành viên tham gia nhiệm vụ
-//                //===============
-//                Row {
-//
-//                    Box(
-//                        contentAlignment = Alignment.Center,
-//                        modifier = Modifier
-//                            .background(
-//                                color = colorResource(id = R.color.super_light_blue),
-//                                shape = CircleShape
-//                            )
-//                            .padding(12.dp)
-//                            .size(28.dp)
-//                    ) {
-//                        Text(
-//                            text = "CN",
-//                            fontSize = 16.sp,
-//                            fontWeight = FontWeight.SemiBold
-//                        )
-//                    }
-//                }
-//                //==================
-//
-//                IconButton(
-//                    onClick = { /*TODO*/ },
-//                ) {
-//                    Icon(
-//                        imageVector = Icons.Filled.Add,
-//                        contentDescription = "",
-//                        tint = Color.Blue
-//                    )
-//                }
-//            }
-
-//=======================================================================
-// Chọn thời gian bắt đầu, kết thúc
-
-//            Spacer(modifier = Modifier.padding(5.dp))
-//            Text(text = "Select start and end date")
-//            Row(
-//                Modifier
-//                    .height(50.dp)
-//                    .background(color = Color.LightGray)
-//                    .fillMaxWidth(),
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                TaskDateRangePicker(
-//                    startDate = (if (editTaskState.startDate != null) editTaskState.startDate else 0L)!!,
-//                    endDate = (if (editTaskState.dueDate != null) editTaskState.dueDate else 0L)!!,
-//                    setStartDate = {
-//                        editTaskViewModel.setStartDate(it)
-//                    },
-//                    setDueDate = {
-//                        editTaskViewModel.setDueDate(it)
-//                    }
-//                )
-//            }
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -429,64 +370,6 @@ fun TaskDatePicker(
         DatePicker(state = datePickerState)
     }
 }
-
-
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun TaskDateRangePicker(
-//    startDate: Long,
-//    endDate: Long,
-//    setStartDate: (Long) -> Unit,
-//    setDueDate: (Long) -> Unit
-//) {
-//
-//    val dateRangePickerState = rememberDateRangePickerState(
-//        initialSelectedStartDateMillis = startDate,
-//        initialSelectedEndDateMillis = endDate
-//    )
-//
-//    var showDateRangePicker by remember {
-//        mutableStateOf(false)
-//    }
-//
-//    if (showDateRangePicker) {
-//        DatePickerDialog(
-//            onDismissRequest = {
-//                showDateRangePicker = false
-//            },
-//            confirmButton = {
-//                TextButton(onClick = {
-//                    showDateRangePicker = false
-//                    setStartDate(dateRangePickerState.selectedStartDateMillis!!)
-//                    setDueDate(dateRangePickerState.selectedEndDateMillis!!)
-//                }) {
-//                    Text(text = "Confirm")
-//                }
-//            },
-//            dismissButton = {
-//                TextButton(onClick = {
-//                    showDateRangePicker = false
-//                }) {
-//                    Text(text = "Cancel")
-//                }
-//            }
-//        ) {
-//            DateRangePicker(
-//                state = dateRangePickerState,
-//                modifier = Modifier.fillMaxSize(0.9f)
-//            )
-//        }
-//    }
-//
-//    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
-//    TextButton(
-//        onClick = { showDateRangePicker = true }
-//    ) {
-//        Text(
-//            text = "${formatter.format(Date(startDate))} - ${formatter.format(Date(endDate))}"
-//        )
-//    }
-//}
 
 @Composable
 fun DropDownMenuTag(
@@ -605,40 +488,85 @@ fun DropDownMenuTag(
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun MemberView(
-    member: UserData
+    member: UserData,
+    onDeleteMember: (String) -> Unit
 ) {
+    var isMenuExpand by remember {
+        mutableStateOf(false)
+    }
     Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (member.avatarUri != null) {
-            GlideImage(
-                model = member.avatarUri,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(10))
-                    .width(44.dp)
-                    .aspectRatio(1f)
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .padding(
+                vertical = 8.dp
             )
-        } else {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .background(
-                        color = Color.Blue,
-                        shape = CircleShape
-                    )
-                    .padding(10.dp)
-                    .size(24.dp)
+            .fillMaxWidth()
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (member.avatarUri != null) {
+                GlideImage(
+                    model = member.avatarUri,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10))
+                        .width(44.dp)
+                        .aspectRatio(1f)
+                )
+            } else {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .background(
+                            color = Color.Blue,
+                            shape = CircleShape
+                        )
+                        .padding(10.dp)
+                        .size(24.dp)
+                ) {
+                    Text(text = member.fullName.substring(0, 2).uppercase(Locale.ROOT))
+                }
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = member.fullName,
+                fontWeight = FontWeight.Medium,
+                fontSize = 18.sp
+            )
+        }
+        Column(
+            modifier = Modifier
+        ) {
+            IconButton(
+                onClick = {
+                    isMenuExpand = true
+                }
             ) {
-                Text(text = member.fullName.substring(0, 2).uppercase(Locale.ROOT))
+                Icon(
+                    imageVector = Icons.Default.MoreVert,
+                    contentDescription = null
+                )
+            }
+            DropdownMenu(
+                expanded = isMenuExpand,
+                onDismissRequest = {
+                    isMenuExpand = false
+                }
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        Text(text = stringResource(id = R.string.delete))
+                    },
+                    onClick = {
+                        onDeleteMember(member.id)
+                        isMenuExpand = !isMenuExpand
+                    },
+                )
             }
         }
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = member.fullName,
-            fontWeight = FontWeight.Medium,
-            fontSize = 18.sp
-        )
+
     }
 }

@@ -714,6 +714,30 @@ class FirebaseRepository private constructor(context: Context) {
             })
     }
 
+    fun removeMemberFromTask(
+        taskMember: TaskMember,
+        onRemoveSuccess: () -> Unit,
+        onRemoveFailure: () -> Unit
+    ) {
+        taskMemberRef.orderByChild("taskId")
+            .equalTo(taskMember.taskId)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach { shot ->
+                        val memberId = shot.child("userId").getValue(String::class.java)
+                        if (memberId == taskMember.userId) {
+                            shot.ref.removeValue()
+                        }
+                    }
+                    onRemoveSuccess()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    onRemoveFailure()
+                }
+            })
+    }
+
     fun addMemberToTask(
         taskMember: TaskMember,
         onAddSuccess: () -> Unit,

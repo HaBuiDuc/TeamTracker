@@ -88,6 +88,20 @@ class EditTaskViewModel(
         )
     }
 
+    fun removeMember(
+        userId: String
+    ) {
+        val taskMember = TaskMember(
+            taskId = taskId,
+            userId = userId
+        )
+        firebaseRepository.removeMemberFromTask(
+            taskMember = taskMember,
+            onRemoveSuccess = {},
+            onRemoveFailure = {}
+        )
+    }
+
     fun onAddMember() {
         _editTaskState.value.selectedUser.forEach { userId ->
             val taskMember = TaskMember(
