@@ -22,6 +22,7 @@ import com.buiducha.teamtracker.ui.screens.homepage_screen.HomePage
 import com.buiducha.teamtracker.ui.screens.member_management.add_memeber_screen.AddMemberScreen
 import com.buiducha.teamtracker.ui.screens.member_management.member_management_screen.MemberManagementScreen
 import com.buiducha.teamtracker.ui.screens.notification_screen.NotificationScreen
+import com.buiducha.teamtracker.ui.screens.settings.change_password_screen.ChangePasswordScreen
 import com.buiducha.teamtracker.ui.screens.settings.edit_profile_screen.EditProfileScreen
 import com.buiducha.teamtracker.ui.screens.settings.introduce_screen.IntroduceScreen
 import com.buiducha.teamtracker.ui.screens.settings.privacy_policy_screen.PrivacyPolicyScreen
@@ -213,6 +214,12 @@ fun MainGraph(
             route = Screen.NotificationScreen.route
         ){
             NotificationScreen(notificationViewModel = notificationViewModel,navHostController)
+        }
+
+        composable(
+            route = Screen.ChangePasswordScreen.route
+        ) {
+            ChangePasswordScreen(navController = navHostController)
         }
 
     }

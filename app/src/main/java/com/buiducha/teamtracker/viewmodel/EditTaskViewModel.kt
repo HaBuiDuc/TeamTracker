@@ -1,5 +1,6 @@
 package com.buiducha.teamtracker.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.data.model.project.Task
 import com.buiducha.teamtracker.data.model.project.TaskMember
@@ -34,6 +35,8 @@ class EditTaskViewModel(
             startDate = editTaskState.value.startDate,
             dueDate = editTaskState.value.dueDate
         )
+
+        Log.d(TAG, newTask.toString())
 
         firebaseRepository.updateTask(
             task = newTask,
@@ -82,12 +85,6 @@ class EditTaskViewModel(
 
     }
 
-    fun getTaskValue() {
-        _editTaskState.value = _editTaskState.value.copy(
-
-        )
-    }
-
     fun removeMember(
         userId: String
     ) {
@@ -117,22 +114,17 @@ class EditTaskViewModel(
     }
 
     fun onSelectMember(memberId: String) {
-//        if (editTaskState.value.selectedUser.contains(memberId)) {
-//            val newList = editTaskState.value.selectedUser - memberId
-//            _editTaskState.value = _editTaskState.value.copy(
-//                selectedUser = newList
-//            )
-//        } else {
-//            val newList = editTaskState.value.selectedUser + memberId
-//            _editTaskState.value = _editTaskState.value.copy(
-//                selectedUser = newList
-//            )
-//        }
         val newList = if (editTaskState.value.selectedUser.contains(memberId))
             editTaskState.value.selectedUser - memberId else
             editTaskState.value.selectedUser + memberId
         _editTaskState.value = _editTaskState.value.copy(
             selectedUser = newList
+        )
+    }
+
+    fun setTag(tag: Int) {
+        _editTaskState.value = _editTaskState.value.copy(
+            tag = tag
         )
     }
 
@@ -158,5 +150,9 @@ class EditTaskViewModel(
         _editTaskState.value = _editTaskState.value.copy(
             title = title
         )
+    }
+
+    companion object {
+        const val TAG = "EditTaskViewModel"
     }
 }

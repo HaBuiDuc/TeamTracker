@@ -57,6 +57,9 @@ fun SettingItem(
                 R.string.edit_profile -> {
                     navController.navigate(Screen.EditProfileScreen.route)
                 }
+                R.string.change_password -> {
+                    navController.navigate(Screen.ChangePasswordScreen.route)
+                }
             }
         }
     ) {

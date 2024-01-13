@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -70,8 +71,9 @@ fun TaskItemView(
         Column(Modifier.padding(10.dp)) {
             if (task.tag != 0) {
                 BoxTagColor(
-                    taskTag = 2
+                    taskTag = task.tag
                 )
+                Spacer(modifier = Modifier.height(8.dp))
             }
 
             Text(
@@ -129,28 +131,28 @@ fun TaskItemView(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.padding(5.dp))
-                Row(
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .background(
-                                color = colorResource(id = R.color.super_light_blue),
-                                shape = CircleShape
-                            )
-                            .padding(12.dp)
-                            .size(22.dp)
-                    ) {
-                        Text(
-                            text = "CN",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                }
+//                Spacer(modifier = Modifier.padding(5.dp))
+//                Row(
+//                    horizontalArrangement = Arrangement.End,
+//                    modifier = Modifier.fillMaxWidth()
+//                ) {
+//                    Box(
+//                        contentAlignment = Alignment.Center,
+//                        modifier = Modifier
+//                            .background(
+//                                color = colorResource(id = R.color.super_light_blue),
+//                                shape = CircleShape
+//                            )
+//                            .padding(12.dp)
+//                            .size(22.dp)
+//                    ) {
+//                        Text(
+//                            text = "CN",
+//                            fontSize = 16.sp,
+//                            fontWeight = FontWeight.SemiBold
+//                        )
+//                    }
+//                }
             }
 
 //            Row {

@@ -15,6 +15,7 @@ import com.buiducha.teamtracker.data.model.project.Workspace
 import com.buiducha.teamtracker.data.model.project.WorkspaceMember
 import com.buiducha.teamtracker.data.model.project.WorkspacePost
 import com.buiducha.teamtracker.data.model.user.UserData
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -414,6 +415,54 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
+    fun changePassword(
+        oldPassword: String,
+        newPassword: String,
+        onChangePasswordSuccess: () -> Unit,
+        onChangePasswordFailure: (String) -> Unit,
+    ) {
+        val credential = EmailAuthProvider.getCredential(
+            auth.currentUser?.email ?: "",
+            oldPassword
+        )
+
+        auth.currentUser?.reauthenticate(credential)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Call updatePassword() method to update the password
+                    updatePassword(
+                        newPassword = newPassword,
+                        onChangePasswordSuccess = onChangePasswordSuccess,
+                        onChangePasswordFailure = onChangePasswordFailure
+                    )
+                    Log.d(TAG, "changePassword: true")
+                } else {
+                    // Handle the error
+                    onChangePasswordFailure(OLD_PASSWORD_INVALID)
+                    Log.d(TAG, "changePassword: false")
+                }
+            }
+    }
+
+    private fun updatePassword(
+        newPassword: String,
+        onChangePasswordSuccess: () -> Unit,
+        onChangePasswordFailure: (String) -> Unit
+    ) {
+        auth.currentUser?.updatePassword(newPassword)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Password updated successfully
+                    onChangePasswordSuccess()
+                    Log.d(TAG, "update password successfully")
+                } else {
+                    // Handle the error
+                    onChangePasswordFailure(PASSWORD_CHANGE_FAILURE)
+                    Log.d(TAG, "update password failure")
+                }
+            }
+    }
+
     fun userLogin(
         activity: Activity,
         email: String,
@@ -694,6 +743,7 @@ class FirebaseRepository private constructor(context: Context) {
                     snapshot.children.forEach { shot ->
                         shot.ref.child("description").setValue(task.description)
                         shot.ref.child("title").setValue(task.title)
+                        shot.ref.child("tag").setValue(task.tag)
                         if (task.startDate != null) {
                             shot.ref.child("startDate").setValue(task.startDate)
                         }
@@ -701,6 +751,7 @@ class FirebaseRepository private constructor(context: Context) {
                             shot.ref.child("dueDate").setValue(task.dueDate)
                         }
                     }
+                    Log.d(TAG, "update task success")
                     onUpdateSuccess()
                 }
 
@@ -888,5 +939,8 @@ fun getNotifications(
         fun get(): FirebaseRepository {
             return INSTANCE ?: throw IllegalStateException("repo must be init")
         }
+
+        const val OLD_PASSWORD_INVALID = "old_password_invalid"
+        const val PASSWORD_CHANGE_FAILURE = "password_change_failure"
     }
 }
