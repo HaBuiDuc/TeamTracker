@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.DriveFileRenameOutline
@@ -42,7 +41,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -133,7 +131,8 @@ fun EditTaskScreen(
 
                         }
                     )
-                }
+                },
+                taskName = editTaskState.title
             )
         },
         floatingActionButton = {
@@ -198,11 +197,11 @@ fun EditTaskScreen(
                 .padding(10.dp)
         ) {
             Column {
-                Text(
-                    text = editTaskState.title,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
-                )
+//                Text(
+//                    text = editTaskState.title,
+//                    fontSize = 24.sp,
+//                    fontWeight = FontWeight.Bold
+//                )
 //                Row {
 //                    Text(text = "Table A", fontWeight = FontWeight.Bold)
 //                    Text(text = "  -  ")
@@ -569,7 +568,7 @@ fun MemberView(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .clip(RoundedCornerShape(10))
+                        .clip(CircleShape)
                         .width(44.dp)
                         .aspectRatio(1f)
                 )
@@ -578,7 +577,7 @@ fun MemberView(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .background(
-                            color = Color.Blue,
+                            color = colorResource(id = R.color.super_light_blue),
                             shape = CircleShape
                         )
                         .padding(10.dp)

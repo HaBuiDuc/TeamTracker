@@ -25,7 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -102,7 +104,7 @@ fun AddMemberItem(
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .clip(RoundedCornerShape(10))
+                        .clip(CircleShape)
                         .width(44.dp)
                         .aspectRatio(1f)
                 )
@@ -111,7 +113,7 @@ fun AddMemberItem(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .background(
-                            color = Color.Blue,
+                            color = colorResource(id = R.color.super_light_blue),
                             shape = CircleShape
                         )
                         .padding(12.dp)
