@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.DriveFileRenameOutline
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.More
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material.icons.outlined.ColorLens
@@ -62,9 +63,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.user.UserData
+import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management._share.BoxTagColor
 import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen.AddMemberToTaskDialog
 import com.buiducha.teamtracker.ui.screens.shared.HorizontalLine
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
+import com.buiducha.teamtracker.ui.theme.TagColor1
+import com.buiducha.teamtracker.ui.theme.TagColor2
+import com.buiducha.teamtracker.ui.theme.TagColor3
+import com.buiducha.teamtracker.ui.theme.TagColor4
+import com.buiducha.teamtracker.ui.theme.TagColor5
+import com.buiducha.teamtracker.ui.theme.TagColor6
 import com.buiducha.teamtracker.viewmodel.CreateNotificationViewModel
 import com.buiducha.teamtracker.viewmodel.EditTaskViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
@@ -103,6 +111,10 @@ fun EditTaskScreen(
         mutableStateOf(false)
     }
     var isShowMemberDialog by remember {
+        mutableStateOf(false)
+    }
+
+    val expanded = remember {
         mutableStateOf(false)
     }
 
@@ -155,6 +167,7 @@ fun EditTaskScreen(
                             createNotificationViewModel.setTime()
                             createNotificationViewModel.createNotification()
                         }
+                    isShowMemberDialog = false
                 },
                 onCheckChange = {
                     editTaskViewModel.onSelectMember(it)
@@ -243,26 +256,32 @@ fun EditTaskScreen(
 
 //=======================================================================
 // Chọn status (running, planning, done)
-//            Spacer(modifier = Modifier.padding(5.dp))
-//            Text(text = "Status")
-//            Row(
-//                Modifier
-//                    .height(50.dp)
-//                    .fillMaxWidth()
-//                    .clickable { expanded.value = true }
-//                    .background(color = Color.LightGray),
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                Icon(
-//                    imageVector = Icons.Default.More,
-//                    contentDescription = "",
-//                    modifier = Modifier.padding(15.dp)
-//                )
-//                BoxTagColor(taskTag = editTaskState.tag)
-//                DropDownMenuTag(expanded = expanded, taskTag = taskTag)
-//            }
-
-//=======================================================================
+            Spacer(modifier = Modifier.padding(5.dp))
+            Text(text = "Status")
+            Row(
+                Modifier
+                    .height(50.dp)
+                    .fillMaxWidth()
+                    .clickable { expanded.value = true }
+                    .background(color = Color.LightGray),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.More,
+                    contentDescription = "",
+                    modifier = Modifier.padding(15.dp)
+                )
+                BoxTagColor(taskTag = editTaskState.tag)
+                DropDownMenuTag(
+                    expanded = expanded.value,
+                    onTagSelected = {tag ->
+                        editTaskViewModel.setTag(tag)
+                    },
+                    onDismissRequest = {
+                        expanded.value = false
+                    }
+                )
+            }
             Spacer(modifier = Modifier.padding(5.dp))
             Column {
                 var isExpand by remember {
@@ -373,106 +392,37 @@ fun TaskDatePicker(
 
 @Composable
 fun DropDownMenuTag(
-    expanded: MutableState<Boolean>,
-    taskTag: MutableState<Int>
+    expanded: Boolean,
+    onDismissRequest: () -> Unit,
+    onTagSelected: (Int) -> Unit
 ) {
     DropdownMenu(
-        expanded = expanded.value,
-        onDismissRequest = { expanded.value = true }
+        expanded = expanded,
+        onDismissRequest = { onDismissRequest() }
     ) {
-        listOf(
+        repeat(6) {index ->
+            val color = when(index) {
+                0 -> TagColor1
+                1 -> TagColor2
+                2 -> TagColor3
+                3 -> TagColor4
+                4 -> TagColor5
+                5 -> TagColor6
+                else -> Color.Transparent
+            }
             DropdownMenuItem(
                 text = {
                     Box(
                         Modifier
                             .width(100.dp)
                             .height(40.dp)
-                            .background(Color.Blue)
+                            .background(color)
                     )
                 },
                 onClick = {
-                    taskTag.value = 1
-                    expanded.value = false
-                },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.ColorLens,
-                        contentDescription = ""
-                    )
-                }
-            ),
-            DropdownMenuItem(
-                text = {
-                    Box(
-                        Modifier
-                            .width(100.dp)
-                            .height(40.dp)
-                            .background(Color.Green)
-                    )
-                },
-                onClick = {
-                    taskTag.value = 2
-                    expanded.value = false
-                },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.ColorLens,
-                        contentDescription = ""
-                    )
-                }
-            ),
-            DropdownMenuItem(
-                text = {
-                    Box(
-                        Modifier
-                            .width(100.dp)
-                            .height(40.dp)
-                            .background(Color.Red)
-                    )
-                },
-                onClick = {
-                    taskTag.value = 3
-                    expanded.value = false
-                },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.ColorLens,
-                        contentDescription = ""
-                    )
-                }
-            ),
-            DropdownMenuItem(
-                text = {
-                    Box(
-                        Modifier
-                            .width(100.dp)
-                            .height(40.dp)
-                            .background(colorResource(id = R.color.purple_200))
-                    )
-                },
-                onClick = {
-                    taskTag.value = 4
-                    expanded.value = false
-                },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.ColorLens,
-                        contentDescription = ""
-                    )
-                }
-            ),
-            DropdownMenuItem(
-                text = {
-                    Box(
-                        Modifier
-                            .width(100.dp)
-                            .height(40.dp)
-                            .background(colorResource(id = R.color.teal_200))
-                    )
-                },
-                onClick = {
-                    taskTag.value = 5
-                    expanded.value = false
+//                    taskTag.value = 1
+                    onTagSelected(index + 1)
+                    onDismissRequest()
                 },
                 leadingIcon = {
                     Icon(
@@ -481,7 +431,114 @@ fun DropDownMenuTag(
                     )
                 }
             )
-        )
+        }
+//        listOf(
+//            DropdownMenuItem(
+//                text = {
+//                    Box(
+//                        Modifier
+//                            .width(100.dp)
+//                            .height(40.dp)
+//                            .background(Color.Blue)
+//                    )
+//                },
+//                onClick = {
+////                    taskTag.value = 1
+//                    onTagSelected(1)
+//                    expanded.value = false
+//                },
+//                leadingIcon = {
+//                    Icon(
+//                        imageVector = Icons.Outlined.ColorLens,
+//                        contentDescription = ""
+//                    )
+//                }
+//            ),
+//            DropdownMenuItem(
+//                text = {
+//                    Box(
+//                        Modifier
+//                            .width(100.dp)
+//                            .height(40.dp)
+//                            .background(Color.Green)
+//                    )
+//                },
+//                onClick = {
+////                    taskTag.value = 2
+//                    onTagSelected(2)
+//                    expanded.value = false
+//                },
+//                leadingIcon = {
+//                    Icon(
+//                        imageVector = Icons.Outlined.ColorLens,
+//                        contentDescription = ""
+//                    )
+//                }
+//            ),
+//            DropdownMenuItem(
+//                text = {
+//                    Box(
+//                        Modifier
+//                            .width(100.dp)
+//                            .height(40.dp)
+//                            .background(Color.Red)
+//                    )
+//                },
+//                onClick = {
+////                    taskTag.value = 3
+//                    onTagSelected(3)
+//                    expanded.value = false
+//                },
+//                leadingIcon = {
+//                    Icon(
+//                        imageVector = Icons.Outlined.ColorLens,
+//                        contentDescription = ""
+//                    )
+//                }
+//            ),
+//            DropdownMenuItem(
+//                text = {
+//                    Box(
+//                        Modifier
+//                            .width(100.dp)
+//                            .height(40.dp)
+//                            .background(colorResource(id = R.color.purple_200))
+//                    )
+//                },
+//                onClick = {
+////                    taskTag.value = 4
+//                    onTagSelected(4)
+//                    expanded.value = false
+//                },
+//                leadingIcon = {
+//                    Icon(
+//                        imageVector = Icons.Outlined.ColorLens,
+//                        contentDescription = ""
+//                    )
+//                }
+//            ),
+//            DropdownMenuItem(
+//                text = {
+//                    Box(
+//                        Modifier
+//                            .width(100.dp)
+//                            .height(40.dp)
+//                            .background(colorResource(id = R.color.teal_200))
+//                    )
+//                },
+//                onClick = {
+////                    taskTag.value = 5
+//                    onTagSelected(5)
+//                    expanded.value = false
+//                },
+//                leadingIcon = {
+//                    Icon(
+//                        imageVector = Icons.Outlined.ColorLens,
+//                        contentDescription = ""
+//                    )
+//                }
+//            )
+//        )
     }
 }
 
