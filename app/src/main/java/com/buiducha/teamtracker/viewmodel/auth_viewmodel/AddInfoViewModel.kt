@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.ui.states.AddInfoState
-import com.buiducha.teamtracker.viewmodel.shared_viewmodel.UserInfoViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -31,7 +30,7 @@ class AddInfoViewModel : ViewModel() {
         )
     }
 
-    fun setDateOfBirth(dob: String) {
+    fun setDateOfBirth(dob: Long?) {
         _addInfoState.value = _addInfoState.value.copy(
             dateOfBirth = dob
         )

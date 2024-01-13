@@ -48,10 +48,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.buiducha.teamtracker.R
+import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.edit_task_screen.TaskDatePicker
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
 import com.buiducha.teamtracker.utils.startMainActivity
 import com.buiducha.teamtracker.viewmodel.auth_viewmodel.AddInfoViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Preview
 @Composable
@@ -77,6 +81,14 @@ fun AddUserInfo(
     val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
+
+    var isShowPicker by remember {
+        mutableStateOf(false)
+    }
+
+    var dateSelected by remember {
+        mutableStateOf(false)
+    }
 
     Scaffold(
         snackbarHost = {
@@ -112,18 +124,44 @@ fun AddUserInfo(
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                value = addInfoState.value.dateOfBirth,
-                onValueChange = {
-                    addInfoViewModel.setDateOfBirth(it)
-                },
-                label = {
-                    Text(text = stringResource(id = R.string.date_of_birth))
-                },
-                shape = RoundedCornerShape(10.dp),
+//            OutlinedTextField(
+//                value = addInfoState.value.dateOfBirth,
+//                onValueChange = {
+//                    addInfoViewModel.setDateOfBirth(it)
+//                },
+//                label = {
+//                    Text(text = stringResource(id = R.string.date_of_birth))
+//                },
+//                shape = RoundedCornerShape(10.dp),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//            )
+            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
+            val dateOfBirth = formatter.format(Date(addInfoState.value.dateOfBirth!!))
+            if (isShowPicker) {
+                TaskDatePicker(
+                    date = addInfoState.value.dateOfBirth,
+                    onDismissRequest = {
+                        isShowPicker = false
+                    },
+                    onConfirm = { time ->
+                        addInfoViewModel.setDateOfBirth(time)
+                    },
+                )
+            }
+            Text(
+                text = dateOfBirth,
                 modifier = Modifier
+                    .clickable {
+                        dateSelected = true
+                        isShowPicker = true
+                    }
+                    .padding(
+                        vertical = 8.dp
+                    )
                     .fillMaxWidth()
             )
+
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
                 value = addInfoState.value.phoneNumber,
