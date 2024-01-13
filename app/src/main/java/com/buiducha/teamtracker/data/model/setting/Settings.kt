@@ -2,6 +2,7 @@ package com.buiducha.teamtracker.data.model.setting
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Password
 
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Lock
@@ -18,6 +19,10 @@ enum class Settings(
     EditProfile(
         settingName = R.string.edit_profile,
         settingIcon = Icons.Outlined.Person,
+    ),
+    ChangePassword(
+        settingName = R.string.change_password,
+        settingIcon = Icons.Default.Password
     ),
     PrivacyPolicy(
         settingName = R.string.privacy_policy,

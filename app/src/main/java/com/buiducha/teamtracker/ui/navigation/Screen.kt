@@ -5,6 +5,7 @@ sealed class Screen(
 ) {
     object LoginScreen: Screen("login_screen")
     object RegisterScreen: Screen("register_screen")
+    object ChangePasswordScreen: Screen("change_password_screen")
     object ForgotPasswordScreen: Screen("forgot_password_screen")
     object AddInfoScreen: Screen("add_info_screen")
     object EditProfileScreen: Screen("edit_profile_screen")
@@ -14,7 +15,6 @@ sealed class Screen(
     object TeamMemberDetailScreen: Screen("team_member_detail_screen")
     object MemberManagementScreen: Screen("member_management_screen")
     object AddMemberScreen: Screen("add_member_screen")
-
     object PostsScreen: Screen("posts_screen")
     object PostChatScreen: Screen("chat_in_post_screen")
     object ChatScreen: Screen("chat_screen")
