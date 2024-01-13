@@ -140,7 +140,7 @@ fun AddUserInfo(
             val dateOfBirth =
                 if (addInfoState.value.dateOfBirth != null)
                     formatter.format(Date(addInfoState.value.dateOfBirth!!))
-                else R.string.date_of_birth
+                else formatter.format(Date(System.currentTimeMillis()))
             if (isShowPicker) {
                 TaskDatePicker(
                     date = addInfoState.value.dateOfBirth,
@@ -152,17 +152,32 @@ fun AddUserInfo(
                     },
                 )
             }
-            Text(
-                text = dateOfBirth.toString(),
+//            Text(
+//                text = dateOfBirth.toString(),
+//                modifier = Modifier
+//                    .clickable {
+//                        dateSelected = true
+//                        isShowPicker = true
+//                    }
+//                    .padding(
+//                        vertical = 8.dp
+//                    )
+//                    .fillMaxWidth()
+//            )
+            OutlinedTextField(
+                value = dateOfBirth,
+                onValueChange = {},
+                label = {
+                    Text(text = stringResource(id = R.string.date_of_birth))
+                },
+                enabled = false,
+                shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
+                    .fillMaxWidth()
                     .clickable {
                         dateSelected = true
                         isShowPicker = true
                     }
-                    .padding(
-                        vertical = 8.dp
-                    )
-                    .fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -188,7 +203,7 @@ fun AddUserInfo(
                 label = {
                     Text(text = stringResource(id = R.string.location))
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -202,7 +217,7 @@ fun AddUserInfo(
                 label = {
                     Text(text = stringResource(id = R.string.company))
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
