@@ -29,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,6 +42,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -58,9 +60,6 @@ import com.buiducha.teamtracker.utils.startMainActivity
 import com.buiducha.teamtracker.viewmodel.auth_viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
-
-
-
 @Preview
 @Composable
 fun LoginScreenPreview() {
@@ -72,7 +71,7 @@ fun LoginScreenPreview() {
 fun LoginScreen(
     navController: NavController,
     loginViewModel: LoginViewModel = viewModel()
-){
+) {
     var email by remember {
         mutableStateOf("")
     }
@@ -96,7 +95,7 @@ fun LoginScreen(
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState)
         },
-    ) {padding ->
+    ) { padding ->
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
@@ -196,7 +195,21 @@ fun LoginScreen(
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth(0.8f),
                         )
-                        Spacer(modifier = Modifier.padding(10.dp))
+
+                        TextButton(
+                            onClick = {
+                                navController.navigate(Screen.ForgotPasswordScreen.route)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.End)
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.forgot_password),
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 16.sp
+                            )
+                        }
+
                         Button(
                             onClick = {
                                 if (loginViewModel.isValueValid(email, password)) {
@@ -244,10 +257,12 @@ fun LoginScreen(
                             )
                         }
                         Row {
-                            Text(text = "Don't have an account?",
+                            Text(
+                                text = "Don't have an account?",
                                 fontSize = 16.sp,
                                 modifier = Modifier
-                                    .padding(0.dp, 15.dp))
+                                    .padding(0.dp, 15.dp)
+                            )
                             Text(
                                 text = "Sign up here!",
                                 fontSize = 16.sp,

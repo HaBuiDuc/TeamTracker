@@ -1,5 +1,7 @@
 package com.buiducha.teamtracker.ui.theme
 
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -17,3 +19,13 @@ val DarkGreen = Color(0xFF7bc871)
 val GrayTransparent = Color(0x80BEBEBE)
 val LightGray = Color(0xFFf7f7f8)
 val ShadeGray = Color(0xFFebedf4)
+
+@Composable
+fun AuthenticTextFieldColor() = TextFieldDefaults.colors(
+    focusedContainerColor = LightGray,
+    unfocusedContainerColor = LightGray,
+    disabledContainerColor = LightGray,
+    focusedIndicatorColor = Color.Transparent,
+    unfocusedIndicatorColor = Color.Transparent,
+    disabledIndicatorColor = Color.Transparent
+)
