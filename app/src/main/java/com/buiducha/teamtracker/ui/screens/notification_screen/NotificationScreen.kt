@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.buiducha.teamtracker.data.model.Notification
 import com.buiducha.teamtracker.viewmodel.NotificationViewModel
 
 
@@ -27,8 +28,14 @@ fun NotificationScreen(
     navController: NavController
 ) {
     val notificationState by notificationViewModel.notificationState.collectAsState()
+
+    val searchText = remember { mutableStateOf("")}
+    val listNotification: List<Notification> = notificationState.notificationList.filter{
+        it.content.contains(searchText.value)
+    }
+
     Column {
-        SearchBar(navController = navController)
+        SearchBar(navController = navController, searchText = searchText)
         val checkedState = remember { mutableStateOf(false) }
         Row() {
             Switch(
@@ -50,7 +57,7 @@ fun NotificationScreen(
                 .padding(top = 10.dp)
                 .fillMaxSize()
         ) {
-            notificationState.notificationList.forEach { notification ->
+            listNotification.forEach { notification ->
                 if (checkedState.value) {
                     if (notification != null) {
                         if (notification.isRead) {

@@ -26,6 +26,19 @@ class CurrentUserInfoViewModel : ViewModel() {
         )
     }
 
+    fun updateUserInfo() {
+        firebaseRepository.getUserInfo(
+            userId = firebaseRepository.getCurrentUser()?.uid!!,
+            onGetInfoSuccess = {userData ->
+                Log.d(TAG, userData.toString())
+                _currentUserInfo.value = userData
+            },
+            onGetInfoFailure = {
+                Log.d(TAG, "get user info failure: ")
+            }
+        )
+    }
+
     fun SetUserNotiToken(token: String){
         _currentUserInfo.value = _currentUserInfo.value.copy(
             notiToken = token

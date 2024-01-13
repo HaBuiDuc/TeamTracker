@@ -1,9 +1,9 @@
 package com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.edit_task_screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -51,7 +50,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,6 +61,7 @@ import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.schedule_screen.AddMemberToTaskDialog
 import com.buiducha.teamtracker.ui.screens.shared.HorizontalLine
+import com.buiducha.teamtracker.viewmodel.CreateNotificationViewModel
 import com.buiducha.teamtracker.viewmodel.EditTaskViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -77,6 +76,7 @@ fun EditTaskPreview() {
 //    EditTaskScreen(navController = rememberNavController())
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EditTaskScreen(
     navController: NavController,
@@ -87,7 +87,8 @@ fun EditTaskScreen(
             taskId = taskId,
             selectedWorkspace = selectedWorkspaceViewModel
         )
-    }
+    },
+    createNotificationViewModel: CreateNotificationViewModel
 ) {
     val editTaskState by editTaskViewModel.editTaskState.collectAsState()
 
@@ -141,6 +142,13 @@ fun EditTaskScreen(
                 selectedMember = editTaskState.selectedUser,
                 onConfirm = {
                     editTaskViewModel.onAddMember()
+                    editTaskViewModel.editTaskState
+                        .value.selectedUser.forEach{ userId ->
+                            createNotificationViewModel.setContent("You have been added to task " + editTaskState.title)
+                            createNotificationViewModel.setReceiverId(userId)
+                            createNotificationViewModel.setTime()
+                            createNotificationViewModel.createNotification()
+                    }
                 },
                 onCheckChange = {
                     editTaskViewModel.onSelectMember(it)
