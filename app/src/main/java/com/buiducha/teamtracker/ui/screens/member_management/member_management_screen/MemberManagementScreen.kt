@@ -112,18 +112,20 @@ fun MemberManagementScreen(
         }
         Scaffold(
             floatingActionButton = {
-                FloatingActionButton(
-                    onClick = {
-                        navController.navigate(Screen.AddMemberScreen.route)
-                    },
-                    shape = CircleShape,
-                    containerColor = PrimaryColor,
-                    contentColor = Color.White
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null
-                    )
+                if (memberManagementState.isWorkspaceOwner) {
+                    FloatingActionButton(
+                        onClick = {
+                            navController.navigate(Screen.AddMemberScreen.route)
+                        },
+                        shape = CircleShape,
+                        containerColor = PrimaryColor,
+                        contentColor = Color.White
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null
+                        )
+                    }
                 }
             }
         ) { paddingValues ->

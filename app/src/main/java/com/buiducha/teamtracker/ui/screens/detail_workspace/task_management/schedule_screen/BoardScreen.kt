@@ -44,7 +44,8 @@ fun BoardScreen(
 //    board: Board,
 //    boardViewModel: BoardViewModel = viewModel { BoardViewModel(board) },
     boardViewModel: BoardViewModel,
-    onTaskEdit: (String) -> Unit
+    onTaskEdit: (String) -> Unit,
+    onTaskOption: () -> Unit
 ) {
     Log.d("This is a log", "BoardScreen: ")
     val boardState by boardViewModel.boardState.collectAsState()
@@ -74,7 +75,7 @@ fun BoardScreen(
                         fontWeight = FontWeight.Bold
                     )
                     IconButton(
-                        onClick = { /*TODO*/ }
+                        onClick = onTaskOption
                     ) {
                         Icon(
                             imageVector = Icons.Filled.MoreVert,

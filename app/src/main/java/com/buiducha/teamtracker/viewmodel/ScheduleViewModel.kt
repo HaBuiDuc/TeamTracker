@@ -52,4 +52,12 @@ class ScheduleViewModel(
         )
     }
 
+    fun deleteBoard(
+        boardId: String
+    ) {
+        firebaseRepository.deleteBoard(
+            boardId = boardId
+        )
+    }
+
 }

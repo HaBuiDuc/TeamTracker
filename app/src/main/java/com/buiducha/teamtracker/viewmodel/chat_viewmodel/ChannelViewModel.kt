@@ -1,16 +1,11 @@
 package com.buiducha.teamtracker.viewmodel.chat_viewmodel
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buiducha.teamtracker.repository.FirebaseRepository
 import com.buiducha.teamtracker.repository.StreamRepository
-import com.buiducha.teamtracker.ui.states.ChannelsState
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.CurrentUserInfoViewModel
 import io.getstream.chat.android.models.User
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ChannelViewModel(

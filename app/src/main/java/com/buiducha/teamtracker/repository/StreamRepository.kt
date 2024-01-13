@@ -5,13 +5,10 @@ import android.util.Log
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.getstream.chat.android.client.ChatClient
-import io.getstream.chat.android.client.api.models.QueryChannelsRequest
 import io.getstream.chat.android.client.logger.ChatLogLevel
 import io.getstream.chat.android.models.Channel
-import io.getstream.chat.android.models.Filters
 import io.getstream.chat.android.models.Message
 import io.getstream.chat.android.models.User
-import io.getstream.chat.android.models.querysort.QuerySortByField
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
@@ -79,6 +76,21 @@ class StreamRepository private constructor(context: Context) {
                 }
             } else {
                 Log.d(TAG, "channel create failure")
+            }
+        }
+    }
+
+    fun deleteTeamChannel(
+        channelId: String
+    ) {
+        val channelClient = client.channel("team", channelId)
+
+        channelClient.delete().enqueue { result ->
+            if (result.isSuccess) {
+//                val channel = result.data()
+                Log.d(TAG, "delete team channel successfully")
+            } else {
+                Log.e(TAG, "delete team channel failure", )
             }
         }
     }

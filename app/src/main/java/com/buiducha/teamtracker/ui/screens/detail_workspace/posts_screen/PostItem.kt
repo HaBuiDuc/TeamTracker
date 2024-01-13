@@ -39,6 +39,7 @@ import com.buiducha.teamtracker.utils.convertDate
 fun PostItem(
     post: WorkspacePost,
     user: UserData,
+    postOption: () -> Unit,
     onViewMessage: () -> Unit
 ) {
     Card(
@@ -110,7 +111,7 @@ fun PostItem(
                 }
                 IconButton(
                     onClick = {
-
+                        postOption()
                     }
                 ) {
                     Icon(

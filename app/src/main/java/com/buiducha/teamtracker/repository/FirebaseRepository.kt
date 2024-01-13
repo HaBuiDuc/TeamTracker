@@ -25,6 +25,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.storage
 import java.util.UUID
+import kotlin.math.log
 
 class FirebaseRepository private constructor(context: Context) {
     private var auth: FirebaseAuth = Firebase.auth
@@ -467,6 +468,22 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
+    fun deletePost(
+        postId: String
+    ) {
+        postsRef.orderByChild("id").equalTo(postId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { post ->
+                    post.ref.removeValue()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
     fun createPost(
         post: WorkspacePost,
         onCreateSuccess: () -> Unit,
@@ -530,6 +547,24 @@ class FirebaseRepository private constructor(context: Context) {
                 }
             })
     }
+
+    fun deleteBoard(
+        boardId: String
+    ) {
+        Log.d(TAG, "deleteBoard: $boardId")
+        boardsRef.orderByChild("id").equalTo(boardId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { post ->
+                    post.ref.removeValue()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
 
     fun createBoard(
         board: Board,

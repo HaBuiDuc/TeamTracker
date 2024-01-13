@@ -49,6 +49,7 @@ fun CreateBoardCard(
         modifier = Modifier
             .padding(10.dp)
             .fillMaxHeight()
+
     ) {
         if (showTextField) {
             Row(
@@ -56,6 +57,7 @@ fun CreateBoardCard(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
+
             ) {
                 TextField(
                     value = createBoardState.label,
@@ -86,15 +88,16 @@ fun CreateBoardCard(
                         shape = RoundedCornerShape(8)
                     )
                     .fillMaxWidth()
+                    .clickable {
+                        showTextField = true
+                    }
             ) {
                 Text(
                     text = "+ Create Board",
                     color = Color.White,
                     fontWeight = FontWeight(500),
                     modifier = Modifier
-                        .clickable {
-                            showTextField = true
-                        }
+
                         .padding(16.dp)
                 )
             }

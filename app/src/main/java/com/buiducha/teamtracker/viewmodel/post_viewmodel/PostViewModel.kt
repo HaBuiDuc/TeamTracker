@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buiducha.teamtracker.data.model.user.UserData
 import com.buiducha.teamtracker.repository.FirebaseRepository
+import com.buiducha.teamtracker.repository.StreamRepository
 import com.buiducha.teamtracker.ui.states.PostsState
+import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedPostViewModel
 import com.buiducha.teamtracker.viewmodel.shared_viewmodel.SelectedWorkspaceViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,9 +17,11 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class PostViewModel(
-    private val selectedWorkspace: SelectedWorkspaceViewModel
+    private val selectedWorkspace: SelectedWorkspaceViewModel,
+    private val selectedPost: SelectedPostViewModel
 ) : ViewModel() {
     private val firebaseRepository = FirebaseRepository.get()
+    private val streamRepository = StreamRepository.get()
     private val _postState = MutableStateFlow(PostsState())
     val postsState: StateFlow<PostsState> = _postState.asStateFlow()
 
@@ -26,6 +30,16 @@ class PostViewModel(
     }
 
     fun getWorkspaceName() = selectedWorkspace.workspace.value.name
+
+    fun deletePost() {
+        streamRepository.deleteTeamChannel(
+            channelId = selectedPost.post.value.id
+        )
+        firebaseRepository.deletePost(
+            postId = selectedPost.post.value.id
+        )
+
+    }
 
     private fun getPosts() {
         firebaseRepository.getPosts(

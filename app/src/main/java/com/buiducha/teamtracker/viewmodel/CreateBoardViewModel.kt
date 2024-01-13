@@ -26,18 +26,20 @@ class CreateBoardViewModel(
         onCreateSuccess: () -> Unit,
         onCreateFailure: () -> Unit
     ){
-        val newBoard = Board(
-            label = createBoardState.value.label,
-            workspaceId = selectedWorkspace.workspace.value.id
-        )
+        if (createBoardState.value.label.isNotEmpty()) {
+            val newBoard = Board(
+                label = createBoardState.value.label,
+                workspaceId = selectedWorkspace.workspace.value.id
+            )
 
-        firebaseRepository.createBoard(
-            board = newBoard,
-            onCreateSuccess = {
-                onCreateSuccess()
-                setBoardLabel("")
-            },
-            onCreateFailure = onCreateFailure
-        )
+            firebaseRepository.createBoard(
+                board = newBoard,
+                onCreateSuccess = {
+                    onCreateSuccess()
+                    setBoardLabel("")
+                },
+                onCreateFailure = onCreateFailure
+            )
+        }
     }
 }
