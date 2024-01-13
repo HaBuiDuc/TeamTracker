@@ -137,7 +137,10 @@ fun AddUserInfo(
 //                    .fillMaxWidth()
 //            )
             val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
-            val dateOfBirth = formatter.format(Date(addInfoState.value.dateOfBirth!!))
+            val dateOfBirth =
+                if (addInfoState.value.dateOfBirth != null)
+                    formatter.format(Date(addInfoState.value.dateOfBirth!!))
+                else R.string.date_of_birth
             if (isShowPicker) {
                 TaskDatePicker(
                     date = addInfoState.value.dateOfBirth,
@@ -150,7 +153,7 @@ fun AddUserInfo(
                 )
             }
             Text(
-                text = dateOfBirth,
+                text = dateOfBirth.toString(),
                 modifier = Modifier
                     .clickable {
                         dateSelected = true
