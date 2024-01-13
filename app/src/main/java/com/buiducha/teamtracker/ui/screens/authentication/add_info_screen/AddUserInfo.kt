@@ -112,18 +112,18 @@ fun AddUserInfo(
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(16.dp))
-//            OutlinedTextField(
-//                value = addInfoState.value.dateOfBirth,
-//                onValueChange = {
-//                    addInfoViewModel.setDateOfBirth(it)
-//                },
-//                label = {
-//                    Text(text = stringResource(id = R.string.date_of_birth))
-//                },
-//                shape = RoundedCornerShape(10.dp),
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//            )
+            OutlinedTextField(
+                value = addInfoState.value.dateOfBirth,
+                onValueChange = {
+                    addInfoViewModel.setDateOfBirth(it)
+                },
+                label = {
+                    Text(text = stringResource(id = R.string.date_of_birth))
+                },
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
                 value = addInfoState.value.phoneNumber,

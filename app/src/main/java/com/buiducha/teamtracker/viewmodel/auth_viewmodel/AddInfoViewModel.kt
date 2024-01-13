@@ -31,7 +31,7 @@ class AddInfoViewModel : ViewModel() {
         )
     }
 
-    fun setDateOfBirth(dob: Long) {
+    fun setDateOfBirth(dob: String) {
         _addInfoState.value = _addInfoState.value.copy(
             dateOfBirth = dob
         )

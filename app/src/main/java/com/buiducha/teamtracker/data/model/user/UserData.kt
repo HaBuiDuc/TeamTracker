@@ -7,7 +7,7 @@ data class UserData(
     val avatarUri: String? = null,
     val location: String = "",
     val company: String? = null,
-    val dateOfBirth: Long = 0,
+    val dateOfBirth: String = "",
     val email: String = "",
     val notiToken: String? = null
 )
