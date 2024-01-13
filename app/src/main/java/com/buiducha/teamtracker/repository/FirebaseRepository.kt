@@ -374,6 +374,23 @@ class FirebaseRepository private constructor(context: Context) {
             }
     }
 
+    fun forgotPassword(
+        email: String,
+        onSendEmailSuccess: () -> Unit,
+        onSendEmailFailure: () -> Unit
+    ) {
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener {task ->
+                if (task.isSuccessful) {
+                    onSendEmailSuccess()
+                }
+            }
+            .addOnFailureListener {e ->
+                onSendEmailFailure()
+                Log.e(TAG, "send email failure", e)
+            }
+    }
+
     fun userLogin(
         activity: Activity,
         email: String,

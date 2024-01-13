@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.buiducha.teamtracker.ui.screens.authentication.add_info_screen.AddUserInfo
+import com.buiducha.teamtracker.ui.screens.authentication.forgot_password_screen.ForgotPasswordScreen
 import com.buiducha.teamtracker.ui.screens.authentication.login_screens.LoginScreen
 import com.buiducha.teamtracker.ui.screens.authentication.register_screens.RegisterScreen
 import com.buiducha.teamtracker.ui.screens.splash_screen.AnimatedSplashScreen
@@ -40,6 +41,11 @@ fun AuthGraph(
             AddUserInfo(
                 navController = navHostController
             )
+        }
+        composable(
+            route = Screen.ForgotPasswordScreen.route
+        ) {
+            ForgotPasswordScreen(navController = navHostController)
         }
     }
 }
