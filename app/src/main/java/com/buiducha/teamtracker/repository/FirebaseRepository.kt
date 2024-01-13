@@ -694,6 +694,7 @@ class FirebaseRepository private constructor(context: Context) {
                     snapshot.children.forEach { shot ->
                         shot.ref.child("description").setValue(task.description)
                         shot.ref.child("title").setValue(task.title)
+                        shot.ref.child("tag").setValue(task.tag)
                         if (task.startDate != null) {
                             shot.ref.child("startDate").setValue(task.startDate)
                         }
@@ -701,6 +702,7 @@ class FirebaseRepository private constructor(context: Context) {
                             shot.ref.child("dueDate").setValue(task.dueDate)
                         }
                     }
+                    Log.d(TAG, "update task success")
                     onUpdateSuccess()
                 }
 
