@@ -68,6 +68,12 @@ fun HomePage(
     }
     val query: MutableState<String> = remember { mutableStateOf("") }
 
+
+
+
+
+
+
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetContent = {
