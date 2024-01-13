@@ -11,10 +11,10 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.GroupRemove
 import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.QrCode
+import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Tag
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import com.buiducha.teamtracker.R
 
 enum class ManagementValue(
@@ -33,9 +33,9 @@ enum class ManagementValue(
         icon = Icons.Default.Groups,
         label = R.string.find_workspace
     ),
-    JoinWorkspaceById(
-        icon = Icons.Default.Tag,
-        label = R.string.join_workspace_by_id
+    JoinWorkspaceByQRCode(
+        icon = Icons.Default.QrCodeScanner,
+        label = R.string.join_workspace_by_qr_code
     ),
 
     ViewMembers(
@@ -75,5 +75,9 @@ enum class ManagementValue(
     AddTask(
         icon = Icons.Default.Add,
         label = R.string.add_task
+    ),
+    ScanQrCode(
+        icon = Icons.Default.QrCode,
+        label = R.string.qr_code
     )
 }

@@ -35,7 +35,7 @@
     <string name="workspace_management">Workspace management</string>
     <string name="create_workspace">Create workspace</string>
     <string name="find_workspace">Find workspace</string>
-    <string name="join_workspace_by_id">Join workspace by id</string>
+    <string name="join_workspace_by_qr_code">Join workspace by QR code</string>
 
     <string name="workspace_name">Workspace name</string>
     <string name="description">Description</string>
@@ -63,4 +63,6 @@
     <string name="delete">Delete</string>
     <string name="copy">Copy</string>
     <string name="add_task">Add task</string>
+
+    <string name="qr_code">QR code</string>
 </resources>

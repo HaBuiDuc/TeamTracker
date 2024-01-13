@@ -12,7 +12,7 @@ fun WSListManagementBS(
     onWSManagement: () -> Unit,
     onCreateWS: () -> Unit,
     onFindWS: () -> Unit,
-    onJoinWSById: () -> Unit,
+    onJoinWSByQRCode: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -21,10 +21,10 @@ fun WSListManagementBS(
                 bottom = 16.dp
             )
     ) {
-        ManagementItem(
-            setting = ManagementValue.WorkSpaceManagement,
-            onOptionSelected = onWSManagement
-        )
+//        ManagementItem(
+//            setting = ManagementValue.WorkSpaceManagement,
+//            onOptionSelected = onWSManagement
+//        )
         ManagementItem(
             setting = ManagementValue.CreateWorkspace,
             onOptionSelected = onCreateWS
@@ -34,8 +34,8 @@ fun WSListManagementBS(
             onOptionSelected = onFindWS
         )
         ManagementItem(
-            setting = ManagementValue.JoinWorkspaceById,
-            onOptionSelected = onJoinWSById
+            setting = ManagementValue.JoinWorkspaceByQRCode,
+            onOptionSelected = onJoinWSByQRCode
         )
     }
 }
