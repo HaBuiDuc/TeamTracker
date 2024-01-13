@@ -332,6 +332,29 @@ class FirebaseRepository private constructor(context: Context) {
             })
     }
 
+    fun updateUserInfo(
+        userData: UserData,
+    ) {
+        usersRef.orderByChild("id").equalTo(auth.currentUser?.uid).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach { shot ->
+                    val key = shot.key
+                    key?.let {
+                        usersRef.child(key).setValue(userData).addOnCompleteListener {
+                            Log.d(TAG, "updateUserInfo: ")
+                        }
+                        Log.d(TAG, key)
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
+    }
+
     fun addUserInfo(
         userData: UserData,
         onAddSuccess: () -> Unit,

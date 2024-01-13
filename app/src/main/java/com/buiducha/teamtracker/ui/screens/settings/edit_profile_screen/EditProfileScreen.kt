@@ -1,5 +1,6 @@
-package com.buiducha.teamtracker.ui.screens.authentication.add_info_screen
+package com.buiducha.teamtracker.ui.screens.settings.edit_profile_screen
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -23,76 +25,66 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.buiducha.teamtracker.viewmodel.EditProfileViewModel
 import com.buiducha.teamtracker.R
 import com.buiducha.teamtracker.ui.screens.detail_workspace.task_management.edit_task_screen.TaskDatePicker
 import com.buiducha.teamtracker.ui.theme.PrimaryColor
-import com.buiducha.teamtracker.utils.startMainActivity
-import com.buiducha.teamtracker.viewmodel.auth_viewmodel.AddInfoViewModel
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@Preview
 @Composable
-fun AddUserInfoPreview() {
-    AddUserInfo(rememberNavController())
-}
-@Composable
-fun AddUserInfo(
+fun EditProfileScreen(
     navController: NavController,
-    addInfoViewModel: AddInfoViewModel = viewModel()
+    editProfileViewModel: EditProfileViewModel = viewModel()
 ) {
-    val addInfoState = addInfoViewModel.addInfoState.collectAsState()
+    val editProfileState by editProfileViewModel.editProfileState.collectAsState()
     val options = listOf(true, false)
     var expanded by remember {
         mutableStateOf(false)
     }
-    var textFieldSize by remember { mutableStateOf(Size.Zero)}
+    var textFieldSize by remember { mutableStateOf(Size.Zero) }
     val icon = if (expanded)
         Icons.Filled.KeyboardArrowUp
     else
         Icons.Filled.KeyboardArrowDown
 
-    val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
-    val context = LocalContext.current
-
-    var isShowPicker by remember {
-        mutableStateOf(false)
-    }
-
-    var dateSelected by remember {
+    var dialogVisible by remember {
         mutableStateOf(false)
     }
 
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState)
+        },
+        topBar = {
+            EditProfileTopBar(
+                onPopBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     ) {padding ->
         Column(
@@ -104,17 +96,23 @@ fun AddUserInfo(
                     vertical = 16.dp
                 )
         ) {
+            if (dialogVisible) {
+                EditInfoDialog {
+                    navController.popBackStack()
+                }
+            }
+
             Text(
-                text = stringResource(id = R.string.fill_information_guide),
+                text = stringResource(id = R.string.edit_profile),
                 fontWeight = FontWeight.Bold,
                 fontSize = 32.sp,
                 maxLines = 2,
             )
             Spacer(modifier = Modifier.height(24.dp))
             OutlinedTextField(
-                value = addInfoState.value.fullName,
+                value = editProfileState.userData.fullName,
                 onValueChange = {
-                    addInfoViewModel.setFullName(it)
+                    editProfileViewModel.setUserName(it)
                 },
                 label = {
                     Text(text = stringResource(id = R.string.full_name))
@@ -124,43 +122,10 @@ fun AddUserInfo(
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(16.dp))
-            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
-            val dateOfBirth =
-                if (addInfoState.value.dateOfBirth != null)
-                    formatter.format(Date(addInfoState.value.dateOfBirth!!))
-                else formatter.format(Date(System.currentTimeMillis()))
-            if (isShowPicker) {
-                TaskDatePicker(
-                    date = addInfoState.value.dateOfBirth,
-                    onDismissRequest = {
-                        isShowPicker = false
-                    },
-                    onConfirm = { time ->
-                        addInfoViewModel.setDateOfBirth(time)
-                    },
-                )
-            }
             OutlinedTextField(
-                value = dateOfBirth,
-                onValueChange = {},
-                label = {
-                    Text(text = stringResource(id = R.string.date_of_birth))
-                },
-                enabled = false,
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        dateSelected = true
-                        isShowPicker = true
-                    }
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                value = addInfoState.value.phoneNumber,
+                value = editProfileState.userData.phoneNumber,
                 onValueChange = {
-                    addInfoViewModel.setPhoneNumber(it)
+                    editProfileViewModel.setPhoneNumber(it)
                 },
                 label = {
                     Text(text = stringResource(id = R.string.phone_number))
@@ -170,11 +135,11 @@ fun AddUserInfo(
                 modifier = Modifier
                     .fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             OutlinedTextField(
-                value = addInfoState.value.location,
+                value = editProfileState.userData.location,
                 onValueChange = {
-                    addInfoViewModel.setLocation(it)
+                    editProfileViewModel.setLocation(it)
                 },
                 label = {
                     Text(text = stringResource(id = R.string.location))
@@ -184,11 +149,11 @@ fun AddUserInfo(
                 modifier = Modifier
                     .fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             OutlinedTextField(
-                value = addInfoState.value.company,
+                value = (editProfileState.userData.company) ?: "",
                 onValueChange = {
-                    addInfoViewModel.setCompany(it)
+                    editProfileViewModel.setCompany(it)
                 },
                 label = {
                     Text(text = stringResource(id = R.string.company))
@@ -199,11 +164,53 @@ fun AddUserInfo(
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(24.dp))
-
-
+            var isShowPicker by remember {
+                mutableStateOf(false)
+            }
+            var dateSelected by remember {
+                mutableStateOf(false)
+            }
+            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.ROOT)
+            val dateOfBirth =
+                if (editProfileState.userData.dateOfBirth != null)
+                    formatter.format(Date(editProfileState.userData.dateOfBirth!!))
+                else formatter.format(Date(System.currentTimeMillis()))
+            if (isShowPicker) {
+                TaskDatePicker(
+                    date = editProfileState.userData.dateOfBirth,
+                    onDismissRequest = {
+                        isShowPicker = false
+                    },
+                    onConfirm = { time ->
+                        editProfileViewModel.setDateOfBirth(time)
+                    },
+                )
+            }
+            OutlinedTextField(
+                value = dateOfBirth,
+                onValueChange = {},
+                label = {
+                    Text(text = stringResource(id = R.string.date_of_birth))
+                },
+                enabled = false,
+                colors = TextFieldDefaults.colors(
+                    disabledContainerColor = Color.White,
+                    disabledIndicatorColor = Color.Black,
+                    disabledTextColor = Color.Black,
+                    disabledLabelColor = Color.Black
+                ),
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        dateSelected = true
+                        isShowPicker = true
+                    }
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             Column {
                 OutlinedTextField(
-                    value = if (addInfoState.value.gender) "Male" else "Female",
+                    value = if (editProfileState.userData.gender) "Male" else "Female",
                     onValueChange = {  },
                     trailingIcon = {
                         Icon(
@@ -214,7 +221,7 @@ fun AddUserInfo(
                     colors = TextFieldDefaults.colors(
                         disabledContainerColor = Color.White,
                         disabledIndicatorColor = Color.Black,
-                        disabledTextColor = Color.Black
+                        disabledTextColor = Color.Black,
                     ),
                     shape = RoundedCornerShape(10.dp),
                     enabled = false,
@@ -242,7 +249,7 @@ fun AddUserInfo(
                                 )
                             },
                             onClick = {
-                                addInfoViewModel.setGender(label)
+                                editProfileViewModel.setGender(label)
                                 expanded = false
                             }
                         )
@@ -255,16 +262,8 @@ fun AddUserInfo(
                     containerColor = PrimaryColor
                 ),
                 onClick = {
-                    addInfoViewModel.addUserInfo(
-                        onAddSuccess = {
-                            startMainActivity(context)
-                        },
-                        onAddFailure = {
-                            scope.launch {
-                                snackBarHostState.showSnackbar("Can't add user info")
-                            }
-                        }
-                    )
+                    editProfileViewModel.updateInfo()
+                    dialogVisible = true
                 },
                 modifier = Modifier
                     .padding(
@@ -282,4 +281,27 @@ fun AddUserInfo(
             }
         }
     }
+}
+
+@Composable
+private fun EditInfoDialog(
+    onConfirm: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = {
+
+        },
+        title = {
+            Text(text = "User info updated successfully")
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onConfirm()
+                }
+            ) {
+                Text(text = "Ok")
+            }
+        },
+    )
 }

@@ -7,6 +7,7 @@ sealed class Screen(
     object RegisterScreen: Screen("register_screen")
     object ForgotPasswordScreen: Screen("forgot_password_screen")
     object AddInfoScreen: Screen("add_info_screen")
+    object EditProfileScreen: Screen("edit_profile_screen")
     object CreateWSScreen: Screen("create_ws_screen")
     object MessageScreen: Screen("message_screen")
     object TaskManagerScreen: Screen("task_manager_screen")
